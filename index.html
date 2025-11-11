@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio - Project Showcase</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #ffffff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .filter-section {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .filter-section h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.5rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .project-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: white;
+        }
+
+        .project-header h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .project-body {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-description {
+            margin-bottom: 20px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .project-link {
+            margin-top: auto;
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .project-link:hover {
+            background: #764ba2;
+        }
+
+        .project-link.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        footer {
+            background: #ffffff;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        footer p {
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>My Project Portfolio</h1>
+            <p class="subtitle">A collection of my recent work and achievements</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="filter-section">
+            <h2>Filter by Category</h2>
+            <div class="filter-buttons" id="filter-buttons">
+            </div>
+        </section>
+
+        <section id="projects-grid" class="projects-grid">
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 My Portfolio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        /*
+         * =====================================================
+         * PROJECT DATA SECTION
+         * =====================================================
+         * TO ADD A NEW PROJECT:
+         * 1. Copy an existing project object
+         * 2. Update the id (use next sequential number)
+         * 3. Update title, description, category
+         * 4. Add projectUrl if the project has a live demo
+         * 
+         * TO REMOVE A PROJECT:
+         * 1. Delete the entire project object { ... }
+         * 2. Don't forget to remove the comma if it's the last item
+         * 
+         * TO MODIFY A PROJECT:
+         * 1. Find the project by id or title
+         * 2. Update any fields you want to change
+         */
+
+        const projects = [
+            {
+                id: 1,
+                title: 'Drone Flight Approval System - CAA Sri Lanka',
+                description: 'Developed an intelligent automated flight approval system for the Civil Aviation Authority of Sri Lanka, transitioning from manual pre-approval to real-time ticketing. The system enables pilots to spontaneously log flight plans, automatically validates flight paths by checking 500-meter radius zones for airspace restrictions, and instantly approves compliant flights.',
+                category: 'Government & Aviation',
+                projectUrl: 'https://civilaviationauthoritylk.github.io/drone-license-verification/'
+            },
+            {
+                id: 2,
+                title: 'Clinic Management System',
+                description: 'Engineered a comprehensive offline-first clinic management solution for a local healthcare facility, designed for complete autonomy and zero maintenance. The system manages complete patient lifecycles including medical history, appointment scheduling, and real-time queue management.',
+                category: 'Healthcare'
+            },
+            {
+                id: 3,
+                title: 'Dynamic Portfolio Website',
+                description: 'Built a modern, responsive portfolio website with interactive features including contact management, certificate library, and project showcase. Features smooth animations, gradient design aesthetic, modal interactions, and toast notifications.',
+                category: 'Web Development'
+            },
+            {
+                id: 4,
+                title: 'ESG Scorecard Generation Tool',
+                description: 'An offline-first desktop tool designed for swift and accurate ESG reporting. It generates a nicely aligned and client-ready ESG Scorecard report by simply copying and pasting a single Excel line item, eliminating manual formatting and ensuring presentation quality.',
+                category: 'Tool Development / Process Automation'
+            },
+            {
+                id: 5,
+                title: 'Real-time Seating Arrangement App',
+                description: 'A public web application designed to help event guests quickly locate their seats. The tool displays the hall layout and neighboring guests, with the critical feature being real-time, automatic updates from a linked Google Sheet for hassle-free modifications.',
+                category: 'Web Application / Event Management',
+                projectUrl: 'https://iamarasinghe96.github.io/findyourseat/'
+            },
+            {
+                id: 6,
+                title: 'Wedding Planner Automation (Excel)',
+                description: 'A comprehensive, user-friendly Excel planner to simplify wedding planning. After updating guest lists and contacts, the tool automatically generates key planning components, including a complete agenda, detailed budget tracking, and optimized table arrangements, requiring minimal Excel knowledge to operate.',
+                category: 'Automation Tool / Data Management'
+            }
+        ];
+
+        /*
+         * =====================================================
+         * APPLICATION CODE - NO NEED TO MODIFY BELOW
+         * =====================================================
+         */
+
+        function renderProjects(filteredProjects) {
+            const grid = document.getElementById('projects-grid');
+            grid.innerHTML = '';
+
+            filteredProjects.forEach(project => {
+                const card = document.createElement('div');
+                card.className = 'project-card';
+                card.setAttribute('data-category', project.category);
+
+                const projectLinkHTML = project.projectUrl 
+                    ? `<a href="${project.projectUrl}" target="_blank" class="project-link">View Live Project <i class="fas fa-external-link-alt"></i></a>`
+                    : `<span class="project-link disabled">No Live Demo Available</span>`;
+
+                card.innerHTML = `
+                    <div class="project-header">
+                        <h3>${project.title}</h3>
+                        <span class="category-badge">${project.category}</span>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-description">${project.description}</p>
+                        ${projectLinkHTML}
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            if (filteredProjects.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; color: #666; font-size: 1.2rem; grid-column: 1/-1;">No projects found in this category.</p>';
+            }
+        }
+
+        function filterProjects(category) {
+            const filtered = category === 'all' 
+                ? projects 
+                : projects.filter(p => p.category === category);
+            
+            renderProjects(filtered);
+        }
+
+        function generateFilterButtons() {
+            const categories = ['all', ...new Set(projects.map(p => p.category))];
+            const filterContainer = document.getElementById('filter-buttons');
+            
+            filterContainer.innerHTML = categories.map(category => {
+                const isActive = category === 'all' ? 'active' : '';
+                const displayName = category === 'all' ? 'All Projects' : category;
+                return `<button class="filter-btn ${isActive}" data-category="${category}">${displayName}</button>`;
+            }).join('');
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    filterProjects(btn.getAttribute('data-category'));
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            generateFilterButtons();
+            renderProjects(projects);
+        });
+    </script>
+</body>
+</html>
