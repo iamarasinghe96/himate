@@ -1904,7 +1904,13 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
         }
       ]
     };
-    
+
+    // Sync projects from the projects page admin panel (same localStorage key)
+    try {
+      const _saved = localStorage.getItem('himate_projects');
+      if (_saved) CONFIG.projects = JSON.parse(_saved);
+    } catch (e) {}
+
     // ╔════════════════════════════════════════════════════════════════════╗
     // ║                                                                    ║
     // ║              ⚙️ END OF CONFIGURATION SECTION ⚙️                    ║
