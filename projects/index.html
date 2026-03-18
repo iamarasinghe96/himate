@@ -515,8 +515,27 @@
   <!-- Copy prompt overlay -->
   <div class="overlay" id="copyOverlay">
     <div class="copy-modal">
-      <h2>📋 Copy Prompt</h2>
-      <p>Copy the code below and paste it into the <code>projects: [...]</code> section of your main <code>index.html</code> to apply your changes.</p>
+      <h2>📋 Save changes</h2>
+      <!-- Mode tabs -->
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <button class="btn-sm btn-add" id="tabFullPage" style="flex:1">🗂 Replace projects page</button>
+        <button class="btn-sm btn-discard" id="tabMainSite" style="flex:1">🌐 Sync to main site</button>
+      </div>
+      <!-- Full-page mode -->
+      <div id="modeFullPage">
+        <p>Fetching the current file… paste over it to save permanently.</p>
+        <ol style="font-size:0.82rem;color:#6b7280;line-height:1.8;padding-left:1.2em;margin-bottom:10px;">
+          <li>Click <strong>"Copy to clipboard"</strong> below</li>
+          <li>Open <code>projects/index.html</code> in your editor</li>
+          <li>Press <strong>Ctrl+A</strong> (select all)</li>
+          <li>Press <strong>Ctrl+V</strong> (paste) → Save</li>
+        </ol>
+        <p id="fetchStatus" style="font-size:0.8rem;color:#9ca3af;margin-bottom:8px;"></p>
+      </div>
+      <!-- Main-site mode -->
+      <div id="modeMainSite" style="display:none">
+        <p>Open <code>index.html</code>, search for <code>&#x3C;&#x21;--&#x20;&#x3C;&#x3C;&#x3C;PROJECTS_START&#x3E;&#x3E;&#x3E;</code> and replace the entire block down to <code>&#x3C;&#x21;--&#x20;&#x3C;&#x3C;&#x3C;PROJECTS_END&#x3E;&#x3E;&#x3E;</code> with the code below.</p>
+      </div>
       <textarea id="copyTextarea" readonly></textarea>
       <div class="copy-modal-actions">
         <button class="btn-sm btn-add" id="btnDoCopy">Copy to clipboard</button>
@@ -528,7 +547,8 @@
   <div class="toast-simple" id="toastEl"></div>
 
 <script>
-  /* ── Default data (mirrors main index.html) ─────────────────────────── */
+  // <<<PROJECTS_DATA_START>>>
+  /* ── Default data ─────────────────────────── */
   const DEFAULT_PROJECTS = [
     {
       id: 1,
@@ -536,12 +556,7 @@
       description: 'Developed an intelligent automated flight approval system for the Civil Aviation Authority of Sri Lanka, transitioning from manual pre-approval to real-time ticketing. The system enables pilots to spontaneously log flight plans, automatically validates flight paths by checking 500-meter radius zones for airspace restrictions, and instantly approves compliant flights.',
       category: 'Government & Aviation',
       projectUrl: 'https://civilaviationauthoritylk.github.io/drone-license-verification/',
-      snapshots: [
-        'https://via.placeholder.com/800x600/667eea/ffffff?text=Flight+Submission+Dashboard',
-        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Geospatial+Restriction+Map',
-        'https://via.placeholder.com/800x600/667eea/ffffff?text=Real-time+Monitoring+Dashboard',
-        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Approval+History+&+Analytics'
-      ]
+      snapshots: []
     },
     {
       id: 2,
@@ -549,10 +564,7 @@
       description: 'Engineered a comprehensive offline-first clinic management solution for a local healthcare facility, designed for complete autonomy and zero maintenance. The system manages complete patient lifecycles including medical history, appointment scheduling, and real-time queue management.',
       category: 'Healthcare / Process Automation',
       snapshots: [
-        'https://via.placeholder.com/800x600/667eea/ffffff?text=Patient+Queue+Dashboard',
-        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Consultant+Patient+List',
-        'https://via.placeholder.com/800x600/667eea/ffffff?text=Patient+History+Records',
-        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Admin+Management+Panel'
+        'data:image/jpeg;base64,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'
       ]
     },
     {
@@ -560,18 +572,22 @@
       title: 'My AWH Office',
       description: 'AI powered patient admission database and referral letter generator for doctors in Albury Wodonga Health.',
       category: 'Healthcare / Process Automation',
-      snapshots: [
-        'https://via.placeholder.com/800x600/667eea/ffffff?text=Patient+Queue+Dashboard',
-        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Consultant+Patient+List',
-        'https://via.placeholder.com/800x600/667eea/ffffff?text=Patient+History+Records',
-        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Admin+Management+Panel'
-      ]
+      snapshots: []
     },
     {
       id: 4,
+      title: 'AWH Patient Information Center',
+      description: 'Patient Information Centre developed to support post-surgery care and provide clear guidance for patients who have recently completed surgical procedures, while also helping staff keep all stakeholders accurately informed and up to date.',
+      category: 'Healthcare / Process Automation',
+      projectUrl: 'https://iamarasinghe96.github.io/AWHi/',
+      snapshots: []
+    },
+    {
+      id: 5,
       title: 'Dynamic Portfolio Website',
       description: 'Built a modern, responsive portfolio website with interactive features including contact management, certificate library, and project showcase. Features smooth animations, gradient design aesthetic, modal interactions, and toast notifications.',
       category: 'Web Development',
+      projectUrl: 'https://iamarasinghe96.github.io/himate/',
       snapshots: [
         'https://via.placeholder.com/800x600/667eea/ffffff?text=Hero+&+Contact+Section',
         'https://via.placeholder.com/800x600/764ba2/ffffff?text=Projects+Showcase',
@@ -580,17 +596,18 @@
       ]
     },
     {
-      id: 5,
+      id: 6,
       title: 'ESG Scorecard Generation Tool',
       description: 'An offline-first desktop tool designed for swift and accurate ESG reporting. It generates a nicely aligned and client-ready ESG Scorecard report by simply copying and pasting a single Excel line item, eliminating manual formatting and ensuring presentation quality.',
       category: 'Tool Development / Process Automation',
+      projectUrl: 'https://iamarasinghe96.github.io/scorecardgenerator/',
       snapshots: [
         'https://via.placeholder.com/800x600/667eea/ffffff?text=ESG+Data+Input+Interface',
         'https://via.placeholder.com/800x600/764ba2/ffffff?text=Generated+Scorecard+Report'
       ]
     },
     {
-      id: 6,
+      id: 7,
       title: 'Real-time Seating Arrangement App',
       description: 'A public web application designed to help event guests quickly locate their seats. The tool displays the hall layout and neighboring guests, with the critical feature being real-time, automatic updates from a linked Google Sheet for hassle-free modifications.',
       category: 'Web Application / Event Management',
@@ -602,7 +619,7 @@
       ]
     },
     {
-      id: 7,
+      id: 8,
       title: 'Wedding Planner Automation (Excel)',
       description: 'A comprehensive, user-friendly Excel planner to simplify wedding planning. After updating guest lists and contacts, the tool automatically generates key planning components, including a complete agenda, detailed budget tracking, and optimized table arrangements, requiring minimal Excel knowledge to operate.',
       category: 'Automation Tool / Data Management',
@@ -613,10 +630,11 @@
       ]
     },
     {
-      id: 8,
+      id: 9,
       title: 'QR Code Scanner & Queue Management System',
       description: 'Built for NSW Service Centres to eliminate paper-based applications and boost staff efficiency. Applicants fill in their details which are encoded into a QR code, enabling staff to instantly transfer information into their system — no cloud, no data risk. Supports on-the-spot review and modification of applicant details.',
       category: 'Web Application / Process Automation',
+      projectUrl: 'https://iamarasinghe96.github.io/admin/scanner.html',
       snapshots: [
         'https://via.placeholder.com/800x600/667eea/ffffff?text=Applicant+Form+Interface',
         'https://via.placeholder.com/800x600/764ba2/ffffff?text=QR+Code+Generation',
@@ -625,6 +643,7 @@
       ]
     }
   ];
+  // <<<PROJECTS_DATA_END>>>
 
   const ADMIN_PASSWORD = 'raksheen96';
   const STORAGE_KEY    = 'himate_projects';
@@ -841,8 +860,8 @@
     showToast('Project deleted.');
   }
 
-  /* ── Copy prompt code builder ── */
-  function buildProjectsCode() {
+  /* ── Copy prompt code builders ── */
+  function buildMainSiteCode() {
     const lines = projects.map((p, i) => {
       const snaps = (p.snapshots || []).map(s => `            '${jsEsc(s)}'`).join(',\n');
       return `        {
@@ -853,7 +872,24 @@
           snapshots: [\n${snaps}\n          ]
         }`;
     });
-    return `      projects: [\n${lines.join(',\n')}\n      ],`;
+    return `      // <<<PROJECTS_START>>>\n      projects: [\n${lines.join(',\n')}\n      ],\n      // <<<PROJECTS_END>>>`;
+  }
+
+  let _fullFileCache = null;
+  async function buildFullFile() {
+    if (_fullFileCache) return _fullFileCache;
+    const resp = await fetch(window.location.href + '?nocache=' + Date.now());
+    let html = await resp.text();
+    const newBlock = buildProjectsDataBlock();
+    html = html.replace(/\/\/ <<<PROJECTS_DATA_START>>>([\s\S]*?)\/\/ <<<PROJECTS_DATA_END>>>/, newBlock);
+    _fullFileCache = html;
+    return html;
+  }
+
+  function buildProjectsDataBlock() {
+    const json = JSON.stringify(projects, null, 4)
+      .replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026');
+    return `// <<<PROJECTS_DATA_START>>>\n  /* ── Default data ─────────────────────────── */\n  const DEFAULT_PROJECTS = ${json};\n  // <<<PROJECTS_DATA_END>>>`;
   }
 
   /* ── Escape helpers ── */
@@ -914,13 +950,43 @@
       document.getElementById('adminOverlay').classList.remove('open');
   });
   document.getElementById('btnAddProject').addEventListener('click', () => openEditForm(-1));
+
+  /* ── Open copy overlay and default to full-page mode ── */
   document.getElementById('btnCopyPrompt').addEventListener('click', () => {
-    document.getElementById('copyTextarea').value = buildProjectsCode();
+    _fullFileCache = null; // invalidate cache so fresh fetch on next open
     document.getElementById('adminOverlay').classList.remove('open');
     document.getElementById('copyOverlay').classList.add('open');
+    switchCopyMode('full');
   });
 
-  /* ── Copy overlay ── */
+  /* ── Mode tabs ── */
+  function switchCopyMode(mode) {
+    const isFullPage = mode === 'full';
+    document.getElementById('modeFullPage').style.display = isFullPage ? '' : 'none';
+    document.getElementById('modeMainSite').style.display = isFullPage ? 'none' : '';
+    document.getElementById('tabFullPage').className = isFullPage ? 'btn-sm btn-add' : 'btn-sm btn-discard';
+    document.getElementById('tabMainSite').className = isFullPage ? 'btn-sm btn-discard' : 'btn-sm btn-add';
+    document.getElementById('copyTextarea').value = '';
+
+    if (isFullPage) {
+      document.getElementById('fetchStatus').textContent = 'Fetching file…';
+      buildFullFile()
+        .then(html => {
+          document.getElementById('copyTextarea').value = html;
+          document.getElementById('fetchStatus').textContent = 'Ready — ' + html.length.toLocaleString() + ' chars.';
+        })
+        .catch(() => {
+          document.getElementById('fetchStatus').textContent = 'Fetch failed. Try the main-site tab instead.';
+        });
+    } else {
+      document.getElementById('copyTextarea').value = buildMainSiteCode();
+    }
+  }
+
+  document.getElementById('tabFullPage').addEventListener('click', () => switchCopyMode('full'));
+  document.getElementById('tabMainSite').addEventListener('click', () => switchCopyMode('main'));
+
+  /* ── Copy overlay actions ── */
   document.getElementById('btnDoCopy').addEventListener('click', () => {
     const ta = document.getElementById('copyTextarea');
     ta.select();
