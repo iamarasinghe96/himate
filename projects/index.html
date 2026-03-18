@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Project Portfolio – Indika Amarasinghe</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f0f2f8;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 36px 24px 28px;
+      text-align: center;
+      position: relative;
+    }
+    .back-link {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: #fff; }
+    .header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .header p {
+      margin-top: 6px;
+      font-size: 0.95rem;
+      opacity: 0.8;
+    }
+
+    /* ── Container ── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 28px 16px 60px;
+    }
+
+    /* ── Category Filter ── */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+      justify-content: center;
+    }
+    .filter-btn {
+      padding: 7px 16px;
+      border-radius: 20px;
+      border: 2px solid #d0d4e8;
+      background: #fff;
+      color: #555;
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.18s;
+      white-space: nowrap;
+    }
+    .filter-btn:hover { border-color: #764ba2; color: #764ba2; }
+    .filter-btn.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-color: transparent;
+      color: #fff;
+    }
+
+    /* ── Project Grid ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .project-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(102,126,234,0.18);
+    }
+    .project-card.hidden { display: none; }
+
+    .card-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      background: linear-gradient(135deg, #667eea22 0%, #764ba222 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      min-height: 120px;
+    }
+    .card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-body {
+      padding: 14px 16px 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .card-category {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #764ba2;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .card-title {
+      font-size: 0.97rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      line-height: 1.35;
+    }
+    .card-desc {
+      font-size: 0.82rem;
+      color: #666;
+      line-height: 1.5;
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-link {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: #667eea;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .card-link:hover { text-decoration: underline; }
+
+    /* ── No results ── */
+    .no-results {
+      text-align: center;
+      color: #999;
+      padding: 48px 0;
+      font-size: 0.95rem;
+      display: none;
+      grid-column: 1/-1;
+    }
+
+    /* ── Footer / copyright (admin trigger) ── */
+    .footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 0.78rem;
+      color: #aaa;
+    }
+    .copyright {
+      cursor: default;
+      user-select: none;
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+    .copyright:hover { background: rgba(0,0,0,0.04); }
+
+    /* ── Admin overlay ── */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .overlay.open { display: flex; }
+
+    /* Password modal */
+    .pw-modal {
+      background: #fff;
+      border-radius: 18px;
+      padding: 32px 28px;
+      width: 100%;
+      max-width: 340px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      text-align: center;
+    }
+    .pw-modal h2 { font-size: 1.1rem; color: #1a1a2e; margin-bottom: 8px; }
+    .pw-modal p { font-size: 0.82rem; color: #888; margin-bottom: 20px; }
+    .pw-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 12px;
+    }
+    .pw-input:focus { border-color: #764ba2; }
+    .pw-error { color: #e53e3e; font-size: 0.8rem; margin-bottom: 10px; min-height: 18px; }
+    .btn-primary {
+      width: 100%;
+      padding: 11px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+    .btn-cancel {
+      margin-top: 10px;
+      background: none;
+      border: none;
+      color: #999;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    /* Admin panel */
+    .admin-panel {
+      background: #fff;
+      border-radius: 18px;
+      width: 100%;
+      max-width: 820px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      display: flex;
+      flex-direction: column;
+    }
+    .admin-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 1;
+      border-radius: 18px 18px 0 0;
+    }
+    .admin-header h2 { font-size: 1.1rem; color: #1a1a2e; }
+    .admin-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-sm {
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.2s;
+    }
+    .btn-sm:hover { opacity: 0.8; }
+    .btn-add { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; }
+    .btn-copy { background: #e9f5ff; color: #667eea; }
+    .btn-close { background: #f5f5f5; color: #555; }
+
+    .admin-body { padding: 16px 24px 24px; }
+
+    /* Project list in admin */
+    .admin-project-list { display: flex; flex-direction: column; gap: 10px; }
+    .admin-project-item {
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: #fafafa;
+    }
+    .admin-project-item .drag-handle {
+      color: #ccc;
+      cursor: grab;
+      font-size: 1.1rem;
+      padding-top: 2px;
+      flex-shrink: 0;
+    }
+    .admin-project-item .drag-handle:active { cursor: grabbing; }
+    .admin-item-info { flex: 1; min-width: 0; }
+    .admin-item-title { font-weight: 600; font-size: 0.9rem; color: #1a1a2e; }
+    .admin-item-cat { font-size: 0.75rem; color: #764ba2; margin-top: 2px; }
+    .admin-item-btns { display: flex; gap: 6px; flex-shrink: 0; }
+    .btn-edit { background: #f0f4ff; color: #667eea; }
+    .btn-delete { background: #fff0f0; color: #e53e3e; }
+
+    /* Edit form */
+    .edit-form { margin-top: 16px; }
+    .edit-form h3 { font-size: 0.95rem; margin-bottom: 14px; color: #1a1a2e; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 0.78rem; font-weight: 600; color: #555; margin-bottom: 4px; }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+      background: #fff;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: #764ba2; }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .form-actions { display: flex; gap: 8px; margin-top: 16px; }
+    .btn-save { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; }
+    .btn-discard { background: #f5f5f5; color: #555; }
+
+    /* Copy prompt modal */
+    .copy-modal {
+      background: #fff;
+      border-radius: 18px;
+      padding: 24px;
+      width: 100%;
+      max-width: 700px;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+    .copy-modal h2 { font-size: 1rem; color: #1a1a2e; }
+    .copy-modal p { font-size: 0.8rem; color: #888; }
+    .copy-modal textarea {
+      flex: 1;
+      min-height: 260px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 10px;
+      resize: none;
+      outline: none;
+      color: #1a1a2e;
+    }
+    .copy-modal-actions { display: flex; gap: 8px; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #1a1a2e;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 24px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      opacity: 0;
+      transition: all 0.3s;
+      pointer-events: none;
+      z-index: 999;
+      white-space: nowrap;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      .admin-panel { max-height: 95vh; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <a class="back-link" href="../">&#8592; Back</a>
+    <h1>My Project Portfolio</h1>
+    <p>A collection of projects across different domains</p>
+  </div>
+
+  <div class="container">
+    <div class="filter-bar" id="filterBar"></div>
+    <div class="projects-grid" id="projectsGrid">
+      <div class="no-results" id="noResults">No projects found in this category.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="copyright" id="copyrightTrigger">© 2025 Indika Amarasinghe. All rights reserved.</span>
+  </div>
+
+  <!-- Password overlay -->
+  <div class="overlay" id="pwOverlay">
+    <div class="pw-modal">
+      <h2>🔐 Admin Access</h2>
+      <p>Enter the admin password to manage projects.</p>
+      <input class="pw-input" type="password" id="pwInput" placeholder="Password" autocomplete="off"/>
+      <div class="pw-error" id="pwError"></div>
+      <button class="btn-primary" id="pwSubmit">Unlock</button>
+      <br/>
+      <button class="btn-cancel" id="pwCancel">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Admin panel overlay -->
+  <div class="overlay" id="adminOverlay">
+    <div class="admin-panel" id="adminPanel">
+      <div class="admin-header">
+        <h2>⚙️ Project Manager</h2>
+        <div class="admin-actions">
+          <button class="btn-sm btn-add" id="btnAddProject">+ Add Project</button>
+          <button class="btn-sm btn-copy" id="btnCopyPrompt">📋 Copy Prompt</button>
+          <button class="btn-sm btn-close" id="btnCloseAdmin">Close</button>
+        </div>
+      </div>
+      <div class="admin-body">
+        <div class="admin-project-list" id="adminProjectList"></div>
+        <div id="editFormContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Copy prompt overlay -->
+  <div class="overlay" id="copyOverlay">
+    <div class="copy-modal">
+      <h2>📋 Copy Prompt</h2>
+      <p>Copy the code below and paste it into the <code>projects: [...]</code> section of your main <code>index.html</code> to apply your changes.</p>
+      <textarea id="copyTextarea" readonly></textarea>
+      <div class="copy-modal-actions">
+        <button class="btn-sm btn-add" id="btnDoCopy">Copy to clipboard</button>
+        <button class="btn-sm btn-close" id="btnCloseCopy">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+  // ─── Default project data (mirrors main index.html) ───────────────────────
+  const DEFAULT_PROJECTS = [
+    {
+      id: 1,
+      title: 'Drone Flight Approval System - CAA Sri Lanka',
+      description: 'Developed an intelligent automated flight approval system for the Civil Aviation Authority of Sri Lanka, transitioning from manual pre-approval to real-time ticketing. The system enables pilots to spontaneously log flight plans, automatically validates flight paths by checking 500-meter radius zones for airspace restrictions, and instantly approves compliant flights.',
+      category: 'Government & Aviation',
+      projectUrl: 'https://civilaviationauthoritylk.github.io/drone-license-verification/',
+      snapshots: [
+        'https://via.placeholder.com/800x600/667eea/ffffff?text=Flight+Submission+Dashboard',
+        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Geospatial+Restriction+Map',
+        'https://via.placeholder.com/800x600/667eea/ffffff?text=Real-time+Monitoring+Dashboard',
+        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Approval+History+&+Analytics'
+      ]
+    },
+    {
+      id: 2,
+      title: 'Clinic Management System',
+      description: 'Engineered a comprehensive offline-first clinic management solution for a local healthcare facility, designed for complete autonomy and zero maintenance. The system manages complete patient lifecycles including medical history, appointment scheduling, and real-time queue management.',
+      category: 'Healthcare / Process Automation',
+      snapshots: [
+        'https://via.placeholder.com/800x600/667eea/ffffff?text=Patient+Queue+Dashboard',
+        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Consultant+Patient+List',
+        'https://via.placeholder.com/800x600/667eea/ffffff?text=Patient+History+Records',
+        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Admin+Management+Panel'
+      ]
+    },
+    {
+      id: 3,
+      title: 'My AWH Office',
+      description: 'AI powered patient admission database and referral letter generator for doctors in Albury Wodonga Health.',
+      category: 'Healthcare / Process Automation',
+      snapshots: [
+        'https://via.placeholder.com/800x600/667eea/ffffff?text=Patient+Queue+Dashboard',
+        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Consultant+Patient+List',
+        'https://via.placeholder.com/800x600/667eea/ffffff?text=Patient+History+Records',
+        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Admin+Management+Panel'
+      ]
+    },
+    {
+      id: 4,
+      title: 'Dynamic Portfolio Website',
+      description: 'Built a modern, responsive portfolio website with interactive features including contact management, certificate library, and project showcase. Features smooth animations, gradient design aesthetic, modal interactions, and toast notifications.',
+      category: 'Web Development',
+      snapshots: [
+        'https://via.placeholder.com/800x600/667eea/ffffff?text=Hero+&+Contact+Section',
+        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Projects+Showcase',
+        'https://via.placeholder.com/800x600/667eea/ffffff?text=Certificate+Library',
+        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Interactive+Contact+Cards'
+      ]
+    },
+    {
+      id: 5,
+      title: 'ESG Scorecard Generation Tool',
+      description: 'An offline-first desktop tool designed for swift and accurate ESG reporting. It generates a nicely aligned and client-ready ESG Scorecard report by simply copying and pasting a single Excel line item, eliminating manual formatting and ensuring presentation quality.',
+      category: 'Tool Development / Process Automation',
+      snapshots: [
+        'https://via.placeholder.com/800x600/667eea/ffffff?text=ESG+Data+Input+Interface',
+        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Generated+Scorecard+Report'
+      ]
+    },
+    {
+      id: 6,
+      title: 'Real-time Seating Arrangement App',
+      description: 'A public web application designed to help event guests quickly locate their seats. The tool displays the hall layout and neighboring guests, with the critical feature being real-time, automatic updates from a linked Google Sheet for hassle-free modifications.',
+      category: 'Web Application / Event Management',
+      projectUrl: 'https://iamarasinghe96.github.io/findyourseat/',
+      snapshots: [
+        'https://via.placeholder.com/800x600/667eea/ffffff?text=Seating+Hall+Layout',
+        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Guest+Search+Interface',
+        'https://via.placeholder.com/800x600/667eea/ffffff?text=Real-time+Updates+Dashboard'
+      ]
+    },
+    {
+      id: 7,
+      title: 'Wedding Planner Automation (Excel)',
+      description: 'A comprehensive, user-friendly Excel planner to simplify wedding planning. After updating guest lists and contacts, the tool automatically generates key planning components, including a complete agenda, detailed budget tracking, and optimized table arrangements.',
+      category: 'Automation Tool / Data Management',
+      snapshots: [
+        'https://via.placeholder.com/800x600/667eea/ffffff?text=Guest+List+Management',
+        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Budget+Tracker+Dashboard',
+        'https://via.placeholder.com/800x600/667eea/ffffff?text=Auto-generated+Table+Layout'
+      ]
+    },
+    {
+      id: 8,
+      title: 'QR Code Scanner & Queue Management System',
+      description: 'Built for NSW Service Centres to eliminate paper-based applications and boost staff efficiency. Applicants fill in their details which are encoded into a QR code, enabling staff to instantly transfer information into their system — no cloud, no data risk.',
+      category: 'Web Application / Process Automation',
+      snapshots: [
+        'https://via.placeholder.com/800x600/667eea/ffffff?text=Applicant+Form+Interface',
+        'https://via.placeholder.com/800x600/764ba2/ffffff?text=QR+Code+Generation',
+        'https://via.placeholder.com/800x600/667eea/ffffff?text=Staff+Scanner+View',
+        'https://via.placeholder.com/800x600/764ba2/ffffff?text=Queue+Management+Dashboard'
+      ]
+    }
+  ];
+
+  const ADMIN_PASSWORD = 'raksheen96';
+  const STORAGE_KEY = 'himate_projects';
+
+  // ─── State ─────────────────────────────────────────────────────────────────
+  function loadProjects() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? JSON.parse(saved) : DEFAULT_PROJECTS.map(p => ({...p}));
+    } catch { return DEFAULT_PROJECTS.map(p => ({...p})); }
+  }
+  function saveProjects(list) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  }
+
+  let projects = loadProjects();
+  let activeCategory = 'All';
+  let editingId = null; // null = new project
+
+  // ─── Categories ────────────────────────────────────────────────────────────
+  function getCategories() {
+    const cats = ['All', ...new Set(projects.map(p => p.category))];
+    return cats;
+  }
+
+  // ─── Render filter bar ─────────────────────────────────────────────────────
+  function renderFilterBar() {
+    const bar = document.getElementById('filterBar');
+    bar.innerHTML = getCategories().map(cat => `
+      <button class="filter-btn${cat === activeCategory ? ' active' : ''}"
+              data-cat="${cat}">${cat}</button>
+    `).join('');
+    bar.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeCategory = btn.dataset.cat;
+        renderFilterBar();
+        renderGrid();
+      });
+    });
+  }
+
+  // ─── Render project grid ───────────────────────────────────────────────────
+  function getCategoryEmoji(cat) {
+    if (/aviation|government/i.test(cat)) return '✈️';
+    if (/health/i.test(cat)) return '🏥';
+    if (/web/i.test(cat)) return '🌐';
+    if (/esg|tool|automation/i.test(cat)) return '⚙️';
+    if (/event|seating/i.test(cat)) return '🎪';
+    if (/data/i.test(cat)) return '📊';
+    return '🗂️';
+  }
+
+  function renderGrid() {
+    const grid = document.getElementById('projectsGrid');
+    const noResults = document.getElementById('noResults');
+    const filtered = activeCategory === 'All'
+      ? projects
+      : projects.filter(p => p.category === activeCategory);
+
+    // Remove old cards (keep noResults)
+    grid.querySelectorAll('.project-card').forEach(c => c.remove());
+
+    if (filtered.length === 0) {
+      noResults.style.display = 'block';
+      return;
+    }
+    noResults.style.display = 'none';
+
+    filtered.forEach(project => {
+      const card = document.createElement('div');
+      card.className = 'project-card';
+      const thumb = project.snapshots && project.snapshots[0]
+        ? `<div class="card-thumb"><img src="${project.snapshots[0]}" alt="${project.title}" loading="lazy" onerror="this.parentElement.innerHTML='${getCategoryEmoji(project.category)}'"/></div>`
+        : `<div class="card-thumb">${getCategoryEmoji(project.category)}</div>`;
+      card.innerHTML = `
+        ${thumb}
+        <div class="card-body">
+          <div class="card-category">${project.category}</div>
+          <div class="card-title">${project.title}</div>
+          <div class="card-desc">${project.description}</div>
+          ${project.projectUrl ? `<a class="card-link" href="${project.projectUrl}" target="_blank" rel="noopener">View project ↗</a>` : ''}
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  // ─── Admin: project list ───────────────────────────────────────────────────
+  function renderAdminList() {
+    const list = document.getElementById('adminProjectList');
+    list.innerHTML = projects.map((p, idx) => `
+      <div class="admin-project-item" data-id="${p.id}" draggable="true">
+        <span class="drag-handle">⠿</span>
+        <div class="admin-item-info">
+          <div class="admin-item-title">${p.title}</div>
+          <div class="admin-item-cat">${p.category}</div>
+        </div>
+        <div class="admin-item-btns">
+          <button class="btn-sm btn-edit" data-idx="${idx}">Edit</button>
+          <button class="btn-sm btn-delete" data-idx="${idx}">Delete</button>
+        </div>
+      </div>
+    `).join('');
+
+    list.querySelectorAll('.btn-edit').forEach(btn => {
+      btn.addEventListener('click', () => openEditForm(parseInt(btn.dataset.idx)));
+    });
+    list.querySelectorAll('.btn-delete').forEach(btn => {
+      btn.addEventListener('click', () => deleteProject(parseInt(btn.dataset.idx)));
+    });
+
+    initDragSort(list);
+  }
+
+  // ─── Drag to reorder ───────────────────────────────────────────────────────
+  function initDragSort(list) {
+    let dragging = null;
+    list.querySelectorAll('.admin-project-item').forEach(item => {
+      item.addEventListener('dragstart', () => { dragging = item; item.style.opacity = '0.4'; });
+      item.addEventListener('dragend', () => { item.style.opacity = ''; dragging = null; });
+      item.addEventListener('dragover', e => {
+        e.preventDefault();
+        if (!dragging || dragging === item) return;
+        const rect = item.getBoundingClientRect();
+        const mid = rect.top + rect.height / 2;
+        if (e.clientY < mid) list.insertBefore(dragging, item);
+        else list.insertBefore(dragging, item.nextSibling);
+      });
+      item.addEventListener('drop', () => {
+        // Reorder projects array to match DOM
+        const newOrder = [...list.querySelectorAll('.admin-project-item')].map(el =>
+          projects.find(p => p.id == el.dataset.id)
+        ).filter(Boolean);
+        projects = newOrder;
+        saveProjects(projects);
+        renderAdminList();
+        renderFilterBar();
+        renderGrid();
+      });
+    });
+  }
+
+  // ─── Edit / Add form ───────────────────────────────────────────────────────
+  function openEditForm(idx) {
+    editingId = idx === -1 ? null : idx;
+    const p = idx === -1
+      ? { title: '', description: '', category: '', projectUrl: '', snapshots: [] }
+      : { ...projects[idx], snapshots: [...(projects[idx].snapshots || [])] };
+
+    const formEl = document.getElementById('editFormContainer');
+    formEl.innerHTML = `
+      <div class="edit-form">
+        <h3>${idx === -1 ? 'New Project' : 'Edit Project'}</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Title</label>
+            <input id="f-title" type="text" value="${escHtml(p.title)}" placeholder="Project title"/>
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <input id="f-category" type="text" value="${escHtml(p.category)}" placeholder="e.g. Healthcare / Process Automation" list="cat-list"/>
+            <datalist id="cat-list">
+              ${[...new Set(projects.map(x => x.category))].map(c => `<option value="${escHtml(c)}">`).join('')}
+            </datalist>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="f-desc">${escHtml(p.description)}</textarea>
+        </div>
+        <div class="form-group">
+          <label>Project URL (optional)</label>
+          <input id="f-url" type="url" value="${escHtml(p.projectUrl || '')}" placeholder="https://..."/>
+        </div>
+        <div class="form-group">
+          <label>Snapshot image URLs (one per line)</label>
+          <textarea id="f-snaps" style="min-height:64px">${p.snapshots.map(s => escHtml(s)).join('\n')}</textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn-sm btn-save" id="fSave">Save</button>
+          <button class="btn-sm btn-discard" id="fDiscard">Discard</button>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('fSave').addEventListener('click', saveEditForm);
+    document.getElementById('fDiscard').addEventListener('click', () => {
+      document.getElementById('editFormContainer').innerHTML = '';
+      editingId = null;
+    });
+
+    formEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function saveEditForm() {
+    const title = document.getElementById('f-title').value.trim();
+    const category = document.getElementById('f-category').value.trim();
+    const description = document.getElementById('f-desc').value.trim();
+    const projectUrl = document.getElementById('f-url').value.trim();
+    const snapsRaw = document.getElementById('f-snaps').value.trim();
+    const snapshots = snapsRaw ? snapsRaw.split('\n').map(s => s.trim()).filter(Boolean) : [];
+
+    if (!title || !category) { showToast('Title and category are required.'); return; }
+
+    if (editingId === null) {
+      // New project
+      const newId = projects.length ? Math.max(...projects.map(p => p.id)) + 1 : 1;
+      projects.push({ id: newId, title, description, category, projectUrl, snapshots });
+    } else {
+      projects[editingId] = { ...projects[editingId], title, description, category, projectUrl, snapshots };
+    }
+
+    saveProjects(projects);
+    document.getElementById('editFormContainer').innerHTML = '';
+    editingId = null;
+    renderAdminList();
+    renderFilterBar();
+    renderGrid();
+    showToast('Project saved!');
+  }
+
+  function deleteProject(idx) {
+    if (!confirm(`Delete "${projects[idx].title}"?`)) return;
+    projects.splice(idx, 1);
+    saveProjects(projects);
+    renderAdminList();
+    renderFilterBar();
+    renderGrid();
+    showToast('Project deleted.');
+  }
+
+  // ─── Copy prompt ───────────────────────────────────────────────────────────
+  function buildProjectsCode() {
+    const lines = projects.map((p, i) => {
+      const snaps = (p.snapshots || []).map(s => `            '${s}'`).join(',\n');
+      return `        {
+          id: ${i + 1},
+          title: '${esc(p.title)}',
+          description: '${esc(p.description)}',
+          category: '${esc(p.category)}'${p.projectUrl ? `,\n          projectUrl: '${esc(p.projectUrl)}'` : ''},
+          snapshots: [\n${snaps}\n          ]
+        }`;
+    });
+    return `      projects: [\n${lines.join(',\n')}\n      ],`;
+  }
+
+  function esc(str) { return (str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
+  function escHtml(str) { return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  // ─── Toast ─────────────────────────────────────────────────────────────────
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2600);
+  }
+
+  // ─── Secret trigger: 5 clicks on copyright ─────────────────────────────────
+  let clickCount = 0;
+  let clickTimer = null;
+  document.getElementById('copyrightTrigger').addEventListener('click', () => {
+    clickCount++;
+    clearTimeout(clickTimer);
+    clickTimer = setTimeout(() => { clickCount = 0; }, 2000);
+    if (clickCount >= 5) {
+      clickCount = 0;
+      openPasswordModal();
+    }
+  });
+
+  // ─── Password modal ────────────────────────────────────────────────────────
+  function openPasswordModal() {
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwError').textContent = '';
+    document.getElementById('pwOverlay').classList.add('open');
+    setTimeout(() => document.getElementById('pwInput').focus(), 80);
+  }
+  function closePasswordModal() {
+    document.getElementById('pwOverlay').classList.remove('open');
+  }
+
+  document.getElementById('pwSubmit').addEventListener('click', checkPassword);
+  document.getElementById('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
+  document.getElementById('pwCancel').addEventListener('click', closePasswordModal);
+
+  function checkPassword() {
+    const val = document.getElementById('pwInput').value;
+    if (val === ADMIN_PASSWORD) {
+      closePasswordModal();
+      openAdminPanel();
+    } else {
+      document.getElementById('pwError').textContent = 'Incorrect password. Try again.';
+      document.getElementById('pwInput').select();
+    }
+  }
+
+  // ─── Admin panel ───────────────────────────────────────────────────────────
+  function openAdminPanel() {
+    document.getElementById('editFormContainer').innerHTML = '';
+    renderAdminList();
+    document.getElementById('adminOverlay').classList.add('open');
+  }
+
+  document.getElementById('btnCloseAdmin').addEventListener('click', () => {
+    document.getElementById('adminOverlay').classList.remove('open');
+  });
+  document.getElementById('adminOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('adminOverlay')) {
+      document.getElementById('adminOverlay').classList.remove('open');
+    }
+  });
+
+  document.getElementById('btnAddProject').addEventListener('click', () => openEditForm(-1));
+
+  document.getElementById('btnCopyPrompt').addEventListener('click', () => {
+    document.getElementById('copyTextarea').value = buildProjectsCode();
+    document.getElementById('adminOverlay').classList.remove('open');
+    document.getElementById('copyOverlay').classList.add('open');
+  });
+
+  // ─── Copy overlay ──────────────────────────────────────────────────────────
+  document.getElementById('btnDoCopy').addEventListener('click', () => {
+    const ta = document.getElementById('copyTextarea');
+    ta.select();
+    navigator.clipboard.writeText(ta.value).then(() => showToast('Copied to clipboard!')).catch(() => {
+      document.execCommand('copy');
+      showToast('Copied!');
+    });
+  });
+  document.getElementById('btnCloseCopy').addEventListener('click', () => {
+    document.getElementById('copyOverlay').classList.remove('open');
+    document.getElementById('adminOverlay').classList.add('open');
+  });
+  document.getElementById('copyOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('copyOverlay')) {
+      document.getElementById('copyOverlay').classList.remove('open');
+    }
+  });
+
+  // ─── Init ──────────────────────────────────────────────────────────────────
+  renderFilterBar();
+  renderGrid();
+</script>
+</body>
+</html>
