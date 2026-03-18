@@ -3,116 +3,137 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Project Portfolio – Indika Amarasinghe</title>
+  <title>My Projects – Indika Amarasinghe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f0f2f8;
+      font-family: 'Inter', sans-serif;
+      background-color: #f3f4f6;
       min-height: 100vh;
-      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      color: #1f2937;
+    }
+
+    /* ── Main wrapper card ── */
+    .container {
+      width: 100%;
+      max-width: min(100vw - 40px, 860px);
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin: 20px 0;
     }
 
     /* ── Header ── */
     .header {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      padding: 36px 24px 28px;
+      padding: 40px 30px 32px;
       text-align: center;
       position: relative;
     }
     .back-link {
       position: absolute;
-      top: 18px;
-      left: 18px;
-      color: rgba(255,255,255,0.85);
+      top: 16px;
+      left: 20px;
+      color: rgba(255,255,255,0.82);
       text-decoration: none;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
+      font-weight: 500;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       transition: color 0.2s;
     }
     .back-link:hover { color: #fff; }
     .header h1 {
-      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-size: 2rem;
       font-weight: 700;
-      letter-spacing: -0.5px;
+      margin-bottom: 8px;
     }
     .header p {
-      margin-top: 6px;
-      font-size: 0.95rem;
-      opacity: 0.8;
+      font-size: 1.05rem;
+      font-weight: 300;
+      opacity: 0.9;
     }
 
-    /* ── Container ── */
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 28px 16px 60px;
+    /* ── Content area ── */
+    .content {
+      padding: 30px;
     }
 
-    /* ── Category Filter ── */
+    /* ── Filter bar ── */
     .filter-bar {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 28px;
-      justify-content: center;
+      margin-bottom: 24px;
     }
     .filter-btn {
-      padding: 7px 16px;
+      padding: 8px 16px;
       border-radius: 20px;
-      border: 2px solid #d0d4e8;
+      border: 2px solid #e5e7eb;
       background: #fff;
-      color: #555;
-      font-size: 0.82rem;
-      font-weight: 500;
+      color: #6b7280;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.18s;
+      transition: all 0.2s;
       white-space: nowrap;
     }
-    .filter-btn:hover { border-color: #764ba2; color: #764ba2; }
+    .filter-btn:hover { border-color: #667eea; color: #667eea; }
     .filter-btn.active {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       border-color: transparent;
       color: #fff;
+      box-shadow: 0 4px 12px rgba(102,126,234,0.3);
     }
 
-    /* ── Project Grid ── */
+    /* ── Project grid ── */
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 20px;
     }
 
+    /* ── Project card — matches main site .card style ── */
     .project-card {
-      background: #fff;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-      transition: transform 0.2s, box-shadow 0.2s;
-      cursor: pointer;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       display: flex;
       flex-direction: column;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
     .project-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 28px rgba(102,126,234,0.18);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(102,126,234,0.15);
     }
-    .project-card.hidden { display: none; }
 
     .card-thumb {
       width: 100%;
       aspect-ratio: 16/9;
-      object-fit: cover;
-      background: linear-gradient(135deg, #667eea22 0%, #764ba222 100%);
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2.5rem;
-      min-height: 120px;
+      font-size: 2.6rem;
+      border-radius: 12px 12px 0 0;
+      overflow: hidden;
+      flex-shrink: 0;
     }
     .card-thumb img {
       width: 100%;
@@ -122,61 +143,80 @@
     }
 
     .card-body {
-      padding: 14px 16px 16px;
-      flex: 1;
+      padding: 20px 22px 22px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
-    }
-    .card-category {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: #764ba2;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .card-title {
-      font-size: 0.97rem;
-      font-weight: 700;
-      color: #1a1a2e;
-      line-height: 1.35;
-    }
-    .card-desc {
-      font-size: 0.82rem;
-      color: #666;
-      line-height: 1.5;
       flex: 1;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
     }
+
+    /* Category pill — exact match to main site */
+    .card-category {
+      display: inline-block;
+      background: #f3f4f6;
+      color: #667eea;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      align-self: flex-start;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #667eea;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: #6b7280;
+      line-height: 1.6;
+      flex: 1;
+      margin-bottom: 16px;
+    }
+
     .card-link {
       display: inline-block;
-      margin-top: 8px;
-      font-size: 0.78rem;
-      color: #667eea;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
       font-weight: 600;
       text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      align-self: flex-start;
     }
-    .card-link:hover { text-decoration: underline; }
+    .card-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102,126,234,0.3);
+    }
 
     /* ── No results ── */
     .no-results {
+      grid-column: 1/-1;
       text-align: center;
-      color: #999;
+      color: #9ca3af;
       padding: 48px 0;
       font-size: 0.95rem;
       display: none;
-      grid-column: 1/-1;
     }
 
-    /* ── Footer / copyright (admin trigger) ── */
+    /* ── Footer ── */
     .footer {
       text-align: center;
-      padding: 24px;
+      padding: 20px;
       font-size: 0.78rem;
-      color: #aaa;
+      color: #9ca3af;
+      background: white;
+      border-top: 1px solid #f3f4f6;
     }
     .copyright {
       cursor: default;
@@ -186,255 +226,277 @@
       border-radius: 4px;
       transition: background 0.15s;
     }
-    .copyright:hover { background: rgba(0,0,0,0.04); }
+    .copyright:hover { background: #f3f4f6; }
 
-    /* ── Admin overlay ── */
+    /* ── Overlay backdrop ── */
     .overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.55);
-      z-index: 100;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
       align-items: center;
       justify-content: center;
       padding: 16px;
     }
     .overlay.open { display: flex; }
 
-    /* Password modal */
+    /* ── Password modal ── */
     .pw-modal {
-      background: #fff;
-      border-radius: 18px;
-      padding: 32px 28px;
+      background: white;
+      border-radius: 16px;
+      padding: 36px 28px 28px;
       width: 100%;
-      max-width: 340px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      max-width: 360px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
       text-align: center;
     }
-    .pw-modal h2 { font-size: 1.1rem; color: #1a1a2e; margin-bottom: 8px; }
-    .pw-modal p { font-size: 0.82rem; color: #888; margin-bottom: 20px; }
+    .pw-modal h2 { font-size: 1.15rem; font-weight: 700; color: #1f2937; margin-bottom: 8px; }
+    .pw-modal p { font-size: 0.88rem; color: #6b7280; margin-bottom: 22px; line-height: 1.5; }
     .pw-input {
       width: 100%;
-      padding: 10px 14px;
-      border: 2px solid #e0e0e0;
+      padding: 11px 14px;
+      border: 2px solid #e5e7eb;
       border-radius: 10px;
+      font-family: 'Inter', sans-serif;
       font-size: 0.95rem;
       outline: none;
       transition: border-color 0.2s;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
+      color: #1f2937;
     }
-    .pw-input:focus { border-color: #764ba2; }
-    .pw-error { color: #e53e3e; font-size: 0.8rem; margin-bottom: 10px; min-height: 18px; }
+    .pw-input:focus { border-color: #667eea; }
+    .pw-error { color: #ef4444; font-size: 0.8rem; margin-bottom: 12px; min-height: 18px; }
     .btn-primary {
       width: 100%;
-      padding: 11px;
+      padding: 12px;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: #fff;
+      color: white;
       border: none;
       border-radius: 10px;
+      font-family: 'Inter', sans-serif;
       font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
-      transition: opacity 0.2s;
+      transition: opacity 0.2s, transform 0.2s;
+      box-shadow: 0 4px 12px rgba(102,126,234,0.3);
     }
-    .btn-primary:hover { opacity: 0.88; }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
     .btn-cancel {
-      margin-top: 10px;
+      margin-top: 12px;
       background: none;
       border: none;
-      color: #999;
+      color: #9ca3af;
+      font-family: 'Inter', sans-serif;
       font-size: 0.85rem;
       cursor: pointer;
+      transition: color 0.2s;
     }
+    .btn-cancel:hover { color: #6b7280; }
 
-    /* Admin panel */
+    /* ── Admin panel ── */
     .admin-panel {
-      background: #fff;
-      border-radius: 18px;
+      background: white;
+      border-radius: 16px;
       width: 100%;
-      max-width: 820px;
-      max-height: 90vh;
+      max-width: 840px;
+      max-height: 88vh;
       overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
       display: flex;
       flex-direction: column;
     }
     .admin-header {
-      padding: 20px 24px 16px;
-      border-bottom: 1px solid #f0f0f0;
+      padding: 20px 24px;
+      border-bottom: 1px solid #e5e7eb;
       display: flex;
       align-items: center;
       justify-content: space-between;
       position: sticky;
       top: 0;
-      background: #fff;
+      background: white;
       z-index: 1;
-      border-radius: 18px 18px 0 0;
+      border-radius: 16px 16px 0 0;
     }
-    .admin-header h2 { font-size: 1.1rem; color: #1a1a2e; }
-    .admin-actions {
-      display: flex;
-      gap: 8px;
-    }
+    .admin-header h2 { font-size: 1.1rem; font-weight: 700; color: #374151; }
+    .admin-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
     .btn-sm {
-      padding: 7px 14px;
+      padding: 8px 14px;
       border-radius: 8px;
-      font-size: 0.8rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
       border: none;
-      transition: opacity 0.2s;
+      transition: transform 0.2s, opacity 0.2s;
     }
-    .btn-sm:hover { opacity: 0.8; }
-    .btn-add { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; }
-    .btn-copy { background: #e9f5ff; color: #667eea; }
-    .btn-close { background: #f5f5f5; color: #555; }
+    .btn-sm:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-add    { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; box-shadow: 0 2px 8px rgba(102,126,234,0.25); }
+    .btn-copy   { background: #eff6ff; color: #667eea; border: 1px solid #dbeafe; }
+    .btn-close  { background: #f3f4f6; color: #6b7280; }
+    .btn-edit   { background: #eff6ff; color: #667eea; border: 1px solid #dbeafe; }
+    .btn-delete { background: #fef2f2; color: #ef4444; border: 1px solid #fecaca; }
+    .btn-save   { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; }
+    .btn-discard{ background: #f3f4f6; color: #6b7280; }
 
-    .admin-body { padding: 16px 24px 24px; }
+    .admin-body { padding: 20px 24px 28px; }
 
-    /* Project list in admin */
+    /* Project list rows */
     .admin-project-list { display: flex; flex-direction: column; gap: 10px; }
     .admin-project-item {
-      border: 1px solid #eee;
+      border: 1px solid #e5e7eb;
       border-radius: 12px;
-      padding: 12px 14px;
+      padding: 14px 16px;
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 12px;
-      background: #fafafa;
+      background: #f9fafb;
+      transition: box-shadow 0.2s;
     }
-    .admin-project-item .drag-handle {
-      color: #ccc;
-      cursor: grab;
-      font-size: 1.1rem;
-      padding-top: 2px;
-      flex-shrink: 0;
-    }
-    .admin-project-item .drag-handle:active { cursor: grabbing; }
+    .admin-project-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .drag-handle { color: #d1d5db; cursor: grab; font-size: 1.1rem; flex-shrink: 0; line-height: 1; }
+    .drag-handle:active { cursor: grabbing; }
     .admin-item-info { flex: 1; min-width: 0; }
-    .admin-item-title { font-weight: 600; font-size: 0.9rem; color: #1a1a2e; }
-    .admin-item-cat { font-size: 0.75rem; color: #764ba2; margin-top: 2px; }
+    .admin-item-title { font-weight: 600; font-size: 0.92rem; color: #1f2937; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .admin-item-cat { font-size: 0.78rem; color: #667eea; margin-top: 3px; }
     .admin-item-btns { display: flex; gap: 6px; flex-shrink: 0; }
-    .btn-edit { background: #f0f4ff; color: #667eea; }
-    .btn-delete { background: #fff0f0; color: #e53e3e; }
 
     /* Edit form */
-    .edit-form { margin-top: 16px; }
-    .edit-form h3 { font-size: 0.95rem; margin-bottom: 14px; color: #1a1a2e; }
-    .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 0.78rem; font-weight: 600; color: #555; margin-bottom: 4px; }
+    .edit-form {
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      background: #f9fafb;
+    }
+    .edit-form h3 { font-size: 1rem; font-weight: 700; color: #374151; margin-bottom: 16px; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: #374151; margin-bottom: 5px; }
     .form-group input,
     .form-group textarea,
     .form-group select {
       width: 100%;
-      padding: 9px 12px;
-      border: 1.5px solid #e0e0e0;
+      padding: 10px 12px;
+      border: 2px solid #e5e7eb;
       border-radius: 8px;
+      font-family: 'Inter', sans-serif;
       font-size: 0.88rem;
-      font-family: inherit;
+      color: #1f2937;
       outline: none;
       transition: border-color 0.2s;
-      background: #fff;
+      background: white;
     }
     .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus { border-color: #764ba2; }
-    .form-group textarea { resize: vertical; min-height: 80px; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .form-group textarea:focus { border-color: #667eea; }
+    .form-group textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .form-actions { display: flex; gap: 8px; margin-top: 16px; }
-    .btn-save { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; }
-    .btn-discard { background: #f5f5f5; color: #555; }
 
     /* Copy prompt modal */
     .copy-modal {
-      background: #fff;
-      border-radius: 18px;
-      padding: 24px;
+      background: white;
+      border-radius: 16px;
+      padding: 28px;
       width: 100%;
       max-width: 700px;
-      max-height: 80vh;
+      max-height: 84vh;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      gap: 14px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     }
-    .copy-modal h2 { font-size: 1rem; color: #1a1a2e; }
-    .copy-modal p { font-size: 0.8rem; color: #888; }
+    .copy-modal h2 { font-size: 1.05rem; font-weight: 700; color: #374151; }
+    .copy-modal p { font-size: 0.85rem; color: #6b7280; line-height: 1.5; }
     .copy-modal textarea {
       flex: 1;
       min-height: 260px;
       font-family: 'Courier New', monospace;
       font-size: 0.78rem;
-      border: 1.5px solid #e0e0e0;
+      border: 2px solid #e5e7eb;
       border-radius: 8px;
-      padding: 10px;
+      padding: 12px;
       resize: none;
       outline: none;
-      color: #1a1a2e;
+      color: #1f2937;
+      background: #f9fafb;
+      line-height: 1.5;
     }
     .copy-modal-actions { display: flex; gap: 8px; }
 
-    /* Toast */
-    .toast {
+    /* ── Toast ── */
+    .toast-simple {
       position: fixed;
-      bottom: 24px;
+      bottom: 28px;
       left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: #1a1a2e;
+      transform: translateX(-50%) translateY(16px);
+      background: #1f2937;
       color: #fff;
-      padding: 10px 20px;
+      padding: 10px 22px;
       border-radius: 24px;
-      font-size: 0.85rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
       font-weight: 500;
       opacity: 0;
-      transition: all 0.3s;
       pointer-events: none;
       z-index: 999;
+      transition: all 0.3s cubic-bezier(0.175,0.885,0.32,1.275);
       white-space: nowrap;
     }
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast-simple.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+    /* ── Responsive ── */
     @media (max-width: 600px) {
+      body { padding: 10px; }
+      .container { margin: 10px 0; }
+      .header { padding: 35px 20px 26px; }
+      .header h1 { font-size: 1.5rem; }
+      .content { padding: 20px 16px 24px; }
+      .projects-grid { grid-template-columns: 1fr; }
       .form-row { grid-template-columns: 1fr; }
-      .admin-panel { max-height: 95vh; }
+      .admin-header { flex-wrap: wrap; gap: 10px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <a class="back-link" href="../">&#8592; Back</a>
-    <h1>My Project Portfolio</h1>
-    <p>A collection of projects across different domains</p>
-  </div>
-
   <div class="container">
-    <div class="filter-bar" id="filterBar"></div>
-    <div class="projects-grid" id="projectsGrid">
-      <div class="no-results" id="noResults">No projects found in this category.</div>
+    <!-- Header -->
+    <div class="header">
+      <a class="back-link" href="../">&#8592; Back</a>
+      <h1>My Project Portfolio</h1>
+      <p>A collection of projects across different domains</p>
     </div>
-  </div>
 
-  <div class="footer">
-    <span class="copyright" id="copyrightTrigger">© 2025 Indika Amarasinghe. All rights reserved.</span>
+    <!-- Content -->
+    <div class="content">
+      <div class="filter-bar" id="filterBar"></div>
+      <div class="projects-grid" id="projectsGrid">
+        <div class="no-results" id="noResults">No projects found in this category.</div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <span class="copyright" id="copyrightTrigger">© 2025 Indika Amarasinghe. All rights reserved.</span>
+    </div>
   </div>
 
   <!-- Password overlay -->
   <div class="overlay" id="pwOverlay">
     <div class="pw-modal">
       <h2>🔐 Admin Access</h2>
-      <p>Enter the admin password to manage projects.</p>
+      <p>Enter the admin password to manage your projects.</p>
       <input class="pw-input" type="password" id="pwInput" placeholder="Password" autocomplete="off"/>
       <div class="pw-error" id="pwError"></div>
-      <button class="btn-primary" id="pwSubmit">Unlock</button>
-      <br/>
+      <button class="btn-primary" id="pwSubmit">Unlock</button><br/>
       <button class="btn-cancel" id="pwCancel">Cancel</button>
     </div>
   </div>
 
   <!-- Admin panel overlay -->
   <div class="overlay" id="adminOverlay">
-    <div class="admin-panel" id="adminPanel">
+    <div class="admin-panel">
       <div class="admin-header">
         <h2>⚙️ Project Manager</h2>
         <div class="admin-actions">
@@ -463,10 +525,10 @@
     </div>
   </div>
 
-  <div class="toast" id="toast"></div>
+  <div class="toast-simple" id="toastEl"></div>
 
 <script>
-  // ─── Default project data (mirrors main index.html) ───────────────────────
+  /* ── Default data (mirrors main index.html) ─────────────────────────── */
   const DEFAULT_PROJECTS = [
     {
       id: 1,
@@ -542,7 +604,7 @@
     {
       id: 7,
       title: 'Wedding Planner Automation (Excel)',
-      description: 'A comprehensive, user-friendly Excel planner to simplify wedding planning. After updating guest lists and contacts, the tool automatically generates key planning components, including a complete agenda, detailed budget tracking, and optimized table arrangements.',
+      description: 'A comprehensive, user-friendly Excel planner to simplify wedding planning. After updating guest lists and contacts, the tool automatically generates key planning components, including a complete agenda, detailed budget tracking, and optimized table arrangements, requiring minimal Excel knowledge to operate.',
       category: 'Automation Tool / Data Management',
       snapshots: [
         'https://via.placeholder.com/800x600/667eea/ffffff?text=Guest+List+Management',
@@ -553,7 +615,7 @@
     {
       id: 8,
       title: 'QR Code Scanner & Queue Management System',
-      description: 'Built for NSW Service Centres to eliminate paper-based applications and boost staff efficiency. Applicants fill in their details which are encoded into a QR code, enabling staff to instantly transfer information into their system — no cloud, no data risk.',
+      description: 'Built for NSW Service Centres to eliminate paper-based applications and boost staff efficiency. Applicants fill in their details which are encoded into a QR code, enabling staff to instantly transfer information into their system — no cloud, no data risk. Supports on-the-spot review and modification of applicant details.',
       category: 'Web Application / Process Automation',
       snapshots: [
         'https://via.placeholder.com/800x600/667eea/ffffff?text=Applicant+Form+Interface',
@@ -565,36 +627,42 @@
   ];
 
   const ADMIN_PASSWORD = 'raksheen96';
-  const STORAGE_KEY = 'himate_projects';
+  const STORAGE_KEY    = 'himate_projects';
 
-  // ─── State ─────────────────────────────────────────────────────────────────
+  /* ── State ── */
   function loadProjects() {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      return saved ? JSON.parse(saved) : DEFAULT_PROJECTS.map(p => ({...p}));
+      const s = localStorage.getItem(STORAGE_KEY);
+      return s ? JSON.parse(s) : DEFAULT_PROJECTS.map(p => ({...p}));
     } catch { return DEFAULT_PROJECTS.map(p => ({...p})); }
   }
-  function saveProjects(list) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-  }
+  function saveProjects(list) { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }
 
   let projects = loadProjects();
   let activeCategory = 'All';
-  let editingId = null; // null = new project
+  let editingIdx = null;
 
-  // ─── Categories ────────────────────────────────────────────────────────────
+  /* ── Category helpers ── */
   function getCategories() {
-    const cats = ['All', ...new Set(projects.map(p => p.category))];
-    return cats;
+    return ['All', ...new Set(projects.map(p => p.category))];
   }
 
-  // ─── Render filter bar ─────────────────────────────────────────────────────
+  function categoryEmoji(cat) {
+    if (/aviation|government/i.test(cat)) return '✈️';
+    if (/health/i.test(cat))              return '🏥';
+    if (/web/i.test(cat))                 return '🌐';
+    if (/esg|tool/i.test(cat))            return '⚙️';
+    if (/event|seating/i.test(cat))       return '🎪';
+    if (/data/i.test(cat))                return '📊';
+    return '🗂️';
+  }
+
+  /* ── Filter bar ── */
   function renderFilterBar() {
     const bar = document.getElementById('filterBar');
-    bar.innerHTML = getCategories().map(cat => `
-      <button class="filter-btn${cat === activeCategory ? ' active' : ''}"
-              data-cat="${cat}">${cat}</button>
-    `).join('');
+    bar.innerHTML = getCategories().map(cat =>
+      `<button class="filter-btn${cat === activeCategory ? ' active' : ''}" data-cat="${escHtml(cat)}">${escHtml(cat)}</button>`
+    ).join('');
     bar.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         activeCategory = btn.dataset.cat;
@@ -604,61 +672,50 @@
     });
   }
 
-  // ─── Render project grid ───────────────────────────────────────────────────
-  function getCategoryEmoji(cat) {
-    if (/aviation|government/i.test(cat)) return '✈️';
-    if (/health/i.test(cat)) return '🏥';
-    if (/web/i.test(cat)) return '🌐';
-    if (/esg|tool|automation/i.test(cat)) return '⚙️';
-    if (/event|seating/i.test(cat)) return '🎪';
-    if (/data/i.test(cat)) return '📊';
-    return '🗂️';
-  }
-
+  /* ── Project grid ── */
   function renderGrid() {
-    const grid = document.getElementById('projectsGrid');
-    const noResults = document.getElementById('noResults');
-    const filtered = activeCategory === 'All'
-      ? projects
-      : projects.filter(p => p.category === activeCategory);
+    const grid     = document.getElementById('projectsGrid');
+    const noRes    = document.getElementById('noResults');
+    const filtered = activeCategory === 'All' ? projects : projects.filter(p => p.category === activeCategory);
 
-    // Remove old cards (keep noResults)
     grid.querySelectorAll('.project-card').forEach(c => c.remove());
 
-    if (filtered.length === 0) {
-      noResults.style.display = 'block';
-      return;
-    }
-    noResults.style.display = 'none';
+    if (filtered.length === 0) { noRes.style.display = 'block'; return; }
+    noRes.style.display = 'none';
 
     filtered.forEach(project => {
       const card = document.createElement('div');
       card.className = 'project-card';
-      const thumb = project.snapshots && project.snapshots[0]
-        ? `<div class="card-thumb"><img src="${project.snapshots[0]}" alt="${project.title}" loading="lazy" onerror="this.parentElement.innerHTML='${getCategoryEmoji(project.category)}'"/></div>`
-        : `<div class="card-thumb">${getCategoryEmoji(project.category)}</div>`;
+
+      const snap = (project.snapshots || [])[0];
+      const thumbContent = snap
+        ? `<img src="${escHtml(snap)}" alt="${escHtml(project.title)}" loading="lazy" onerror="this.parentElement.innerHTML='${categoryEmoji(project.category)}'"/>`
+        : categoryEmoji(project.category);
+
       card.innerHTML = `
-        ${thumb}
+        <div class="card-thumb">${thumbContent}</div>
         <div class="card-body">
-          <div class="card-category">${project.category}</div>
-          <div class="card-title">${project.title}</div>
-          <div class="card-desc">${project.description}</div>
-          ${project.projectUrl ? `<a class="card-link" href="${project.projectUrl}" target="_blank" rel="noopener">View project ↗</a>` : ''}
+          <span class="card-category">${escHtml(project.category)}</span>
+          <div class="card-title">${escHtml(project.title)}</div>
+          <div class="card-desc">${escHtml(project.description)}</div>
+          ${project.projectUrl
+            ? `<a class="card-link" href="${escHtml(project.projectUrl)}" target="_blank" rel="noopener">View project ↗</a>`
+            : ''}
         </div>
       `;
       grid.appendChild(card);
     });
   }
 
-  // ─── Admin: project list ───────────────────────────────────────────────────
+  /* ── Admin: project list ── */
   function renderAdminList() {
     const list = document.getElementById('adminProjectList');
     list.innerHTML = projects.map((p, idx) => `
       <div class="admin-project-item" data-id="${p.id}" draggable="true">
         <span class="drag-handle">⠿</span>
         <div class="admin-item-info">
-          <div class="admin-item-title">${p.title}</div>
-          <div class="admin-item-cat">${p.category}</div>
+          <div class="admin-item-title">${escHtml(p.title)}</div>
+          <div class="admin-item-cat">${escHtml(p.category)}</div>
         </div>
         <div class="admin-item-btns">
           <button class="btn-sm btn-edit" data-idx="${idx}">Edit</button>
@@ -667,36 +724,29 @@
       </div>
     `).join('');
 
-    list.querySelectorAll('.btn-edit').forEach(btn => {
-      btn.addEventListener('click', () => openEditForm(parseInt(btn.dataset.idx)));
-    });
-    list.querySelectorAll('.btn-delete').forEach(btn => {
-      btn.addEventListener('click', () => deleteProject(parseInt(btn.dataset.idx)));
-    });
+    list.querySelectorAll('.btn-edit').forEach(btn =>
+      btn.addEventListener('click', () => openEditForm(+btn.dataset.idx)));
+    list.querySelectorAll('.btn-delete').forEach(btn =>
+      btn.addEventListener('click', () => deleteProject(+btn.dataset.idx)));
 
     initDragSort(list);
   }
 
-  // ─── Drag to reorder ───────────────────────────────────────────────────────
+  /* ── Drag to reorder ── */
   function initDragSort(list) {
     let dragging = null;
     list.querySelectorAll('.admin-project-item').forEach(item => {
       item.addEventListener('dragstart', () => { dragging = item; item.style.opacity = '0.4'; });
-      item.addEventListener('dragend', () => { item.style.opacity = ''; dragging = null; });
+      item.addEventListener('dragend',   () => { item.style.opacity = ''; dragging = null; });
       item.addEventListener('dragover', e => {
         e.preventDefault();
         if (!dragging || dragging === item) return;
-        const rect = item.getBoundingClientRect();
-        const mid = rect.top + rect.height / 2;
-        if (e.clientY < mid) list.insertBefore(dragging, item);
-        else list.insertBefore(dragging, item.nextSibling);
+        const mid = item.getBoundingClientRect().top + item.offsetHeight / 2;
+        list.insertBefore(dragging, e.clientY < mid ? item : item.nextSibling);
       });
       item.addEventListener('drop', () => {
-        // Reorder projects array to match DOM
-        const newOrder = [...list.querySelectorAll('.admin-project-item')].map(el =>
-          projects.find(p => p.id == el.dataset.id)
-        ).filter(Boolean);
-        projects = newOrder;
+        projects = [...list.querySelectorAll('.admin-project-item')]
+          .map(el => projects.find(p => p.id == el.dataset.id)).filter(Boolean);
         saveProjects(projects);
         renderAdminList();
         renderFilterBar();
@@ -705,17 +755,18 @@
     });
   }
 
-  // ─── Edit / Add form ───────────────────────────────────────────────────────
+  /* ── Edit / Add form ── */
   function openEditForm(idx) {
-    editingId = idx === -1 ? null : idx;
+    editingIdx = idx === -1 ? null : idx;
     const p = idx === -1
       ? { title: '', description: '', category: '', projectUrl: '', snapshots: [] }
       : { ...projects[idx], snapshots: [...(projects[idx].snapshots || [])] };
 
-    const formEl = document.getElementById('editFormContainer');
-    formEl.innerHTML = `
+    const knownCats = [...new Set(projects.map(x => x.category))];
+
+    document.getElementById('editFormContainer').innerHTML = `
       <div class="edit-form">
-        <h3>${idx === -1 ? 'New Project' : 'Edit Project'}</h3>
+        <h3>${idx === -1 ? '+ New Project' : 'Edit Project'}</h3>
         <div class="form-row">
           <div class="form-group">
             <label>Title</label>
@@ -724,9 +775,7 @@
           <div class="form-group">
             <label>Category</label>
             <input id="f-category" type="text" value="${escHtml(p.category)}" placeholder="e.g. Healthcare / Process Automation" list="cat-list"/>
-            <datalist id="cat-list">
-              ${[...new Set(projects.map(x => x.category))].map(c => `<option value="${escHtml(c)}">`).join('')}
-            </datalist>
+            <datalist id="cat-list">${knownCats.map(c => `<option value="${escHtml(c)}">`).join('')}</datalist>
           </div>
         </div>
         <div class="form-group">
@@ -739,10 +788,10 @@
         </div>
         <div class="form-group">
           <label>Snapshot image URLs (one per line)</label>
-          <textarea id="f-snaps" style="min-height:64px">${p.snapshots.map(s => escHtml(s)).join('\n')}</textarea>
+          <textarea id="f-snaps" style="min-height:72px">${p.snapshots.map(s => escHtml(s)).join('\n')}</textarea>
         </div>
         <div class="form-actions">
-          <button class="btn-sm btn-save" id="fSave">Save</button>
+          <button class="btn-sm btn-save" id="fSave">Save project</button>
           <button class="btn-sm btn-discard" id="fDiscard">Discard</button>
         </div>
       </div>
@@ -751,33 +800,31 @@
     document.getElementById('fSave').addEventListener('click', saveEditForm);
     document.getElementById('fDiscard').addEventListener('click', () => {
       document.getElementById('editFormContainer').innerHTML = '';
-      editingId = null;
+      editingIdx = null;
     });
-
-    formEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    document.getElementById('editFormContainer').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   function saveEditForm() {
-    const title = document.getElementById('f-title').value.trim();
-    const category = document.getElementById('f-category').value.trim();
+    const title       = document.getElementById('f-title').value.trim();
+    const category    = document.getElementById('f-category').value.trim();
     const description = document.getElementById('f-desc').value.trim();
-    const projectUrl = document.getElementById('f-url').value.trim();
-    const snapsRaw = document.getElementById('f-snaps').value.trim();
-    const snapshots = snapsRaw ? snapsRaw.split('\n').map(s => s.trim()).filter(Boolean) : [];
+    const projectUrl  = document.getElementById('f-url').value.trim();
+    const snapshots   = document.getElementById('f-snaps').value.trim()
+      .split('\n').map(s => s.trim()).filter(Boolean);
 
     if (!title || !category) { showToast('Title and category are required.'); return; }
 
-    if (editingId === null) {
-      // New project
+    if (editingIdx === null) {
       const newId = projects.length ? Math.max(...projects.map(p => p.id)) + 1 : 1;
       projects.push({ id: newId, title, description, category, projectUrl, snapshots });
     } else {
-      projects[editingId] = { ...projects[editingId], title, description, category, projectUrl, snapshots };
+      projects[editingIdx] = { ...projects[editingIdx], title, description, category, projectUrl, snapshots };
     }
 
     saveProjects(projects);
     document.getElementById('editFormContainer').innerHTML = '';
-    editingId = null;
+    editingIdx = null;
     renderAdminList();
     renderFilterBar();
     renderGrid();
@@ -794,115 +841,103 @@
     showToast('Project deleted.');
   }
 
-  // ─── Copy prompt ───────────────────────────────────────────────────────────
+  /* ── Copy prompt code builder ── */
   function buildProjectsCode() {
     const lines = projects.map((p, i) => {
-      const snaps = (p.snapshots || []).map(s => `            '${s}'`).join(',\n');
+      const snaps = (p.snapshots || []).map(s => `            '${jsEsc(s)}'`).join(',\n');
       return `        {
           id: ${i + 1},
-          title: '${esc(p.title)}',
-          description: '${esc(p.description)}',
-          category: '${esc(p.category)}'${p.projectUrl ? `,\n          projectUrl: '${esc(p.projectUrl)}'` : ''},
+          title: '${jsEsc(p.title)}',
+          description: '${jsEsc(p.description)}',
+          category: '${jsEsc(p.category)}'${p.projectUrl ? `,\n          projectUrl: '${jsEsc(p.projectUrl)}'` : ''},
           snapshots: [\n${snaps}\n          ]
         }`;
     });
     return `      projects: [\n${lines.join(',\n')}\n      ],`;
   }
 
-  function esc(str) { return (str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
-  function escHtml(str) { return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-  // ─── Toast ─────────────────────────────────────────────────────────────────
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2600);
+  /* ── Escape helpers ── */
+  function jsEsc(s)   { return (s || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
+  function escHtml(s) {
+    return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  // ─── Secret trigger: 5 clicks on copyright ─────────────────────────────────
-  let clickCount = 0;
-  let clickTimer = null;
+  /* ── Toast ── */
+  function showToast(msg) {
+    const t = document.getElementById('toastEl');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  /* ── Secret trigger: 5 clicks on copyright ── */
+  let clickCount = 0, clickTimer = null;
   document.getElementById('copyrightTrigger').addEventListener('click', () => {
     clickCount++;
     clearTimeout(clickTimer);
     clickTimer = setTimeout(() => { clickCount = 0; }, 2000);
-    if (clickCount >= 5) {
-      clickCount = 0;
-      openPasswordModal();
-    }
+    if (clickCount >= 5) { clickCount = 0; openPwModal(); }
   });
 
-  // ─── Password modal ────────────────────────────────────────────────────────
-  function openPasswordModal() {
+  /* ── Password modal ── */
+  function openPwModal() {
     document.getElementById('pwInput').value = '';
     document.getElementById('pwError').textContent = '';
     document.getElementById('pwOverlay').classList.add('open');
     setTimeout(() => document.getElementById('pwInput').focus(), 80);
   }
-  function closePasswordModal() {
-    document.getElementById('pwOverlay').classList.remove('open');
-  }
+  document.getElementById('pwCancel').addEventListener('click', () =>
+    document.getElementById('pwOverlay').classList.remove('open'));
+  document.getElementById('pwSubmit').addEventListener('click', checkPw);
+  document.getElementById('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkPw(); });
 
-  document.getElementById('pwSubmit').addEventListener('click', checkPassword);
-  document.getElementById('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
-  document.getElementById('pwCancel').addEventListener('click', closePasswordModal);
-
-  function checkPassword() {
-    const val = document.getElementById('pwInput').value;
-    if (val === ADMIN_PASSWORD) {
-      closePasswordModal();
-      openAdminPanel();
+  function checkPw() {
+    if (document.getElementById('pwInput').value === ADMIN_PASSWORD) {
+      document.getElementById('pwOverlay').classList.remove('open');
+      openAdmin();
     } else {
       document.getElementById('pwError').textContent = 'Incorrect password. Try again.';
       document.getElementById('pwInput').select();
     }
   }
 
-  // ─── Admin panel ───────────────────────────────────────────────────────────
-  function openAdminPanel() {
+  /* ── Admin panel ── */
+  function openAdmin() {
     document.getElementById('editFormContainer').innerHTML = '';
     renderAdminList();
     document.getElementById('adminOverlay').classList.add('open');
   }
-
-  document.getElementById('btnCloseAdmin').addEventListener('click', () => {
-    document.getElementById('adminOverlay').classList.remove('open');
-  });
+  document.getElementById('btnCloseAdmin').addEventListener('click', () =>
+    document.getElementById('adminOverlay').classList.remove('open'));
   document.getElementById('adminOverlay').addEventListener('click', e => {
-    if (e.target === document.getElementById('adminOverlay')) {
+    if (e.target === document.getElementById('adminOverlay'))
       document.getElementById('adminOverlay').classList.remove('open');
-    }
   });
-
   document.getElementById('btnAddProject').addEventListener('click', () => openEditForm(-1));
-
   document.getElementById('btnCopyPrompt').addEventListener('click', () => {
     document.getElementById('copyTextarea').value = buildProjectsCode();
     document.getElementById('adminOverlay').classList.remove('open');
     document.getElementById('copyOverlay').classList.add('open');
   });
 
-  // ─── Copy overlay ──────────────────────────────────────────────────────────
+  /* ── Copy overlay ── */
   document.getElementById('btnDoCopy').addEventListener('click', () => {
     const ta = document.getElementById('copyTextarea');
     ta.select();
-    navigator.clipboard.writeText(ta.value).then(() => showToast('Copied to clipboard!')).catch(() => {
-      document.execCommand('copy');
-      showToast('Copied!');
-    });
+    navigator.clipboard.writeText(ta.value)
+      .then(() => showToast('Copied to clipboard!'))
+      .catch(() => { document.execCommand('copy'); showToast('Copied!'); });
   });
   document.getElementById('btnCloseCopy').addEventListener('click', () => {
     document.getElementById('copyOverlay').classList.remove('open');
     document.getElementById('adminOverlay').classList.add('open');
   });
   document.getElementById('copyOverlay').addEventListener('click', e => {
-    if (e.target === document.getElementById('copyOverlay')) {
+    if (e.target === document.getElementById('copyOverlay'))
       document.getElementById('copyOverlay').classList.remove('open');
-    }
   });
 
-  // ─── Init ──────────────────────────────────────────────────────────────────
+  /* ── Init ── */
   renderFilterBar();
   renderGrid();
 </script>
