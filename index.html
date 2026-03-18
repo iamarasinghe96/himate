@@ -828,6 +828,7 @@
     @media (max-width: 600px) {
       .name { font-size: 1.5rem; }
       .tagline { font-size: 1rem; }
+      .signature-svg { width: 160px; }
       
       /* Fix button layout on mobile */
       .buttons-section { 
@@ -1064,10 +1065,10 @@
     }
     .signature-svg {
       position: absolute;
-      top: 58%;
+      top: calc(50% + 15px);
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 260px;
+      width: 200px;
       height: auto;
       pointer-events: none;
       animation: sigFadeOut 0.5s 4.3s ease-in forwards;
