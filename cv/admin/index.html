@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV Admin — Indika Amarasinghe</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --brand1:#667eea; --brand2:#764ba2; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; background:#f3f4f6; color:var(--ink); line-height:1.55; }
+
+  .topbar {
+    position:sticky; top:0; z-index:40;
+    background:linear-gradient(135deg,var(--brand1),var(--brand2)); color:white;
+    padding:14px 20px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .topbar h1 { font-size:1.05rem; font-weight:700; margin-right:auto; }
+  .who { font-size:.78rem; opacity:.9; }
+
+  .btn {
+    border:none; border-radius:9px; padding:9px 15px; font-size:.83rem; font-weight:600;
+    font-family:inherit; cursor:pointer; text-decoration:none; display:inline-flex;
+    align-items:center; gap:6px; transition:opacity .15s ease, transform .15s ease;
+  }
+  .btn:hover { opacity:.88; transform:translateY(-1px); }
+  .btn:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+  .btn-light { background:rgba(255,255,255,.18); color:white; border:1px solid rgba(255,255,255,.3); }
+  .btn-white { background:white; color:var(--brand2); }
+  .btn-primary { background:linear-gradient(135deg,var(--brand1),var(--brand2)); color:white; }
+  .btn-ghost { background:#f3f4f6; color:#374151; border:1px solid var(--line); }
+  .btn-danger { background:#fee2e2; color:#b91c1c; border:1px solid #fecaca; }
+  .btn-xs { padding:5px 9px; font-size:.74rem; border-radius:7px; }
+
+  .wrap { max-width:960px; margin:24px auto 70px; padding:0 16px; }
+  .card { background:white; border-radius:16px; box-shadow:0 6px 20px rgba(0,0,0,.07); padding:26px; margin-bottom:18px; }
+  .card h2 { font-size:1.05rem; font-weight:700; margin-bottom:6px; }
+  .card p.hint { font-size:.83rem; color:var(--muted); margin-bottom:16px; }
+
+  label.fl { display:block; font-size:.72rem; text-transform:uppercase; letter-spacing:.07em;
+             color:var(--muted); font-weight:700; margin-bottom:4px; }
+  input[type=text], input[type=email], input[type=password], textarea, select {
+    width:100%; border:1px solid var(--line); border-radius:9px; padding:9px 11px;
+    font-family:inherit; font-size:.88rem; color:var(--ink); background:white;
+  }
+  input:focus, textarea:focus, select:focus { outline:2px solid #c7d2fe; border-color:var(--brand1); }
+  textarea { resize:vertical; min-height:76px; line-height:1.5; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .field { margin-bottom:12px; }
+
+  /* login */
+  .login { max-width:420px; margin:70px auto; }
+  .err { color:#b91c1c; font-size:.83rem; margin-top:10px; min-height:1.2em; }
+  .ok  { color:#047857; font-size:.83rem; margin-top:10px; min-height:1.2em; }
+
+  /* sections */
+  .sec-card { border:1px solid var(--line); border-radius:13px; margin-bottom:14px; overflow:hidden; }
+  .sec-head {
+    display:flex; align-items:center; gap:10px; padding:12px 14px; background:#fafafb;
+    border-bottom:1px solid var(--line); cursor:pointer;
+  }
+  .sec-head .ttl { font-weight:650; font-size:.93rem; margin-right:auto; }
+  .sec-head .badge { font-size:.68rem; background:#eef0fb; color:#4338ca; padding:3px 8px; border-radius:6px; font-weight:600; }
+  .sec-body { padding:16px 14px; display:none; }
+  .sec-card.open .sec-body { display:block; }
+  .sec-card.open .sec-head { background:#eef0fb; }
+
+  .row-item {
+    border:1px solid var(--line); border-radius:10px; padding:12px; margin-bottom:10px; background:#fcfcfd;
+  }
+  .row-item-head { display:flex; align-items:center; gap:6px; margin-bottom:8px; }
+  .row-item-head .n { font-size:.72rem; color:var(--muted); font-weight:700; margin-right:auto; }
+
+  .toolbar-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .save-bar {
+    position:fixed; bottom:0; left:0; right:0; background:white; border-top:1px solid var(--line);
+    padding:12px 20px; display:flex; align-items:center; gap:12px; justify-content:center;
+    box-shadow:0 -4px 16px rgba(0,0,0,.06); z-index:45; flex-wrap:wrap;
+  }
+  .save-status { font-size:.8rem; color:var(--muted); }
+  .setup-steps { font-size:.86rem; color:#374151; line-height:1.85; padding-left:1.2em; }
+  .setup-steps code, code.inline {
+    background:#f3f4f6; border-radius:5px; padding:1px 5px; font-size:.82em;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  pre.code {
+    background:#1f2937; color:#e5e7eb; border-radius:10px; padding:14px; overflow-x:auto;
+    font-size:.76rem; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; line-height:1.6; margin:10px 0;
+  }
+  .hidden { display:none !important; }
+  @media (max-width:700px) { .grid2 { grid-template-columns:1fr; } .card { padding:18px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>📝 CV Admin</h1>
+  <span class="who" id="whoAmI"></span>
+  <a class="btn btn-light" href="../" target="_blank">View CV ↗</a>
+  <button class="btn btn-light hidden" id="btnLogout">Sign out</button>
+</div>
+
+<div class="wrap">
+
+  <!-- ── Not configured ── -->
+  <div class="card hidden" id="setupCard">
+    <h2>Firebase is not connected yet</h2>
+    <p class="hint">The CV page is live and working from the built-in content. To edit it from this page,
+      connect a Firebase project — it takes about five minutes and the free tier is more than enough.</p>
+    <ol class="setup-steps">
+      <li>Go to <a href="https://console.firebase.google.com" target="_blank" rel="noopener">console.firebase.google.com</a> and create a project (e.g. <code>indika-portfolio</code>).</li>
+      <li>Build → <strong>Firestore Database</strong> → Create database → Production mode.</li>
+      <li>Build → <strong>Authentication</strong> → Get started → enable <strong>Email/Password</strong>, then Users → Add user → <code>iamarasinghe96@gmail.com</code> with a password you choose.</li>
+      <li>Project settings → Your apps → <strong>Web app</strong> → register the app, then copy the <code>firebaseConfig</code> values.</li>
+      <li>Paste them into <code>cv/firebase-config.js</code> in this repository and commit.</li>
+      <li>Firestore → Rules → paste the rules below → Publish.</li>
+    </ol>
+    <pre class="code">rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /portfolio/cv {
+      allow read: if true;
+      allow write: if request.auth != null
+                   &amp;&amp; request.auth.token.email == 'iamarasinghe96@gmail.com';
+    }
+  }
+}</pre>
+    <p class="hint">Full instructions, including how to publish the first copy of the CV, are in <code>cv/README.md</code>.</p>
+  </div>
+
+  <!-- ── Login ── -->
+  <div class="card login hidden" id="loginCard">
+    <h2>Sign in</h2>
+    <p class="hint">Use the email and password registered in Firebase Authentication.</p>
+    <div class="field">
+      <label class="fl" for="email">Email</label>
+      <input type="email" id="email" autocomplete="username" placeholder="you@example.com">
+    </div>
+    <div class="field">
+      <label class="fl" for="password">Password</label>
+      <input type="password" id="password" autocomplete="current-password" placeholder="••••••••">
+    </div>
+    <button class="btn btn-primary" id="btnLogin" style="width:100%; justify-content:center;">Sign in</button>
+    <div class="toolbar-row" style="justify-content:center;">
+      <button class="btn btn-ghost btn-xs" id="btnReset">Forgot password?</button>
+    </div>
+    <div class="err" id="loginMsg"></div>
+  </div>
+
+  <!-- ── Editor ── -->
+  <div class="hidden" id="editor">
+    <div class="card">
+      <h2>Header</h2>
+      <p class="hint">Shown at the top of the CV page and in the exported files.</p>
+      <div class="grid2">
+        <div class="field"><label class="fl" for="m-name">Name</label><input type="text" id="m-name" data-meta="name"></div>
+        <div class="field"><label class="fl" for="m-headline">Headline</label><input type="text" id="m-headline" data-meta="headline"></div>
+        <div class="field"><label class="fl" for="m-location">Location</label><input type="text" id="m-location" data-meta="location"></div>
+        <div class="field"><label class="fl" for="m-phone">Phone</label><input type="text" id="m-phone" data-meta="phone"></div>
+        <div class="field"><label class="fl" for="m-email">Email</label><input type="text" id="m-email" data-meta="email"></div>
+        <div class="field"><label class="fl" for="m-linkedin">LinkedIn URL</label><input type="text" id="m-linkedin" data-meta="linkedin"></div>
+        <div class="field"><label class="fl" for="m-portfolio">Portfolio URL</label><input type="text" id="m-portfolio" data-meta="portfolio"></div>
+        <div class="field"><label class="fl" for="m-updated">Last updated label</label><input type="text" id="m-updated" data-meta="updated"></div>
+      </div>
+      <div class="field"><label class="fl" for="m-workRights">Work rights line</label><input type="text" id="m-workRights" data-meta="workRights"></div>
+    </div>
+
+    <div class="card">
+      <h2>Sections</h2>
+      <p class="hint">Click a section to open it. In every multi-line box, <strong>one line = one item</strong>
+        (one bullet, one skill, one paragraph). Blank lines are ignored.</p>
+      <div id="sectionList"></div>
+      <div class="toolbar-row">
+        <button class="btn btn-ghost btn-xs" data-action="add-section">+ Add section</button>
+        <button class="btn btn-ghost btn-xs" data-action="expand-all">Expand all</button>
+        <button class="btn btn-ghost btn-xs" data-action="collapse-all">Collapse all</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Backup &amp; restore</h2>
+      <p class="hint">Download a copy of the current content, restore one, or go back to the version built into the site.</p>
+      <div class="toolbar-row">
+        <button class="btn btn-ghost btn-xs" data-action="export-json">⬇ Download JSON</button>
+        <button class="btn btn-ghost btn-xs" data-action="import-json">⬆ Import JSON</button>
+        <button class="btn btn-ghost btn-xs" data-action="reload-live">↻ Reload published version</button>
+        <button class="btn btn-danger btn-xs" data-action="reset-default">⟲ Reset to built-in content</button>
+      </div>
+      <input type="file" id="importFile" accept="application/json" class="hidden">
+      <div class="ok" id="backupMsg"></div>
+    </div>
+  </div>
+</div>
+
+<div class="save-bar hidden" id="saveBar">
+  <span class="save-status" id="saveStatus">No changes yet</span>
+  <button class="btn btn-primary" id="btnSave">💾 Publish changes</button>
+</div>
+
+<script src="../cv-data.js"></script>
+<script src="../firebase-config.js"></script>
+<script type="module">
+  import { esc, loadCV, saveCV, getFirebase, isConfigured, defaultCV, deepCopy, downloadBlob }
+    from '../cv-common.js';
+
+  let cv = null;
+  let dirty = false;
+  let openSections = new Set();
+
+  const $ = id => document.getElementById(id);
+
+  function setDirty(v) {
+    dirty = v;
+    $('saveStatus').textContent = v ? 'Unsaved changes' : 'All changes published';
+  }
+
+  window.addEventListener('beforeunload', e => {
+    if (dirty) { e.preventDefault(); e.returnValue = ''; }
+  });
+
+  /* ══════════════════ Auth ══════════════════ */
+  async function boot() {
+    if (!isConfigured()) { $('setupCard').classList.remove('hidden'); return; }
+
+    const { auth, authMod } = await getFirebase();
+    authMod.onAuthStateChanged(auth, async user => {
+      if (user) {
+        const allowed = (window.ADMIN_EMAILS || []);
+        if (allowed.length && !allowed.includes(user.email)) {
+          $('loginMsg').textContent = `${user.email} is not an admin account.`;
+          await authMod.signOut(auth);
+          return;
+        }
+        $('loginCard').classList.add('hidden');
+        $('editor').classList.remove('hidden');
+        $('saveBar').classList.remove('hidden');
+        $('btnLogout').classList.remove('hidden');
+        $('whoAmI').textContent = `Signed in as ${user.email}`;
+        const { data } = await loadCV({ preferCache: false });
+        cv = data;
+        renderAll();
+        setDirty(false);
+      } else {
+        $('loginCard').classList.remove('hidden');
+        $('editor').classList.add('hidden');
+        $('saveBar').classList.add('hidden');
+        $('btnLogout').classList.add('hidden');
+        $('whoAmI').textContent = '';
+      }
+    });
+
+    $('btnLogin').addEventListener('click', async () => {
+      $('loginMsg').className = 'err';
+      $('loginMsg').textContent = '';
+      try {
+        await authMod.signInWithEmailAndPassword(auth, $('email').value.trim(), $('password').value);
+      } catch (err) {
+        $('loginMsg').textContent = friendlyAuthError(err);
+      }
+    });
+    $('password').addEventListener('keydown', e => { if (e.key === 'Enter') $('btnLogin').click(); });
+
+    $('btnReset').addEventListener('click', async () => {
+      const mail = $('email').value.trim();
+      if (!mail) { $('loginMsg').className = 'err'; $('loginMsg').textContent = 'Enter your email first.'; return; }
+      try {
+        await authMod.sendPasswordResetEmail(auth, mail);
+        $('loginMsg').className = 'ok';
+        $('loginMsg').textContent = 'Password reset email sent — check your inbox.';
+      } catch (err) {
+        $('loginMsg').className = 'err';
+        $('loginMsg').textContent = friendlyAuthError(err);
+      }
+    });
+
+    $('btnLogout').addEventListener('click', async () => {
+      if (dirty && !confirm('You have unsaved changes. Sign out anyway?')) return;
+      await authMod.signOut(auth);
+    });
+  }
+
+  function friendlyAuthError(err) {
+    const code = (err && err.code) || '';
+    if (code.includes('invalid-credential') || code.includes('wrong-password')) return 'Wrong email or password.';
+    if (code.includes('user-not-found')) return 'No account with that email. Add it in Firebase Authentication first.';
+    if (code.includes('too-many-requests')) return 'Too many attempts. Wait a moment and try again.';
+    if (code.includes('network')) return 'Network problem — check your connection.';
+    if (code.includes('operation-not-allowed')) return 'Email/Password sign-in is not enabled in Firebase Authentication.';
+    return (err && err.message) || 'Sign-in failed.';
+  }
+
+  /* ══════════════════ Rendering ══════════════════ */
+  const lines = arr => (arr || []).join('\n');
+  const toLines = str => String(str || '').split('\n').map(s => s.trim()).filter(Boolean);
+
+  function renderAll() {
+    Object.entries(cv.meta || {}).forEach(([k, v]) => {
+      const el = document.querySelector(`[data-meta="${k}"]`);
+      if (el) el.value = v || '';
+    });
+    renderSections();
+  }
+
+  function renderSections() {
+    $('sectionList').innerHTML = (cv.sections || []).map((sec, i) => `
+      <div class="sec-card${openSections.has(i) ? ' open' : ''}" data-sec-card="${i}">
+        <div class="sec-head" data-action="toggle-section" data-sec="${i}">
+          <span>${esc(sec.icon || '•')}</span>
+          <span class="ttl">${esc(sec.title || 'Untitled section')}</span>
+          <span class="badge">${esc(sec.type)}</span>
+          <button class="btn btn-ghost btn-xs" data-action="move-section-up" data-sec="${i}" ${i === 0 ? 'disabled' : ''}>↑</button>
+          <button class="btn btn-ghost btn-xs" data-action="move-section-down" data-sec="${i}" ${i === cv.sections.length - 1 ? 'disabled' : ''}>↓</button>
+          <button class="btn btn-danger btn-xs" data-action="delete-section" data-sec="${i}">✕</button>
+        </div>
+        <div class="sec-body">
+          <div class="grid2">
+            <div class="field"><label class="fl">Section title</label>
+              <input type="text" data-sec="${i}" data-field="title" value="${esc(sec.title)}"></div>
+            <div class="field"><label class="fl">Icon (emoji)</label>
+              <input type="text" data-sec="${i}" data-field="icon" value="${esc(sec.icon || '')}"></div>
+          </div>
+          ${bodyEditor(sec, i)}
+        </div>
+      </div>`).join('');
+  }
+
+  function bodyEditor(sec, i) {
+    if (sec.type === 'text') {
+      return `<div class="field">
+        <label class="fl">Paragraphs — one per line</label>
+        <textarea rows="7" data-sec="${i}" data-field="paragraphs">${esc(lines(sec.paragraphs))}</textarea>
+      </div>`;
+    }
+
+    if (sec.type === 'pairs') {
+      return `${(sec.items || []).map((it, j) => `
+        <div class="row-item">
+          <div class="row-item-head">
+            <span class="n">Item ${j + 1}</span>
+            <button class="btn btn-ghost btn-xs" data-action="move-item-up" data-sec="${i}" data-idx="${j}" ${j === 0 ? 'disabled' : ''}>↑</button>
+            <button class="btn btn-ghost btn-xs" data-action="move-item-down" data-sec="${i}" data-idx="${j}" ${j === sec.items.length - 1 ? 'disabled' : ''}>↓</button>
+            <button class="btn btn-danger btn-xs" data-action="delete-item" data-sec="${i}" data-idx="${j}">✕</button>
+          </div>
+          <div class="grid2">
+            <div><label class="fl">Label</label><input type="text" data-sec="${i}" data-item="${j}" data-field="label" value="${esc(it.label)}"></div>
+            <div><label class="fl">Value</label><input type="text" data-sec="${i}" data-item="${j}" data-field="value" value="${esc(it.value)}"></div>
+          </div>
+        </div>`).join('')}
+        <button class="btn btn-ghost btn-xs" data-action="add-item" data-sec="${i}">+ Add item</button>`;
+    }
+
+    if (sec.type === 'groups') {
+      return `${(sec.groups || []).map((g, j) => `
+        <div class="row-item">
+          <div class="row-item-head">
+            <span class="n">Group ${j + 1}</span>
+            <button class="btn btn-ghost btn-xs" data-action="move-item-up" data-sec="${i}" data-idx="${j}" ${j === 0 ? 'disabled' : ''}>↑</button>
+            <button class="btn btn-ghost btn-xs" data-action="move-item-down" data-sec="${i}" data-idx="${j}" ${j === sec.groups.length - 1 ? 'disabled' : ''}>↓</button>
+            <button class="btn btn-danger btn-xs" data-action="delete-item" data-sec="${i}" data-idx="${j}">✕</button>
+          </div>
+          <div class="field"><label class="fl">Group name</label>
+            <input type="text" data-sec="${i}" data-group="${j}" data-field="name" value="${esc(g.name)}"></div>
+          <div class="field"><label class="fl">Items — one per line</label>
+            <textarea rows="6" data-sec="${i}" data-group="${j}" data-field="items">${esc(lines(g.items))}</textarea></div>
+        </div>`).join('')}
+        <button class="btn btn-ghost btn-xs" data-action="add-item" data-sec="${i}">+ Add group</button>`;
+    }
+
+    /* entries */
+    return `${(sec.entries || []).map((e, j) => `
+      <div class="row-item">
+        <div class="row-item-head">
+          <span class="n">Entry ${j + 1}</span>
+          <button class="btn btn-ghost btn-xs" data-action="move-item-up" data-sec="${i}" data-idx="${j}" ${j === 0 ? 'disabled' : ''}>↑</button>
+          <button class="btn btn-ghost btn-xs" data-action="move-item-down" data-sec="${i}" data-idx="${j}" ${j === sec.entries.length - 1 ? 'disabled' : ''}>↓</button>
+          <button class="btn btn-danger btn-xs" data-action="delete-item" data-sec="${i}" data-idx="${j}">✕</button>
+        </div>
+        <div class="field"><label class="fl">Title</label>
+          <input type="text" data-sec="${i}" data-entry="${j}" data-field="title" value="${esc(e.title)}"></div>
+        <div class="grid2">
+          <div class="field"><label class="fl">Subtitle (company / category)</label>
+            <input type="text" data-sec="${i}" data-entry="${j}" data-field="subtitle" value="${esc(e.subtitle || '')}"></div>
+          <div class="field"><label class="fl">Meta (dates, link, figures)</label>
+            <input type="text" data-sec="${i}" data-entry="${j}" data-field="meta" value="${esc(e.meta || '')}"></div>
+        </div>
+        <div class="field"><label class="fl">Bullet points — one per line</label>
+          <textarea rows="5" data-sec="${i}" data-entry="${j}" data-field="bullets">${esc(lines(e.bullets))}</textarea></div>
+      </div>`).join('')}
+      <button class="btn btn-ghost btn-xs" data-action="add-item" data-sec="${i}">+ Add entry</button>`;
+  }
+
+  /* ══════════════════ Editing ══════════════════ */
+  document.addEventListener('input', e => {
+    const el = e.target;
+    if (el.dataset.meta) {
+      cv.meta = cv.meta || {};
+      cv.meta[el.dataset.meta] = el.value;
+      setDirty(true);
+      return;
+    }
+    if (el.dataset.sec === undefined || !el.dataset.field) return;
+
+    const sec = cv.sections[Number(el.dataset.sec)];
+    const f = el.dataset.field;
+
+    if (el.dataset.item !== undefined) {
+      sec.items[Number(el.dataset.item)][f] = el.value;
+    } else if (el.dataset.group !== undefined) {
+      const g = sec.groups[Number(el.dataset.group)];
+      g[f] = f === 'items' ? toLines(el.value) : el.value;
+    } else if (el.dataset.entry !== undefined) {
+      const en = sec.entries[Number(el.dataset.entry)];
+      en[f] = f === 'bullets' ? toLines(el.value) : el.value;
+    } else if (f === 'paragraphs') {
+      sec.paragraphs = toLines(el.value);
+    } else {
+      sec[f] = el.value;
+      if (f === 'title') {
+        const head = document.querySelector(`[data-sec-card="${el.dataset.sec}"] .ttl`);
+        if (head) head.textContent = el.value;
+      }
+    }
+    setDirty(true);
+  });
+
+  function listOf(sec) {
+    if (sec.type === 'pairs')   return sec.items   = sec.items   || [];
+    if (sec.type === 'groups')  return sec.groups  = sec.groups  || [];
+    if (sec.type === 'entries') return sec.entries = sec.entries || [];
+    return null;
+  }
+
+  function blankItem(type) {
+    if (type === 'pairs')  return { label: 'New label', value: '' };
+    if (type === 'groups') return { name: 'New group', items: [] };
+    return { title: 'New entry', subtitle: '', meta: '', bullets: [] };
+  }
+
+  function move(arr, idx, delta) {
+    const to = idx + delta;
+    if (to < 0 || to >= arr.length) return;
+    [arr[idx], arr[to]] = [arr[to], arr[idx]];
+  }
+
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const act = btn.dataset.action;
+    const si = Number(btn.dataset.sec);
+    const ii = Number(btn.dataset.idx);
+
+    switch (act) {
+      case 'toggle-section': {
+        // A nested button resolves to itself via closest(), so this only fires
+        // when the header strip itself was clicked.
+        if (openSections.has(si)) openSections.delete(si); else openSections.add(si);
+        document.querySelector(`[data-sec-card="${si}"]`).classList.toggle('open');
+        return;
+      }
+      case 'expand-all':
+        openSections = new Set(cv.sections.map((_, i) => i)); renderSections(); return;
+      case 'collapse-all':
+        openSections = new Set(); renderSections(); return;
+
+      case 'add-section': {
+        const title = prompt('Section title?');
+        if (!title) return;
+        const type = prompt('Section type — one of: text, pairs, groups, entries', 'entries');
+        if (!['text', 'pairs', 'groups', 'entries'].includes(type)) { alert('Unknown type.'); return; }
+        const sec = { id: title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || `section-${Date.now()}`,
+                      title, icon: '•', type };
+        if (type === 'text') sec.paragraphs = [];
+        if (type === 'pairs') sec.items = [];
+        if (type === 'groups') sec.groups = [];
+        if (type === 'entries') sec.entries = [];
+        cv.sections.push(sec);
+        openSections.add(cv.sections.length - 1);
+        renderSections(); setDirty(true); return;
+      }
+      case 'delete-section':
+        if (!confirm(`Delete the section "${cv.sections[si].title}"?`)) return;
+        cv.sections.splice(si, 1); openSections = new Set(); renderSections(); setDirty(true); return;
+      case 'move-section-up':
+        move(cv.sections, si, -1); openSections = new Set(); renderSections(); setDirty(true); return;
+      case 'move-section-down':
+        move(cv.sections, si, 1); openSections = new Set(); renderSections(); setDirty(true); return;
+
+      case 'add-item': {
+        const sec = cv.sections[si];
+        const list = listOf(sec);
+        if (!list) { alert('This section type has no list items — edit the paragraphs box instead.'); return; }
+        list.push(blankItem(sec.type));
+        openSections.add(si); renderSections(); setDirty(true); return;
+      }
+      case 'delete-item': {
+        const list = listOf(cv.sections[si]);
+        if (!list || !confirm('Delete this item?')) return;
+        list.splice(ii, 1); openSections.add(si); renderSections(); setDirty(true); return;
+      }
+      case 'move-item-up':
+      case 'move-item-down': {
+        const list = listOf(cv.sections[si]);
+        if (!list) return;
+        move(list, ii, act === 'move-item-up' ? -1 : 1);
+        openSections.add(si); renderSections(); setDirty(true); return;
+      }
+
+      case 'export-json':
+        downloadBlob(JSON.stringify(cv, null, 2), 'cv-content.json', 'application/json');
+        return;
+      case 'import-json':
+        $('importFile').click(); return;
+      case 'reload-live': {
+        if (dirty && !confirm('Discard your unsaved changes and reload the published version?')) return;
+        loadCV({ preferCache: false }).then(({ data }) => {
+          cv = data; openSections = new Set(); renderAll(); setDirty(false);
+          $('backupMsg').textContent = 'Reloaded the published version.';
+        });
+        return;
+      }
+      case 'reset-default':
+        if (!confirm('Replace everything on this page with the content built into the site? Nothing is published until you press "Publish changes".')) return;
+        cv = defaultCV(); openSections = new Set(); renderAll(); setDirty(true);
+        $('backupMsg').textContent = 'Loaded the built-in content — press "Publish changes" to make it live.';
+        return;
+    }
+  });
+
+  $('importFile').addEventListener('change', async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    try {
+      const parsed = JSON.parse(await file.text());
+      if (!parsed.sections || !Array.isArray(parsed.sections)) throw new Error('No "sections" array in that file.');
+      cv = parsed; openSections = new Set(); renderAll(); setDirty(true);
+      $('backupMsg').textContent = `Imported ${file.name} — press "Publish changes" to make it live.`;
+    } catch (err) {
+      $('backupMsg').className = 'err';
+      $('backupMsg').textContent = `Could not import: ${err.message}`;
+    }
+    e.target.value = '';
+  });
+
+  /* ══════════════════ Save ══════════════════ */
+  $('btnSave').addEventListener('click', async () => {
+    const btn = $('btnSave');
+    btn.disabled = true;
+    $('saveStatus').textContent = 'Publishing…';
+    try {
+      cv = await saveCV(cv);
+      setDirty(false);
+      $('saveStatus').textContent = `Published ${new Date().toLocaleTimeString()}`;
+    } catch (err) {
+      $('saveStatus').textContent = `Could not publish: ${err.message}`;
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  boot().catch(err => {
+    $('setupCard').classList.remove('hidden');
+    console.error(err);
+  });
+</script>
+</body>
+</html>

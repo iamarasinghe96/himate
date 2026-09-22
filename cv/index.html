@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curriculum Vitae — Indika Amarasinghe</title>
+<meta name="description" content="Full web CV of Indika Amarasinghe — project execution, sustainable finance, AI integration and web tool development. Viewable online and downloadable as PDF.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand1: #667eea;
+    --brand2: #764ba2;
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --line: #e5e7eb;
+    --bg: #f3f4f6;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Toolbar ── */
+  .toolbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+    padding: 10px 20px;
+    display: flex; gap: 10px; align-items: center; justify-content: center;
+    flex-wrap: wrap;
+  }
+  .tb-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    border: 1px solid var(--line); background: white; color: var(--ink);
+    border-radius: 10px; padding: 9px 15px; font-size: 0.86rem; font-weight: 600;
+    font-family: inherit; cursor: pointer; text-decoration: none;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .tb-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+  .tb-btn svg { width: 16px; height: 16px; fill: currentColor; }
+  .tb-btn.primary {
+    background: linear-gradient(135deg, var(--brand1), var(--brand2));
+    color: white; border-color: transparent;
+  }
+
+  /* ── Page shell ── */
+  .page {
+    max-width: 960px; margin: 24px auto 60px; padding: 0 16px;
+  }
+  .sheet {
+    background: white; border-radius: 18px; overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,.08);
+  }
+
+  /* ── Header ── */
+  .cv-header {
+    background: linear-gradient(135deg, var(--brand1) 0%, var(--brand2) 100%);
+    color: white; padding: 44px 36px 38px; position: relative; overflow: hidden;
+  }
+  .cv-header::after {
+    content: ''; position: absolute; top: -60px; right: -50px;
+    width: 220px; height: 220px; border-radius: 50%;
+    background: rgba(255,255,255,.07); pointer-events: none;
+  }
+  .cv-name { font-size: 2.1rem; font-weight: 700; letter-spacing: -0.5px; }
+  .cv-headline { font-size: 1.02rem; font-weight: 300; opacity: .93; margin-top: 6px; }
+  .cv-contacts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.22);
+    border-radius: 999px; padding: 6px 13px; font-size: .82rem;
+    color: white; text-decoration: none;
+  }
+  .chip:hover { background: rgba(255,255,255,.26); }
+  .cv-rights {
+    margin-top: 16px; font-size: .82rem; opacity: .9;
+    border-left: 3px solid rgba(255,255,255,.5); padding-left: 10px;
+  }
+
+  /* ── Layout ── */
+  .cv-body { display: grid; grid-template-columns: 210px 1fr; gap: 0; }
+  .cv-nav {
+    border-right: 1px solid var(--line); padding: 26px 14px; background: #fafafb;
+  }
+  .cv-nav-inner { position: sticky; top: 74px; }
+  .cv-nav-title {
+    font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700; margin-bottom: 10px; padding-left: 10px;
+  }
+  .cv-nav a {
+    display: block; padding: 8px 10px; border-radius: 8px;
+    font-size: .84rem; color: #4b5563; text-decoration: none; font-weight: 500;
+  }
+  .cv-nav a:hover { background: #eef0fb; color: var(--brand2); }
+  .cv-nav a.active { background: #eef0fb; color: var(--brand2); font-weight: 600; }
+
+  .cv-main { padding: 30px 36px 44px; min-width: 0; }
+
+  section.cv-section { padding: 22px 0; border-bottom: 1px solid var(--line); }
+  section.cv-section:last-child { border-bottom: none; }
+  .sec-title {
+    display: flex; align-items: center; gap: 9px;
+    font-size: 1.16rem; font-weight: 700; color: #111827; margin-bottom: 16px;
+  }
+  .sec-title .ic { font-size: 1.05rem; }
+
+  /* text */
+  .para { margin-bottom: 12px; color: #374151; font-size: .94rem; }
+  .para:last-child { margin-bottom: 0; }
+
+  /* pairs */
+  .pairs { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px 22px; }
+  .pair { font-size: .9rem; }
+  .pair .lbl {
+    display: block; font-size: .7rem; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--muted); font-weight: 700;
+  }
+  .pair .val { color: #374151; }
+
+  /* groups */
+  .group { margin-bottom: 18px; }
+  .group:last-child { margin-bottom: 0; }
+  .group-name {
+    font-size: .95rem; font-weight: 600; color: var(--brand2); margin-bottom: 8px;
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 7px; }
+  .tag {
+    background: #f3f4ff; color: #4338ca; border: 1px solid #e0e2fb;
+    border-radius: 8px; padding: 5px 11px; font-size: .82rem;
+  }
+
+  /* entries */
+  .entry { position: relative; padding: 0 0 20px 20px; border-left: 2px solid #eceefb; }
+  .entry:last-child { padding-bottom: 0; }
+  .entry::before {
+    content: ''; position: absolute; left: -6px; top: 6px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--brand1), var(--brand2));
+  }
+  .entry-title { font-size: .99rem; font-weight: 700; color: #111827; }
+  .entry-sub { font-size: .88rem; color: var(--brand2); font-weight: 600; margin-top: 2px; }
+  .entry-meta { font-size: .79rem; color: var(--muted); margin-top: 2px; }
+  .entry ul { margin: 9px 0 0 18px; }
+  .entry li { font-size: .89rem; color: #374151; margin-bottom: 5px; }
+
+  /* footer */
+  .cv-footer {
+    padding: 18px 36px 26px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 10px; font-size: .78rem; color: var(--muted);
+  }
+  .cv-footer a { color: var(--muted); text-decoration: none; }
+  .cv-footer a:hover { color: var(--brand2); text-decoration: underline; }
+
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: .72rem; color: var(--muted);
+  }
+  .dot-live { width: 7px; height: 7px; border-radius: 50%; background: #10b981; }
+  .dot-static { width: 7px; height: 7px; border-radius: 50%; background: #d1d5db; }
+
+  .loading { padding: 60px; text-align: center; color: var(--muted); }
+
+  /* ── Responsive ── */
+  @media (max-width: 820px) {
+    .cv-body { grid-template-columns: 1fr; }
+    .cv-nav { display: none; }
+    .cv-main { padding: 22px 20px 34px; }
+    .cv-header { padding: 32px 22px 28px; }
+    .cv-name { font-size: 1.65rem; }
+    .cv-footer { padding: 16px 20px 22px; }
+    .page { padding: 0 10px; margin-top: 14px; }
+  }
+
+  /* ── Print / Save-as-PDF ── */
+  @media print {
+    @page { margin: 12mm 11mm; }
+    /* Tighten everything a little — the CV is long, and rem-based sizing
+       means one declaration scales the whole document down for paper. */
+    html { font-size: 87%; }
+    body { background: white; }
+    .entry { padding-bottom: 12px; }
+    .group { margin-bottom: 12px; }
+    .para { margin-bottom: 8px; }
+    .toolbar, .cv-nav, .no-print { display: none !important; }
+    .page { max-width: none; margin: 0; padding: 0; }
+    .sheet { box-shadow: none; border-radius: 0; }
+    .cv-body { grid-template-columns: 1fr; }
+    .cv-main { padding: 14px 0 0; }
+    .cv-header {
+      background: linear-gradient(135deg, var(--brand1), var(--brand2)) !important;
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
+      padding: 22px 18px;
+    }
+    .chip { border-color: rgba(255,255,255,.4); }
+    section.cv-section { break-inside: auto; padding: 12px 0; }
+    .entry, .group, .sec-title { break-inside: avoid; }
+    .sec-title { break-after: avoid; }
+    .tag { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .cv-footer { padding: 10px 0 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <a class="tb-btn" href="../index.html">
+    <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    Portfolio
+  </a>
+  <button class="tb-btn primary" id="btnPdf">
+    <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+    Download PDF
+  </button>
+  <button class="tb-btn" id="btnMd">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+    Download Markdown
+  </button>
+  <a class="tb-btn" id="btnMail" href="mailto:iamarasinghe96@gmail.com">
+    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+    Email me
+  </a>
+</div>
+
+<div class="page">
+  <div class="sheet">
+    <header class="cv-header">
+      <h1 class="cv-name" id="cvName">Loading…</h1>
+      <p class="cv-headline" id="cvHeadline"></p>
+      <div class="cv-contacts" id="cvContacts"></div>
+      <div class="cv-rights" id="cvRights" style="display:none"></div>
+    </header>
+
+    <div class="cv-body">
+      <nav class="cv-nav no-print">
+        <div class="cv-nav-inner">
+          <div class="cv-nav-title">Sections</div>
+          <div id="cvNav"></div>
+        </div>
+      </nav>
+      <main class="cv-main">
+        <div id="cvSections"><div class="loading">Loading CV…</div></div>
+      </main>
+    </div>
+
+    <footer class="cv-footer">
+      <span id="cvUpdated"></span>
+      <span class="status-pill" id="cvStatus"></span>
+      <a href="./admin/" class="no-print">Admin</a>
+    </footer>
+  </div>
+</div>
+
+<script src="./cv-data.js"></script>
+<script src="./firebase-config.js"></script>
+<script type="module">
+  import { esc, loadCV, toMarkdown, downloadBlob, isConfigured } from './cv-common.js';
+
+  let CV = null;
+
+  /* ── Renderers per section type ── */
+  function renderText(sec) {
+    return (sec.paragraphs || []).map(p => `<p class="para">${esc(p)}</p>`).join('');
+  }
+
+  function renderPairs(sec) {
+    return `<div class="pairs">${(sec.items || []).map(it => `
+      <div class="pair">
+        <span class="lbl">${esc(it.label)}</span>
+        <span class="val">${linkify(it.value)}</span>
+      </div>`).join('')}</div>`;
+  }
+
+  function renderGroups(sec) {
+    return (sec.groups || []).map(g => `
+      <div class="group">
+        <div class="group-name">${esc(g.name)}</div>
+        <div class="tags">${(g.items || []).map(i => `<span class="tag">${esc(i)}</span>`).join('')}</div>
+      </div>`).join('');
+  }
+
+  function renderEntries(sec) {
+    return (sec.entries || []).map(e => `
+      <div class="entry">
+        <div class="entry-title">${esc(e.title)}</div>
+        ${e.subtitle ? `<div class="entry-sub">${esc(e.subtitle)}</div>` : ''}
+        ${e.meta ? `<div class="entry-meta">${linkify(e.meta)}</div>` : ''}
+        ${(e.bullets || []).length
+          ? `<ul>${e.bullets.map(b => `<li>${esc(b)}</li>`).join('')}</ul>`
+          : ''}
+      </div>`).join('');
+  }
+
+  /** Turn bare domains and email addresses inside already-escaped text into
+   *  links. Emails are matched first so the domain half is never linked twice. */
+  const LINK_RE = /([\w.+-]+@[\w-]+\.[\w.]+)|([a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:github\.io|com|org|net|au|lk)(?:\/[^\s,;]*)?)/gi;
+  function linkify(value) {
+    return esc(value).replace(LINK_RE, (match, mail) => mail
+      ? `<a href="mailto:${mail}" style="color:inherit">${mail}</a>`
+      : `<a href="https://${match}" target="_blank" rel="noopener" style="color:inherit">${match}</a>`);
+  }
+
+  const RENDERERS = { text: renderText, pairs: renderPairs, groups: renderGroups, entries: renderEntries };
+
+  function render(cv) {
+    const m = cv.meta || {};
+    document.title = `Curriculum Vitae — ${m.name || 'CV'}`;
+    document.getElementById('cvName').textContent = m.name || '';
+    document.getElementById('cvHeadline').textContent = m.headline || '';
+
+    const chips = [];
+    if (m.location) chips.push({ t: m.location, h: '' , i: '📍' });
+    if (m.phone)    chips.push({ t: m.phone, h: `tel:${m.phone.replace(/\s/g, '')}`, i: '📞' });
+    if (m.email)    chips.push({ t: m.email, h: `mailto:${m.email}`, i: '✉️' });
+    if (m.linkedin) chips.push({ t: 'LinkedIn', h: m.linkedin, i: '🔗' });
+    if (m.portfolio) chips.push({ t: 'Portfolio', h: m.portfolio, i: '🌐' });
+    document.getElementById('cvContacts').innerHTML = chips.map(c =>
+      c.h
+        ? `<a class="chip" href="${esc(c.h)}" target="_blank" rel="noopener">${c.i} ${esc(c.t)}</a>`
+        : `<span class="chip">${c.i} ${esc(c.t)}</span>`
+    ).join('');
+
+    const rights = document.getElementById('cvRights');
+    if (m.workRights) { rights.style.display = ''; rights.textContent = m.workRights; }
+
+    if (m.email) document.getElementById('btnMail').href = `mailto:${m.email}`;
+
+    const sections = cv.sections || [];
+    document.getElementById('cvSections').innerHTML = sections.map(sec => {
+      const fn = RENDERERS[sec.type] || (() => '');
+      return `<section class="cv-section" id="sec-${esc(sec.id)}">
+        <h2 class="sec-title"><span class="ic">${esc(sec.icon || '•')}</span>${esc(sec.title)}</h2>
+        ${fn(sec)}
+      </section>`;
+    }).join('');
+
+    document.getElementById('cvNav').innerHTML = sections.map(sec =>
+      `<a href="#sec-${esc(sec.id)}" data-sec="sec-${esc(sec.id)}">${esc(sec.title)}</a>`
+    ).join('');
+
+    document.getElementById('cvUpdated').textContent = m.updated ? `Last updated: ${m.updated}` : '';
+    observeSections();
+  }
+
+  /* Highlight the section currently in view. */
+  let observer = null;
+  function observeSections() {
+    if (observer) observer.disconnect();
+    const links = [...document.querySelectorAll('#cvNav a')];
+    if (!links.length) return;
+    observer = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.dataset.sec === en.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+    document.querySelectorAll('section.cv-section').forEach(s => observer.observe(s));
+  }
+
+  function setStatus(source) {
+    const el = document.getElementById('cvStatus');
+    if (source === 'firebase') {
+      el.innerHTML = '<span class="dot-live"></span> Live content';
+    } else {
+      el.innerHTML = `<span class="dot-static"></span> ${isConfigured() ? 'Cached content' : 'Static content'}`;
+    }
+  }
+
+  /* ── Downloads ── */
+  document.getElementById('btnPdf').addEventListener('click', () => window.print());
+  document.getElementById('btnMd').addEventListener('click', () => {
+    if (!CV) return;
+    const name = (CV.meta && CV.meta.name || 'CV').replace(/\s+/g, '_');
+    downloadBlob(toMarkdown(CV), `${name}_CV.md`, 'text/markdown;charset=utf-8');
+  });
+
+  /* ── Boot ── */
+  (async () => {
+    const { data, source } = await loadCV();
+    CV = data;
+    render(CV);
+    setStatus(source);
+  })();
+</script>
+</body>
+</html>

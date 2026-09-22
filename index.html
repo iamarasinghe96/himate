@@ -1408,14 +1408,15 @@
           </div>
         </div>
 
-        <!-- Download CV Button -->
+        <!-- View CV Button -->
         <div class="button-with-section">
-          <button class="action-button cv-btn sticky-top" onclick="downloadCV(event)">
+          <a class="action-button cv-btn sticky-top" href="./cv/" id="viewCvBtn">
             <div class="button-content">
-              <svg class="button-icon" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-              <span>Download CV</span>
+              <svg class="button-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+              <span>View CV</span>
             </div>
-          </button>
+            <svg class="button-chevron" style="transform: rotate(-90deg);" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+          </a>
         </div>
 
         <!-- Experience Button & Section -->
@@ -1562,11 +1563,11 @@
       // ─────────────────────────────────────────────────────────────────
       personalInfo: {
         name: 'Indika Amarasinghe',
-        tagline: 'Human | Project Manager | Tech Enthusiast',
+        tagline: 'Project Execution | AI Integration | ESG | Developer',
         address: 'Albury NSW 2640',
         phone: '+61 484 920 892',
         email: 'iamarasinghe96@gmail.com',
-        cvUrl: 'https://1drv.ms/b/c/31e7918ffb397b8d/IQD6G6WLPze8SIK8x_DPqCa7AWpyWZsxsT-HociOncqINfU?e=Q0Zh4l',
+        cvUrl: './cv/',   // full web CV — view online, download as PDF or Markdown
         linkedinUrl: 'https://www.linkedin.com/in/indika96/',
         youtubeIntroUrl: 'https://youtube.com/shorts/ks440KY_VNc?feature=share',  // Replace with your YouTube Shorts URL
       },
@@ -1575,23 +1576,35 @@
       // 💡 ABOUT ME & SKILLS
       // ─────────────────────────────────────────────────────────────────
       aboutMe: {
-        bio: `I’m Indika Amarasinghe, a project execution and sustainability professional from a investment banking, marketing, and IT. I’ve spent my career leading teams, managing large-scale projects, and helping organizations move toward more sustainable and responsible operations. Coming from an engineering family, I’ve always had a deep respect for precision, practicality, and getting things done. I’m passionate about solving real problems, bringing people together, and creating solutions that make a lasting impact. Outside of work, I care deeply about nature and believe that even small efforts can contribute to a better world. I value sincerity, teamwork, and perseverance, and I approach every role with a genuine commitment to deliver meaningful results.
+        bio: `I’m Indika Amarasinghe — a project execution and sustainability professional with a background spanning investment banking support, telecommunications, marketing and IT. I’ve spent my career leading teams, delivering large-scale projects, and helping organisations move toward more sustainable and responsible operations. Most recently I led delivery of a climate transition tool serving 2,000+ clients for a multinational bank, coordinating a team of 30–40 across an award-winning programme.
 
-If my experience or skills can be of value, I’d be happy to connect. I’m open to any opportunity where I can contribute, learn, and make a positive difference.`,
+Alongside that, I build things. Through Gaia Symbiosis, my independent practice, I design and deliver AI-human hybrid tools solo — an automated drone flight approval system for the Civil Aviation Authority of Sri Lanka, roster and referral tools for Albury Wodonga Health, a digital application system for a Service NSW centre that halved processing time, and a plain-language NSW procurement assistant grounded in official guidance.
+
+Coming from an engineering family, I’ve always had a deep respect for precision, practicality and getting things done. I value sincerity, teamwork and perseverance, and I work to the principle that 1 + 1 > 2 — collaboration multiplies outcomes beyond individual contributions. Outside of work I care deeply about nature, and I believe even small efforts contribute to a better world.
+
+If my experience or skills can be of value, I’d be happy to connect. I’m open to any opportunity where I can contribute, learn and make a positive difference.`,
         skills: [
           'AI Integration & Prompt Engineering',
-          'Process Automation and Optimization',
-          'Web Tool Development (HTML, CSS, JavaScript)',
+          'AI-Assisted Development (AIAD)',
+          'Project & Programme Delivery (30–40+ teams)',
           'Sustainable Finance & ESG Reporting',
+          'Climate Disclosure (PCAF, TNFD, CSRD, TCFD)',
+          'Climate Transition Planning & Monitoring',
+          'Process Automation & Optimisation',
+          'Web Tool Development (HTML, CSS, JavaScript)',
           'Advanced Excel & Google Sheets Automation',
-          'Project Management & Public Speaking',
-          'Stakeholder Management',
-          'Creative Thinking & Problem-Solving',
-          'Climate Compliance (PCAF, CSRD)',
-          'Salesforce & CRM Platforms',
+          'Dashboards, Macros & Data Wrangling',
+          'Revenue, Billing & Compliance Management',
+          'SOP Ownership, CAPA & Quality Assurance',
+          'Stakeholder Management (junior to CXO)',
+          'Key Account Management & Commercial Negotiation',
+          'RFP, BOQ & Tender Preparation',
+          'ISO 14001-Aligned EMS Implementation',
+          'Environmental Monitoring & Drone Survey',
+          'Training, Knowledge Transfer & Public Speaking',
           'Adobe Creative Suite (Design & Video)',
-          'Competent in Mandarin',
-          'Microsoft Office Suite'
+          'Microsoft Office Suite',
+          'Competent in Mandarin'
         ]
       },
       
@@ -1602,37 +1615,44 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
         {
           id: 1,
           category: 'MBA',
-          institution: 'Cardiff Metropolitan University',
-          degree: 'Master of Business Administration (MBA), Marketing',
+          institution: 'Cardiff Metropolitan University, United Kingdom',
+          degree: 'Master of Business Administration (MBA), Marketing — Grade: Merit. Dissertation: The Relationship Between Technical Training and Employee Job Satisfaction.',
           years: '2020-2022'
         },
         {
           id: 2,
           category: 'Bachelors',
-          institution: 'Southwestern University of Finance and Economics',
-          degree: 'Bachelor of Management (BMgt), Business Administration and Management, and Accounting (Double Major)',
+          institution: 'Southwestern University of Finance and Economics (SWUFE), Chengdu',
+          degree: 'Bachelor of Management (BMgt), Business Management and Accounting (Double Major) — GPA 3.2, Full Tuition Scholarship Holder. Thesis: The Impact of Leadership Style on Emotional Exhaustion of the Followers.',
           years: '2015-2019'
         },
         {
           id: 3,
           category: 'Bachelors',
           institution: 'University of Sri Jayewardenepura',
-          degree: 'Business commerce, General (Waved-off Admission)',
-          years: '2017-2017'
+          degree: 'Bachelor of Commerce, Business/Commerce General (Qualified Entry)',
+          years: '2017'
         },
         {
           id: 4,
           category: 'High School (A/L)',
-          institution: 'Ananda College',
-          degree: 'High School Diploma, Business/Commerce, General',
-          years: '2015'
+          institution: 'Ananda College, Colombo',
+          degree: 'High School Diploma, Business/Commerce — Best Results Achiever (2015)',
+          years: '2013-2015'
         },
         {
           id: 5,
           category: 'Middle/Primary School',
-          institution: 'Jayanthi Vidyalaya, Ja-ela.',
-          degree: 'Primary/Middle School Education',
-          years: '2001-2006'
+          institution: 'Jayanthi Vidyalaya, Ja-Ela',
+          degree: 'Primary/Middle School Education — Best Results Achiever of the School; Head Prefect and president of four school societies.',
+          years: 'Class of 2012'
+        },
+        {
+          id: 6,
+          category: 'Supplementary',
+          institution: 'British Council EnglishScore & CECO Computer School',
+          degree: 'English language training (Colombo, 2013) and General Computer Course (Ekala).',
+          years: '2013'
         }
       ],
       
@@ -1642,45 +1662,59 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
       experience: [
         {
           id: 1,
-          dateRange: '2025 Feb 01 - Present',
+          dateRange: '2025 Feb - Present',
           title: 'Founder',
           company: 'Gaia Symbiosis - Albury, Australia',
-          description: 'Supporting local organizations in adopting web-based solutions that reduce environmental impact.'
+          description: 'Independent sustainability consultancy delivering technology-driven solutions across healthcare, waste minimisation, digitalisation, resource recovery and circular economy outcomes. Builds AI-human hybrid tools, delivers emissions baselining and roadmaps, and provides ISO 14001-aligned EMS implementation — every project scoped, designed and delivered solo or directly with end users.'
         },
         {
           id: 2,
-          dateRange: '2023 Jun 19 - 2025 Dec 12',
+          dateRange: '2025 Apr - 2025 Dec',
           title: 'Delivery Lead - Sustainable Finance',
           company: 'Acuity Knowledge Partners - Colombo Delivery Centre',
-          description: 'Project Manager of an award-winning global sustainable finance tool of a multinational bank. Global Project Manager of a climate control financing tool, leading a team of 40. ESG Remediation solution provider and advisory on climate transition and ESG reporting.'
+          description: 'Led delivery of an award-winning Climate Transition Tool for 2,000+ clients of a multinational bank, coordinating a 30-member team. Ran kick-offs, governance calls and retrospectives with 100% client KPI compliance; built Excel engines, dashboards, SOPs, CAPA procedures and training; project in-charge of circular economy engagements.'
         },
         {
           id: 3,
-          dateRange: '2019 Nov 27 - 2023 May 30',
-          title: 'Key Account Executive - Axiata Account',
-          company: 'Huawei Technologies Lanka Co., (Pvt) Ltd - Colombo',
-          description: 'Led technical/commercial negotiations, achieved annual sales targets (Target achieved $1.3M), and acted as Project Director for the Airtel Core Network Expansion Project - 2022.'
+          dateRange: '2023 Jun - 2025 Apr',
+          title: 'Senior Associate - Sustainable Finance',
+          company: 'Acuity Knowledge Partners - Colombo Delivery Centre',
+          description: 'Initiated and owned the CAPA protocol for climate transition analysis — zero reported incidents to project completion. Screened 7,800+ publications and facility agreements annually, built and owned the ESG evidence digital library, automated the entire workflow solo, and personally developed a satellite deforestation monitoring tool feeding TNFD disclosure. Promoted to Delivery Lead.'
         },
         {
           id: 4,
-          dateRange: '2018 Jun 03 - 2019 Jul 26',
-          title: 'Part-Time English Tutor',
-          company: 'Yi Gao Education - Chengdu, China',
-          description: 'Full-time kindergarten English Tutor.'
+          dateRange: '2019 Nov - 2023 May',
+          title: 'Key Account Executive - Axiata Account',
+          company: 'Huawei Technologies Lanka Co., (Pvt) Ltd - Colombo',
+          description: 'Led technical and commercial negotiations, RFPs, BOQs and tenders; achieved the annual $1.3M sales target and exceeded the 2022 challenge target; won the Airtel AMC and Hutch 4G contracts. Project Director of the Airtel Core Network Expansion Project 2022. Reduced the DAC billing gap from $5.3M to under $0.3M in seven months with zero non-compliant cases.'
         },
         {
           id: 5,
-          dateRange: '2017 Feb 02 - 2018 Jul 15',
-          title: 'Freelancer',
-          company: 'Fiverr',
-          description: 'Content creator, Logo vector designer, Infographics designer, and Flyer designer.'
+          dateRange: '2018 - 2019',
+          title: 'Founder - iSpeak Initiative',
+          company: 'Yi Gao Education - Chengdu, China',
+          description: 'Founded iSpeak, a student communication, confidence and leadership development programme that received recognition from Oxford for its innovative approach to student engagement.'
         },
         {
           id: 6,
-          dateRange: '2016 July 15 - 2016 August 31',
-          title: 'HR Trainee (Summer internship)',
-          company: 'Heyleys Fentons Limited Colombo, Sri Lanka',
-          description: 'Successfully finished an internship, performing duties such as creating and updating employee and CV databases, and summarizing evaluation data from training programs.'
+          dateRange: '2018 Jul - 2019 Jul',
+          title: 'Part-Time English Tutor',
+          company: 'Yi Gao Education - Chengdu, China',
+          description: 'Kindergarten English tutor; developed child-friendly curriculum and communication approaches, provided pastoral care, and tutored international students in accounting individually and in groups.'
+        },
+        {
+          id: 7,
+          dateRange: '2017 Feb - 2018 Jul',
+          title: 'Freelancer',
+          company: 'Fiverr',
+          description: 'Content creator, logo and vector designer, infographics designer and flyer designer for international clients.'
+        },
+        {
+          id: 8,
+          dateRange: '2016 Jul - 2016 Aug',
+          title: 'HR Trainee (Summer Internship)',
+          company: 'Hayleys Fentons Limited - Colombo, Sri Lanka',
+          description: 'Created and updated employee and CV databases, and summarised evaluation data from training programmes coordinated by the HR team.'
         }
       ],
       
@@ -1690,112 +1724,126 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
       // <<<PROJECTS_START>>>
       projects: [
         {
-          id: 1,
-          title: 'Drone Flight Approval System - CAA Sri Lanka',
-          description: 'Developed an intelligent automated flight approval system for the Civil Aviation Authority of Sri Lanka, transitioning from manual pre-approval to real-time ticketing. The system enables pilots to spontaneously log flight plans, automatically validates flight paths by checking 500-meter radius zones for airspace restrictions, and instantly approves compliant flights.',
-          category: 'Government & Aviation',
-          projectUrl: 'https://civilaviationauthoritylk.github.io/drone-license-verification/',
-          snapshots: [
-            'https://via.placeholder.com/800x600/667eea/ffffff?text=Flight+Submission+Dashboard',
-            'https://via.placeholder.com/800x600/764ba2/ffffff?text=Geospatial+Restriction+Map',
-            'https://via.placeholder.com/800x600/667eea/ffffff?text=Real-time+Monitoring+Dashboard',
-            'https://via.placeholder.com/800x600/764ba2/ffffff?text=Approval+History+&+Analytics'
-          ]
+          id: 12,
+          title: "NSW Procurement Simplification Tool",
+          description: "A central web tool that translates NSW Government procurement guidelines into plain language for councils, SME suppliers, corporates and procurement officers. Official guidance and Procurement Foundations course material were scraped and structured into a curated knowledge base connected to an LLM, which returns a direct answer, the relevant checklist, template links, key considerations and a summary — every response grounded in vetted content to prevent hallucination, with graceful rate-limit and error handling. Built and deployed solo.",
+          category: "Procurement & GovTech",
+          projectUrl: "https://iamarasinghe96.github.io/procurementnsw/",
+          snapshots: []
         },
         {
-          id: 2,
-          title: 'Clinic Management System',
-          description: 'Engineered a comprehensive offline-first clinic management solution for a local healthcare facility, designed for complete autonomy and zero maintenance. The system manages complete patient lifecycles including medical history, appointment scheduling, and real-time queue management.',
-          category: 'Healthcare / Process Automation',
-          snapshots: [
-            'https://via.placeholder.com/800x600/667eea/ffffff?text=Patient+Queue+Dashboard',
-            'https://via.placeholder.com/800x600/764ba2/ffffff?text=Consultant+Patient+List',
-            'https://via.placeholder.com/800x600/667eea/ffffff?text=Patient+History+Records',
-            'https://via.placeholder.com/800x600/764ba2/ffffff?text=Admin+Management+Panel'
-          ]
+          id: 1,
+          title: "Drone Flight Approval System - CAA Sri Lanka",
+          description: "An automated flight approval system for the Civil Aviation Authority of Sri Lanka, replacing manual pre-approval with real-time airspace validation. Pilots log flight plans as they go; the system checks a 500-metre radius around each proposed path against restricted airspace, approves compliant flights instantly, and flags the specific restriction triggered for the rest. Built independently for a national regulator, with no development team.",
+          category: "Government & Aviation",
+          projectUrl: "https://civilaviationauthoritylk.github.io/drone-license-verification/",
+          snapshots: []
+        },
+        {
+          id: 10,
+          title: "AWH Roster Management Tool",
+          description: "A web-based roster planning system built for Albury Wodonga Health's medicine department, addressing persistent resource management and scheduling challenges. Features a visual roster and leave planner, calendar integration with automatic change notifications for doctors, and an automated shift exchange request workflow. Currently in discussions with senior management for hospital-wide rollout across both Albury and Wodonga campuses.",
+          category: "Healthcare / Process Automation",
+          projectUrl: "https://iamarasinghe96.github.io/awhroster/admin/",
+          snapshots: []
         },
         {
           id: 3,
-          title: 'My AWH Office',
-          description: 'AI powered patient admission database and referral letter generator for doctors in Albury Wodonga Health',
-          category: 'Healthcare / Process Automation',
-          snapshots: [
-            'https://via.placeholder.com/800x600/667eea/ffffff?text=Patient+Queue+Dashboard',
-            'https://via.placeholder.com/800x600/764ba2/ffffff?text=Consultant+Patient+List',
-            'https://via.placeholder.com/800x600/667eea/ffffff?text=Patient+History+Records',
-            'https://via.placeholder.com/800x600/764ba2/ffffff?text=Admin+Management+Panel'
-          ]
-        },
-        {
-          id: 4,
-          title: 'Dynamic Portfolio Website',
-          description: 'Built a modern, responsive portfolio website with interactive features including contact management, certificate library, and project showcase. Features smooth animations, gradient design aesthetic, modal interactions, and toast notifications.',
-          category: 'Web Development',
-          snapshots: [
-            'https://via.placeholder.com/800x600/667eea/ffffff?text=Hero+&+Contact+Section',
-            'https://via.placeholder.com/800x600/764ba2/ffffff?text=Projects+Showcase',
-            'https://via.placeholder.com/800x600/667eea/ffffff?text=Certificate+Library',
-            'https://via.placeholder.com/800x600/764ba2/ffffff?text=Interactive+Contact+Cards'
-          ]
-        },
-        {
-          id: 5,
-          title: 'ESG Scorecard Generation Tool',
-          description: 'An offline-first desktop tool designed for swift and accurate ESG reporting. It generates a nicely aligned and client-ready ESG Scorecard report by simply copying and pasting a single Excel line item, eliminating manual formatting and ensuring presentation quality.',
-          category: 'Tool Development / Process Automation',
-          snapshots: [
-            'https://via.placeholder.com/800x600/667eea/ffffff?text=ESG+Data+Input+Interface',
-            'https://via.placeholder.com/800x600/764ba2/ffffff?text=Generated+Scorecard+Report'
-          ]
-        },
-        {
-          id: 6,
-          title: 'Real-time Seating Arrangement App',
-          description: 'A public web application designed to help event guests quickly locate their seats. The tool displays the hall layout and neighboring guests, with the critical feature being real-time, automatic updates from a linked Google Sheet for hassle-free modifications.',
-          category: 'Web Application / Event Management',
-          projectUrl: 'https://iamarasinghe96.github.io/findyourseat/',
-          snapshots: [
-            'https://via.placeholder.com/800x600/667eea/ffffff?text=Seating+Hall+Layout',
-            'https://via.placeholder.com/800x600/764ba2/ffffff?text=Guest+Search+Interface',
-            'https://via.placeholder.com/800x600/667eea/ffffff?text=Real-time+Updates+Dashboard'
-          ]
-        },
-        {
-          id: 7,
-          title: 'Wedding Planner Automation (Excel)',
-          description: 'A comprehensive, user-friendly Excel planner to simplify wedding planning. After updating guest lists and contacts, the tool automatically generates key planning components, including a complete agenda, detailed budget tracking, and optimized table arrangements, requiring minimal Excel knowledge to operate.',
-          category: 'Automation Tool / Data Management',
-          snapshots: [
-            'https://via.placeholder.com/800x600/667eea/ffffff?text=Guest+List+Management',
-            'https://via.placeholder.com/800x600/764ba2/ffffff?text=Budget+Tracker+Dashboard',
-            'https://via.placeholder.com/800x600/667eea/ffffff?text=Auto-generated+Table+Layout'
-          ]
-        },
-        {
-          id: 8,
-          title: 'QR Code Scanner & Queue Management System',
-          description: 'Built for NSW Service Centres to eliminate paper-based applications and boost staff efficiency. Applicants fill in their details which are encoded into a QR code, enabling staff to instantly transfer information into their system — no cloud, no data risk. Supports on-the-spot review and modification of applicant details.',
-          category: 'Web Application / Process Automation',
-          projectUrl: 'https://iamarasinghe96.github.io/nsw/',
-          snapshots: [
-            'https://via.placeholder.com/800x600/667eea/ffffff?text=Applicant+Form+Interface',
-            'https://via.placeholder.com/800x600/764ba2/ffffff?text=QR+Code+Generation',
-            'https://via.placeholder.com/800x600/667eea/ffffff?text=Staff+Scanner+View',
-            'https://via.placeholder.com/800x600/764ba2/ffffff?text=Queue+Management+Dashboard'
-          ]
+          title: "My AWH Office",
+          description: "AI-powered patient admission database and referral letter generator for doctors at Albury Wodonga Health, reducing manual inefficiency in patient management and easing pressure created by resource constraints.",
+          category: "Healthcare / Process Automation",
+          projectUrl: "https://iamarasinghe96.github.io/myawh/",
+          snapshots: []
         },
         {
           id: 9,
-          title: 'AWH Roster Management Tool',
-          description: 'A web-based roster planning system built for Albury Wodonga Healths medicine department, addressing persistent resource management and scheduling challenges. Features a visual roster and leave planner, calendar integration with automatic change notifications for doctors, and an automated shift exchange request workflow. Currently in discussions with senior management for hospital-wide rollout across both Albury and Wodonga campuses.',
-          category: 'Healthcare / Process Automation',
-          projectUrl: 'https://iamarasinghe96.github.io/awhroster/admin/',
-          snapshots: [
-            'https://via.placeholder.com/800x600/667eea/ffffff?text=Applicant+Form+Interface',
-            'https://via.placeholder.com/800x600/764ba2/ffffff?text=QR+Code+Generation',
-            'https://via.placeholder.com/800x600/667eea/ffffff?text=Staff+Scanner+View',
-            'https://via.placeholder.com/800x600/764ba2/ffffff?text=Queue+Management+Dashboard'
-          ]
+          title: "AWH Patient Information Centre",
+          description: "Patient Information Centre developed to support post-surgery care and provide clear guidance for patients who have recently completed surgical procedures, while helping staff keep all stakeholders accurately informed and up to date.",
+          category: "Healthcare / Process Automation",
+          projectUrl: "https://iamarasinghe96.github.io/AWHi/",
+          snapshots: []
+        },
+        {
+          id: 2,
+          title: "The Kids Clinic - Offline-First Clinic Management",
+          description: "A first-of-its-kind, sustainable and highly secure patient management system developed in collaboration with healthcare staff, consultants and patients. The offline-first design manages complete patient lifecycles including medical history, appointment scheduling and real-time queue management, and is built for zero ongoing maintenance and full operational autonomy — no cloud dependency, no data exposure risk.",
+          category: "Healthcare / Process Automation",
+          snapshots: []
+        },
+        {
+          id: 5,
+          title: "ESG Scorecard Generation Tool",
+          description: "An offline-first tool designed for swift and accurate ESG reporting. It generates a fully formatted, client-ready ESG scorecard report from a single pasted Excel line item, eliminating manual formatting entirely. Works without internet access, which matters where client data sensitivity is a concern.",
+          category: "Tool Development / Process Automation",
+          projectUrl: "https://iamarasinghe96.github.io/scorecardgenerator/",
+          snapshots: []
+        },
+        {
+          id: 13,
+          title: "Satellite Deforestation Monitoring Tool",
+          description: "A satellite monitoring tool developed personally as part of climate and biodiversity work at Acuity Knowledge Partners. It tracks commodity-specific deforestation in targeted regions and feeds directly into TNFD-aligned nature disclosure reporting for institutional clients.",
+          category: "ESG & Environmental Monitoring",
+          snapshots: []
+        },
+        {
+          id: 11,
+          title: "Service NSW Application Centre Digitalisation",
+          description: "A lightweight digital application processing system built for a Service NSW centre, eliminating paper-heavy and server-dependent workflows. Achieved a 50% reduction in application processing time and improved staff accuracy. Designed without heavy server infrastructure, reducing both operational cost and environmental footprint. Nominated for recognition under NSW digital transformation and sustainability initiatives.",
+          category: "Government & Digital Transformation",
+          projectUrl: "https://iamarasinghe96.github.io/nsw/",
+          snapshots: []
+        },
+        {
+          id: 8,
+          title: "QR Code Scanner & Queue Management System",
+          description: "Built for NSW Service Centres to eliminate paper-based applications and boost staff efficiency. Applicants fill in their details which are encoded into a QR code, enabling staff to instantly transfer information into their system — no cloud, no data risk. Supports on-the-spot review and modification of applicant details.",
+          category: "Web Application / Process Automation",
+          projectUrl: "https://iamarasinghe96.github.io/admin/scanner.html",
+          snapshots: []
+        },
+        {
+          id: 14,
+          title: "SL Rails - Elephant Collision Prevention",
+          description: "A thermal and GPS tracking monitoring system built with a group of technologist friends during the COVID period to prevent elephant collisions on Sri Lankan railway routes. The pilot was based on thermal readings and seasonal elephant movement patterns; the concept was subsequently implemented by the Sri Lankan government.",
+          category: "ESG & Environmental Monitoring",
+          snapshots: []
+        },
+        {
+          id: 15,
+          title: "Document Version Management Tool",
+          description: "Adobe Sign was in use for official document sign-offs, but its version tracking and audit transparency fell short. This tool keeps signatures, changes and dates secure through a smooth, transparent sign-off process, capturing every modification with a full audit trail that satisfies internal auditing requirements.",
+          category: "Governance / Document Control",
+          snapshots: []
+        },
+        {
+          id: 6,
+          title: "Real-time Seating Arrangement App",
+          description: "A public web application designed to help event guests quickly locate their seats. The tool displays the hall layout and neighbouring guests, with the critical feature being real-time, automatic updates from a linked Google Sheet for hassle-free modifications.",
+          category: "Web Application / Event Management",
+          projectUrl: "https://iamarasinghe96.github.io/findyourseat/",
+          snapshots: []
+        },
+        {
+          id: 7,
+          title: "Wedding Planner Automation (Excel)",
+          description: "A comprehensive, user-friendly Excel planner to simplify wedding planning. After updating guest lists and contacts, the tool automatically generates key planning components including a complete agenda, detailed budget tracking and optimised table arrangements, requiring minimal Excel knowledge to operate.",
+          category: "Automation Tool / Data Management",
+          snapshots: []
+        },
+        {
+          id: 16,
+          title: "Drone Survey, Mapping & Inspection",
+          description: "Aerial survey, mapping and inspection work delivered through Gaia Symbiosis in support of environmental monitoring and site assessment engagements — site condition documentation, spatial data capture and visual inspection of infrastructure that is difficult or unsafe to access on foot. Complements ground-based monitoring and the satellite deforestation tool for end-to-end environmental observation.",
+          category: "ESG & Environmental Monitoring",
+          snapshots: []
+        },
+        {
+          id: 4,
+          title: "Dynamic Portfolio Website",
+          description: "A modern, responsive portfolio with interactive contact management, a certificate library, a project showcase and a full web CV that visitors can read online or download. The CV is backed by a Firebase admin panel, so every section can be updated without touching code. Features smooth animations, gradient design, modal interactions and toast notifications.",
+          category: "Web Development",
+          projectUrl: "https://iamarasinghe96.github.io/himate/",
+          snapshots: []
         }
       ],
       // <<<PROJECTS_END>>>
@@ -1804,6 +1852,14 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
       // 🏆 CERTIFICATES
       // ─────────────────────────────────────────────────────────────────
       certificates: [
+        {
+          id: 15,
+          name: 'NSW Government Procurement Foundations',
+          organization: 'Comperio - NSW Government',
+          issueDate: '2026',
+          emoji: '🏛️',
+          credentialUrl: ''
+        },
         {
           id: 1,
           name: 'CSRD Fundamentals',
@@ -1919,10 +1975,14 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
       ]
     };
 
-    // Sync projects from the projects page admin panel (same localStorage key)
+    // Sync projects from the projects page admin panel (same localStorage key).
+    // PROJECTS_VERSION must match the value in projects/index.html — bump both
+    // when the built-in list changes, so old browser copies are discarded.
+    const PROJECTS_VERSION = '2026-09-22';
     try {
       const _saved = localStorage.getItem('himate_projects');
-      if (_saved) CONFIG.projects = JSON.parse(_saved);
+      const _ver   = localStorage.getItem('himate_projects_version');
+      if (_saved && _ver === PROJECTS_VERSION) CONFIG.projects = JSON.parse(_saved);
     } catch (e) {}
 
     // ╔════════════════════════════════════════════════════════════════════╗
@@ -2135,6 +2195,10 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
 
     // Set LinkedIn URL for View History link
     document.getElementById('viewHistoryLink').href = CONFIG.personalInfo.linkedinUrl;
+
+    // The CV now lives at /cv/ as a full web page that is also downloadable
+    // (PDF via the browser print dialog, plus a Markdown export).
+    document.getElementById('viewCvBtn').href = CONFIG.personalInfo.cvUrl;
 
     // Section toggling
     document.getElementById('contactBtn').onclick = () => toggleSection('contact');
@@ -2367,16 +2431,6 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
       const subject = `Coding Challenge for ${CONFIG.personalInfo.name}`;
       const body = `Hi ${CONFIG.personalInfo.name},\n\nI'd like to challenge you with a project or technical question!\n\nProblem:\n[Please describe the challenge here]\n\nLooking forward to seeing your solution!\n\nBest,\n[Your Name]`;
       window.location.href = `mailto:${CONFIG.personalInfo.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    }
-
-    function downloadCV(e) {
-      e.preventDefault();
-      const link = document.createElement('a');
-      link.href = CONFIG.personalInfo.cvUrl;
-      link.download = `${CONFIG.personalInfo.name.replace(/\s+/g, '_')}_CV.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
     }
 
     function saveContactCard(e) {
