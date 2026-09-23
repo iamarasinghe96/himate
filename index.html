@@ -265,6 +265,47 @@
     .carousel-viewport {
       overflow: hidden;
       padding: 10px 0;
+      position: relative;
+    }
+
+    /* Tap targets over the left and right ends of the card: turning a
+       page, rather than swiping or scrolling. The middle is untouched so
+       the card's own link still works. */
+    .edge-tap {
+      position: absolute;
+      top: 10px;
+      bottom: 62px;
+      width: 62px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.9rem;
+      line-height: 1;
+      color: #667eea;
+      opacity: 0;
+      transition: opacity 0.25s ease, background 0.25s ease;
+      border-radius: 12px;
+      padding: 0;
+    }
+    /* the chevrons sit at the outer edges, clear of the card's text */
+    .edge-prev { left: 10px; justify-content: flex-start; padding-left: 6px; }
+    .edge-next { right: 10px; justify-content: flex-end; padding-right: 6px; }
+    .edge-tap:hover,
+    .edge-tap:focus-visible {
+      opacity: 1;
+      background: linear-gradient(90deg, rgba(102,126,234,0.10), rgba(102,126,234,0));
+    }
+    .edge-next:hover,
+    .edge-next:focus-visible {
+      background: linear-gradient(270deg, rgba(102,126,234,0.10), rgba(102,126,234,0));
+    }
+    .carousel:hover .edge-tap { opacity: 0.45; }
+    @media (hover: none) {
+      .edge-tap { opacity: 0.35; }
     }
 
     .carousel-container {
@@ -380,18 +421,50 @@
     }
     .carousel-slide.is-active { opacity: 1; transform: scale(1); }
 
+    /* Turned-up page corner, like a book left open at a page. */
+    .page-corner { position: relative; border-bottom-right-radius: 14px; }
+    .page-corner .corner-fold {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 34px;
+      height: 34px;
+      /* the curl: a darker outer edge fading into the page */
+      background: linear-gradient(315deg, #cfd4f2 0%, #eef0fb 46%, rgba(255, 255, 255, 0) 47%);
+      border-bottom-right-radius: 14px;
+      filter: drop-shadow(-2px -2px 3px rgba(31, 41, 55, 0.22));
+      transition: width 0.32s cubic-bezier(0.22, 1, 0.36, 1), height 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+    }
+    .carousel-slide.is-active .card:hover .corner-fold,
+    .carousel-slide.is-active .cert-card:hover .corner-fold {
+      width: 50px;
+      height: 50px;
+    }
+    .cert-card .corner-fold {
+      background: linear-gradient(315deg, #a9e0c6 0%, #e3f6ec 46%, rgba(255, 255, 255, 0) 47%);
+    }
+
     .is-clickable { cursor: pointer; text-decoration: none; display: flex; flex-direction: column; }
-    /* flex children stretch by default - keep the pill hugging its text */
-    .is-clickable .card-category, .is-clickable .card-cta, .is-clickable .cert-cta { align-self: flex-start; }
+    /* flex children stretch by default - keep the pills hugging their text */
+    .card, .cert-card { display: flex; flex-direction: column; }
+    .card-category, .card-cta, .cert-cta { align-self: flex-start; }
     .is-clickable:focus-visible { outline: 3px solid #a5b4fc; outline-offset: 3px; }
 
     .card-cta, .cert-cta {
       margin-top: auto;
-      padding-top: 14px;
+      padding: 14px 0 0;
       font-size: 0.86rem;
       font-weight: 600;
       color: #667eea;
+      background: none;
+      border: none;
+      font-family: inherit;
+      text-align: left;
+      cursor: pointer;
     }
+    .card-cta:hover { color: #764ba2; text-decoration: underline; }
+    .card-cta:focus-visible { outline: 3px solid #a5b4fc; outline-offset: 3px; border-radius: 6px; }
     .cert-cta { color: #059669; }
     .card:hover .card-cta { color: #764ba2; }
 
@@ -993,6 +1066,8 @@
       }
       
       /* Carousel navigation - mobile optimized */
+      .edge-tap { width: 46px; bottom: 56px; font-size: 1.5rem; }
+
       .carousel-nav {
         gap: 8px;
         margin-top: 8px;
@@ -1450,7 +1525,7 @@
               <div class="carousel-nav">
                 <div class="pagination-dots" id="projectsDots"></div>
               </div>
-              <p class="carousel-hint">Swipe or tap a dot to swap - cards rotate on their own</p>
+              <p class="carousel-hint">Tap either end of the card to turn the page - cards also rotate on their own</p>
             </div>
             <a href="./projects/" class="view-credential-btn" style="display: block; margin-top: 20px; max-width: 250px; margin-left: auto; margin-right: auto;">
               View all projects
@@ -1476,7 +1551,7 @@
               <div class="carousel-nav">
                 <div class="pagination-dots" id="certificatesDots"></div>
               </div>
-              <p class="carousel-hint">Swipe or tap a dot to swap - tap a certificate to open the credential</p>
+              <p class="carousel-hint">Tap either end to turn the page - tap the certificate to open its credential</p>
             </div>
           </div>
         </div>
@@ -2106,20 +2181,21 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
       ['mouseleave', 'focusout'].forEach(ev =>
         on(root, ev, () => { held = false; play(); }));
 
-      // Swipe / drag. A drag past the threshold swaps the card and
-      // swallows the click so it never opens what was underneath.
-      let startX = null, dragged = false;
-      on(root, 'pointerdown', e => { startX = e.clientX; dragged = false; });
-      on(root, 'pointermove', e => {
-        if (startX !== null && Math.abs(e.clientX - startX) > 12) dragged = true;
-      });
-      on(root, 'pointerup', e => {
-        if (startX === null) return;
-        const dx = e.clientX - startX;
-        startX = null;
-        if (Math.abs(dx) > 45) goTo(index + (dx < 0 ? 1 : -1), true);
-      });
-      on(root, 'click', e => { if (dragged) { e.preventDefault(); e.stopPropagation(); } }, { capture: true });
+      // Tap either end of the card to turn to the previous or next one.
+      // The middle of the card is left alone so its own link still works.
+      const viewport = root.querySelector('.carousel-viewport');
+      viewport.querySelectorAll('.edge-tap').forEach(el => el.remove());
+      if (count > 1) {
+        [['prev', -1, '\u2039'], ['next', 1, '\u203A']].forEach(([name, step, glyph]) => {
+          const zone = document.createElement('button');
+          zone.type = 'button';
+          zone.className = `edge-tap edge-${name}`;
+          zone.setAttribute('aria-label', name === 'prev' ? 'Previous card' : 'Next card');
+          zone.innerHTML = `<span aria-hidden="true">${glyph}</span>`;
+          on(zone, 'click', e => { e.preventDefault(); goTo(index + step, true); });
+          viewport.appendChild(zone);
+        });
+      }
 
       on(root, 'keydown', e => {
         if (e.key === 'ArrowRight') { goTo(index + 1, true); e.preventDefault(); }
@@ -2156,25 +2232,20 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
       const track = document.getElementById('projectsCarousel');
       track.innerHTML = CONFIG.projects.map(project => `
         <div class="carousel-slide">
-          <article class="card is-clickable" role="button" tabindex="0"
-                   data-project="${project.id}"
-                   aria-label="Open details for ${escAttr(project.title)}">
+          <article class="card page-corner">
             <span class="card-category">${project.category}</span>
             <h3>${project.title}</h3>
             <p>${project.description.length > 200
                   ? project.description.substring(0, 200).trim() + '...'
                   : project.description}</p>
-            <span class="card-cta">${project.projectUrl ? 'View project' : 'View details'} &#8594;</span>
+            <button type="button" class="card-cta" data-project="${project.id}">View project &#8599;</button>
+            <span class="corner-fold" aria-hidden="true"></span>
           </article>
         </div>
       `).join('');
 
       track.querySelectorAll('[data-project]').forEach(el => {
-        const open = () => showProjectDetails(Number(el.dataset.project));
-        el.addEventListener('click', open);
-        el.addEventListener('keydown', e => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
-        });
+        el.addEventListener('click', () => showProjectDetails(Number(el.dataset.project)));
       });
 
       createCarousel({
@@ -2194,7 +2265,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           : '';
         return `
         <div class="carousel-slide">
-          <${tag} class="cert-card${href ? ' is-clickable' : ''}"${attrs}>
+          <${tag} class="cert-card page-corner${href ? ' is-clickable' : ''}"${attrs}>
             <div class="cert-header">
               <div class="cert-emoji">${cert.emoji}</div>
               <div class="cert-info">
@@ -2204,6 +2275,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
             </div>
             <div class="cert-date">${cert.issueDate}</div>
             ${href ? '<span class="cert-cta">View credential &#8599;</span>' : ''}
+            <span class="corner-fold" aria-hidden="true"></span>
           </${tag}>
         </div>`;
       }).join('');
@@ -2364,7 +2436,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
         <div class="card-category">${project.category}</div>
         <p style="margin: 15px 0; line-height: 1.6;">${project.description}</p>
         ${snapshotsHtml}
-        ${project.projectUrl ? `<a href="${project.projectUrl}" target="_blank" class="view-details-btn">View All Projects</a>` : ''}
+        ${project.projectUrl ? `<a href="${project.projectUrl}" target="_blank" rel="noopener" class="view-details-btn">View project &#8599;</a>` : ''}
       `;
       document.getElementById('modalOverlay').classList.add('active');
     }
