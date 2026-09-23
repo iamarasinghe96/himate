@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Curriculum Vitae — Indika Amarasinghe</title>
-<meta name="description" content="Full web CV of Indika Amarasinghe — project execution, sustainable finance, AI integration and web tool development. Viewable online and downloadable as PDF.">
+<title>Curriculum Vitae - Indika Amarasinghe</title>
+<meta name="description" content="Full web CV of Indika Amarasinghe - project execution, sustainable finance, AI integration and web tool development. Viewable online and downloadable as PDF.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -16,6 +16,7 @@
     --muted: #6b7280;
     --line: #e5e7eb;
     --bg: #f3f4f6;
+    --print-navy: #1f3864;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -26,23 +27,24 @@
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
+  a { color: var(--brand2); }
 
   /* ── Toolbar ── */
   .toolbar {
-    position: sticky; top: 0; z-index: 50;
-    background: rgba(255,255,255,0.92);
+    position: sticky; top: 0; z-index: 60;
+    background: rgba(255,255,255,0.94);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--line);
-    padding: 10px 20px;
+    padding: 10px 16px;
     display: flex; gap: 10px; align-items: center; justify-content: center;
     flex-wrap: wrap;
   }
   .tb-btn {
     display: inline-flex; align-items: center; gap: 7px;
     border: 1px solid var(--line); background: white; color: var(--ink);
-    border-radius: 10px; padding: 9px 15px; font-size: 0.86rem; font-weight: 600;
+    border-radius: 10px; padding: 9px 15px; font-size: .86rem; font-weight: 600;
     font-family: inherit; cursor: pointer; text-decoration: none;
-    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    transition: transform .15s ease, box-shadow .15s ease;
   }
   .tb-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.08); }
   .tb-btn svg { width: 16px; height: 16px; fill: currentColor; }
@@ -51,10 +53,27 @@
     color: white; border-color: transparent;
   }
 
-  /* ── Page shell ── */
-  .page {
-    max-width: 960px; margin: 24px auto 60px; padding: 0 16px;
+  /* ── Mobile section strip (always visible) ── */
+  .mobile-nav {
+    display: none;
+    position: sticky; top: 55px; z-index: 55;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+    padding: 8px 12px;
+    overflow-x: auto; white-space: nowrap;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
   }
+  .mobile-nav::-webkit-scrollbar { display: none; }
+  .mobile-nav a {
+    display: inline-block; padding: 6px 12px; margin-right: 6px;
+    border-radius: 999px; background: #f3f4f6; color: #4b5563;
+    font-size: .78rem; font-weight: 600; text-decoration: none;
+  }
+  .mobile-nav a.active { background: #eef0fb; color: var(--brand2); }
+
+  /* ── Page shell ── */
+  .page { max-width: 980px; margin: 24px auto 60px; padding: 0 16px; }
   .sheet {
     background: white; border-radius: 18px; overflow: hidden;
     box-shadow: 0 10px 30px rgba(0,0,0,.08);
@@ -77,20 +96,22 @@
     display: inline-flex; align-items: center; gap: 6px;
     background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.22);
     border-radius: 999px; padding: 6px 13px; font-size: .82rem;
-    color: white; text-decoration: none;
+    color: white; text-decoration: none; cursor: pointer;
   }
-  .chip:hover { background: rgba(255,255,255,.26); }
+  .chip:hover { background: rgba(255,255,255,.28); }
+  .chip-ic { margin-right: 2px; }
   .cv-rights {
     margin-top: 16px; font-size: .82rem; opacity: .9;
     border-left: 3px solid rgba(255,255,255,.5); padding-left: 10px;
   }
 
   /* ── Layout ── */
-  .cv-body { display: grid; grid-template-columns: 210px 1fr; gap: 0; }
-  .cv-nav {
-    border-right: 1px solid var(--line); padding: 26px 14px; background: #fafafb;
+  .cv-body { display: grid; grid-template-columns: 218px 1fr; }
+  .cv-nav { border-right: 1px solid var(--line); background: #fafafb; padding: 22px 12px; }
+  .cv-nav-inner {
+    position: sticky; top: 72px;
+    max-height: calc(100vh - 96px); overflow-y: auto; scrollbar-width: thin;
   }
-  .cv-nav-inner { position: sticky; top: 74px; }
   .cv-nav-title {
     font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
     color: var(--muted); font-weight: 700; margin-bottom: 10px; padding-left: 10px;
@@ -102,9 +123,9 @@
   .cv-nav a:hover { background: #eef0fb; color: var(--brand2); }
   .cv-nav a.active { background: #eef0fb; color: var(--brand2); font-weight: 600; }
 
-  .cv-main { padding: 30px 36px 44px; min-width: 0; }
+  .cv-main { padding: 26px 34px 40px; min-width: 0; }
 
-  section.cv-section { padding: 22px 0; border-bottom: 1px solid var(--line); }
+  section.cv-section { padding: 20px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 110px; }
   section.cv-section:last-child { border-bottom: none; }
   .sec-title {
     display: flex; align-items: center; gap: 9px;
@@ -117,7 +138,7 @@
   .para:last-child { margin-bottom: 0; }
 
   /* pairs */
-  .pairs { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px 22px; }
+  .pairs { display: grid; grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); gap: 10px 22px; }
   .pair { font-size: .9rem; }
   .pair .lbl {
     display: block; font-size: .7rem; text-transform: uppercase; letter-spacing: .08em;
@@ -128,14 +149,15 @@
   /* groups */
   .group { margin-bottom: 18px; }
   .group:last-child { margin-bottom: 0; }
-  .group-name {
-    font-size: .95rem; font-weight: 600; color: var(--brand2); margin-bottom: 8px;
-  }
+  .group-name { font-size: .95rem; font-weight: 600; color: var(--brand2); margin-bottom: 8px; }
   .tags { display: flex; flex-wrap: wrap; gap: 7px; }
   .tag {
     background: #f3f4ff; color: #4338ca; border: 1px solid #e0e2fb;
     border-radius: 8px; padding: 5px 11px; font-size: .82rem;
+    text-decoration: none; display: inline-block;
   }
+  a.tag:hover { background: #e4e7ff; border-color: #c7cbf7; }
+  a.tag::after { content: ' \2197'; font-size: .72em; opacity: .7; }
 
   /* entries */
   .entry { position: relative; padding: 0 0 20px 20px; border-left: 2px solid #eceefb; }
@@ -146,66 +168,148 @@
     background: linear-gradient(135deg, var(--brand1), var(--brand2));
   }
   .entry-title { font-size: .99rem; font-weight: 700; color: #111827; }
+  .entry-title a { color: inherit; text-decoration: none; border-bottom: 1px solid #d5d9f5; }
+  .entry-title a:hover { color: var(--brand2); border-bottom-color: var(--brand2); }
+  .entry-title a::after { content: ' \2197'; font-size: .75em; color: var(--brand2); }
+  .entry-links { font-size: .78rem; margin-top: 3px; }
+  .entry-links a { color: var(--brand2); text-decoration: none; margin-right: 6px; font-weight: 600; }
+  .entry-links a:hover { text-decoration: underline; }
   .entry-sub { font-size: .88rem; color: var(--brand2); font-weight: 600; margin-top: 2px; }
   .entry-meta { font-size: .79rem; color: var(--muted); margin-top: 2px; }
   .entry ul { margin: 9px 0 0 18px; }
   .entry li { font-size: .89rem; color: #374151; margin-bottom: 5px; }
+  .entry-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .entry-tag {
+    background: #f6f5ff; color: #6d28d9; border: 1px solid #ece9fd;
+    border-radius: 999px; padding: 3px 10px; font-size: .74rem; font-weight: 600;
+  }
 
   /* footer */
   .cv-footer {
-    padding: 18px 36px 26px; border-top: 1px solid var(--line);
+    padding: 18px 34px 26px; border-top: 1px solid var(--line);
     display: flex; justify-content: space-between; align-items: center;
     flex-wrap: wrap; gap: 10px; font-size: .78rem; color: var(--muted);
   }
   .cv-footer a { color: var(--muted); text-decoration: none; }
   .cv-footer a:hover { color: var(--brand2); text-decoration: underline; }
+  #adminLink { display: none; }
 
-  .status-pill {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: .72rem; color: var(--muted);
-  }
+  .status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: .72rem; color: var(--muted); }
   .dot-live { width: 7px; height: 7px; border-radius: 50%; background: #10b981; }
   .dot-static { width: 7px; height: 7px; border-radius: 50%; background: #d1d5db; }
-
   .loading { padding: 60px; text-align: center; color: var(--muted); }
 
   /* ── Responsive ── */
-  @media (max-width: 820px) {
+  @media (max-width: 900px) {
     .cv-body { grid-template-columns: 1fr; }
     .cv-nav { display: none; }
-    .cv-main { padding: 22px 20px 34px; }
-    .cv-header { padding: 32px 22px 28px; }
-    .cv-name { font-size: 1.65rem; }
-    .cv-footer { padding: 16px 20px 22px; }
+    .mobile-nav { display: block; }
+    .cv-main { padding: 20px 18px 32px; }
+    .cv-header { padding: 30px 20px 26px; }
+    .cv-name { font-size: 1.6rem; }
+    .cv-footer { padding: 16px 18px 22px; }
     .page { padding: 0 10px; margin-top: 14px; }
+    section.cv-section { scroll-margin-top: 120px; }
   }
 
-  /* ── Print / Save-as-PDF ── */
+  /* ════════════════════════════════════════════════════════════════
+     PRINT / SAVE AS PDF
+     Deliberately plain: serif body, navy rules, no gradients, no
+     headline, no section icons. Signature Work and At a Glance are
+     screen-only, so the printed CV stays close to a standard
+     two-to-three page document.
+     ════════════════════════════════════════════════════════════════ */
   @media print {
-    @page { margin: 12mm 11mm; }
-    /* Tighten everything a little — the CV is long, and rem-based sizing
-       means one declaration scales the whole document down for paper. */
-    html { font-size: 87%; }
-    body { background: white; }
-    .entry { padding-bottom: 12px; }
-    .group { margin-bottom: 12px; }
-    .para { margin-bottom: 8px; }
-    .toolbar, .cv-nav, .no-print { display: none !important; }
+    @page { margin: 12mm 12mm; }
+    html { font-size: 10.5pt; }
+    body {
+      background: #fff; color: #000; line-height: 1.35;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+    .toolbar, .mobile-nav, .cv-nav, .cv-footer, .no-print,
+    .web-only { display: none !important; }
+
     .page { max-width: none; margin: 0; padding: 0; }
     .sheet { box-shadow: none; border-radius: 0; }
-    .cv-body { grid-template-columns: 1fr; }
-    .cv-main { padding: 14px 0 0; }
+
     .cv-header {
-      background: linear-gradient(135deg, var(--brand1), var(--brand2)) !important;
-      -webkit-print-color-adjust: exact; print-color-adjust: exact;
-      padding: 22px 18px;
+      background: none !important; color: #000; padding: 0 0 5px;
+      text-align: center; border-bottom: 1.6pt solid var(--print-navy); overflow: visible;
     }
-    .chip { border-color: rgba(255,255,255,.4); }
-    section.cv-section { break-inside: auto; padding: 12px 0; }
-    .entry, .group, .sec-title { break-inside: avoid; }
-    .sec-title { break-after: avoid; }
-    .tag { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .cv-footer { padding: 10px 0 0; }
+    .cv-header::after { display: none; }
+    .cv-name {
+      font-size: 15pt; font-weight: 700; letter-spacing: .5pt;
+      text-transform: uppercase; color: var(--print-navy);
+    }
+    .cv-headline { display: none; }
+    .cv-contacts { display: block; margin-top: 3pt; font-size: 8.6pt; }
+    .chip {
+      display: inline; background: none; border: none; padding: 0;
+      color: #000; border-radius: 0;
+    }
+    .chip + .chip::before { content: ' | '; color: #444; }
+    .chip-ic { display: none; }
+    .cv-rights {
+      margin-top: 3pt; font-size: 8.6pt; color: #000;
+      border: none; padding: 0; text-align: center;
+    }
+
+    .cv-body { display: block; }
+    .cv-main { padding: 0; }
+
+    section.cv-section { padding: 6pt 0 0; border: none; break-inside: auto; }
+    .sec-title {
+      display: block; color: var(--print-navy); font-size: 10.5pt; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .4pt;
+      border-bottom: 1.2pt solid var(--print-navy);
+      padding-bottom: 1pt; margin: 9pt 0 5pt; break-after: avoid;
+    }
+    .sec-title .ic { display: none; }
+
+    .para { font-size: 10pt; margin-bottom: 4pt; text-align: justify; color: #000; }
+
+    .pairs { display: block; }
+    .pair { margin-bottom: 2pt; }
+    .pair .lbl { display: inline; font-size: 10pt; text-transform: none; letter-spacing: 0; color: #000; }
+    .pair .lbl::after { content: ': '; }
+    .pair .val { color: #000; }
+
+    /* Skills / certifications print as two-column bullet lists. */
+    .group { margin-bottom: 5pt; }
+    .group-name { color: #000; font-size: 10pt; font-weight: 700; font-style: italic; margin-bottom: 1pt; }
+    .tags { display: block; columns: 2; column-gap: 16pt; }
+    .tag, a.tag {
+      display: list-item; list-style: disc; margin-left: 12pt;
+      background: none; border: none; padding: 0; border-radius: 0;
+      font-size: 9.6pt; color: #000; break-inside: avoid;
+    }
+    a.tag { color: var(--print-navy); text-decoration: underline; }
+    a.tag::after { content: ''; }
+
+    /* Role on the left, dates on the right - the classic CV line. */
+    .entry {
+      display: grid; grid-template-columns: 1fr auto; column-gap: 10pt;
+      border-left: none; padding: 0 0 6pt 0; break-inside: avoid;
+    }
+    .entry::before { display: none; }
+    .entry-title { grid-column: 1; grid-row: 1; font-size: 10.4pt; font-weight: 700; color: #000; }
+    .entry-title a { color: #000; border: none; text-decoration: none; }
+    .entry-title a::after { content: ''; }
+    .entry-meta {
+      grid-column: 2; grid-row: 1; text-align: right; margin: 0;
+      font-size: 9.6pt; font-style: italic; font-weight: 700; color: #000; white-space: nowrap;
+    }
+    .entry-links { grid-column: 1 / -1; grid-row: 2; font-size: 8.8pt; margin: 0; }
+    .entry-links a { color: var(--print-navy); text-decoration: underline; }
+    .entry-sub {
+      grid-column: 1 / -1; grid-row: 3; font-style: italic; font-weight: 400;
+      font-size: 9.8pt; color: #000; margin: 0;
+    }
+    .entry ul { grid-column: 1 / -1; grid-row: 4; margin: 2pt 0 0 14pt; }
+    .entry li { font-size: 9.8pt; color: #000; margin-bottom: 1.5pt; text-align: justify; }
+    .entry-tags { display: none; }
+
+    a { color: var(--print-navy); }
   }
 </style>
 </head>
@@ -224,16 +328,18 @@
     <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
     Download Markdown
   </button>
-  <a class="tb-btn" id="btnMail" href="mailto:iamarasinghe96@gmail.com">
+  <button class="tb-btn" id="btnMail">
     <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
     Email me
-  </a>
+  </button>
 </div>
+
+<nav class="mobile-nav no-print" id="mobileNav"></nav>
 
 <div class="page">
   <div class="sheet">
     <header class="cv-header">
-      <h1 class="cv-name" id="cvName">Loading…</h1>
+      <h1 class="cv-name" id="cvName">Loading...</h1>
       <p class="cv-headline" id="cvHeadline"></p>
       <div class="cv-contacts" id="cvContacts"></div>
       <div class="cv-rights" id="cvRights" style="display:none"></div>
@@ -247,14 +353,14 @@
         </div>
       </nav>
       <main class="cv-main">
-        <div id="cvSections"><div class="loading">Loading CV…</div></div>
+        <div id="cvSections"><div class="loading">Loading CV...</div></div>
       </main>
     </div>
 
     <footer class="cv-footer">
       <span id="cvUpdated"></span>
       <span class="status-pill" id="cvStatus"></span>
-      <a href="./admin/" class="no-print">Admin</a>
+      <a href="./admin/" class="no-print" id="adminLink">Admin</a>
     </footer>
   </div>
 </div>
@@ -262,46 +368,67 @@
 <script src="./cv-data.js"></script>
 <script src="./firebase-config.js"></script>
 <script type="module">
-  import { esc, loadCV, toMarkdown, downloadBlob, isConfigured } from './cv-common.js';
+  import { esc, loadCV, toMarkdown, downloadBlob, isConfigured, splitLink, mailtoLink }
+    from './cv-common.js';
 
   let CV = null;
 
   /* ── Renderers per section type ── */
   function renderText(sec) {
-    return (sec.paragraphs || []).map(p => `<p class="para">${esc(p)}</p>`).join('');
+    return (sec.paragraphs || []).map(p => `<p class="para">${linkify(p)}</p>`).join('');
   }
 
   function renderPairs(sec) {
-    return `<div class="pairs">${(sec.items || []).map(it => `
-      <div class="pair">
+    return `<div class="pairs">${(sec.items || []).map(it => {
+      const { text, url } = splitLink(it.value);
+      const val = url
+        ? `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(text)}</a>`
+        : linkify(it.value);
+      return `<div class="pair">
         <span class="lbl">${esc(it.label)}</span>
-        <span class="val">${linkify(it.value)}</span>
-      </div>`).join('')}</div>`;
+        <span class="val">${val}</span>
+      </div>`;
+    }).join('')}</div>`;
   }
 
+  /* Group items may carry their own link:  "Label | https://..." */
   function renderGroups(sec) {
     return (sec.groups || []).map(g => `
       <div class="group">
         <div class="group-name">${esc(g.name)}</div>
-        <div class="tags">${(g.items || []).map(i => `<span class="tag">${esc(i)}</span>`).join('')}</div>
+        <div class="tags">${(g.items || []).map(raw => {
+          const { text, url } = splitLink(raw);
+          return url
+            ? `<a class="tag" href="${esc(url)}" target="_blank" rel="noopener">${esc(text)}</a>`
+            : `<span class="tag">${esc(text)}</span>`;
+        }).join('')}</div>
       </div>`).join('');
   }
 
   function renderEntries(sec) {
     return (sec.entries || []).map(e => `
       <div class="entry">
-        <div class="entry-title">${esc(e.title)}</div>
+        <div class="entry-title">${e.url
+          ? `<a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.title)}</a>`
+          : esc(e.title)}</div>
+        ${(e.links || []).length
+          ? `<div class="entry-links">${e.links.map(l =>
+              `<a href="${esc(l.url)}" target="_blank" rel="noopener">[${esc(l.label)}]</a>`).join(' ')}</div>`
+          : ''}
         ${e.subtitle ? `<div class="entry-sub">${esc(e.subtitle)}</div>` : ''}
         ${e.meta ? `<div class="entry-meta">${linkify(e.meta)}</div>` : ''}
         ${(e.bullets || []).length
-          ? `<ul>${e.bullets.map(b => `<li>${esc(b)}</li>`).join('')}</ul>`
+          ? `<ul>${e.bullets.map(b => `<li>${linkify(b)}</li>`).join('')}</ul>`
+          : ''}
+        ${(e.tags || []).length
+          ? `<div class="entry-tags">${e.tags.map(t => `<span class="entry-tag">${esc(t)}</span>`).join('')}</div>`
           : ''}
       </div>`).join('');
   }
 
   /** Turn bare domains and email addresses inside already-escaped text into
    *  links. Emails are matched first so the domain half is never linked twice. */
-  const LINK_RE = /([\w.+-]+@[\w-]+\.[\w.]+)|([a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:github\.io|com|org|net|au|lk)(?:\/[^\s,;]*)?)/gi;
+  const LINK_RE = /([\w.+-]+@[\w-]+\.[\w.]+)|([a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:github\.io|com|org|net|au|lk|edu|uk|cn)(?:\/[^\s,;)]*)?)/gi;
   function linkify(value) {
     return esc(value).replace(LINK_RE, (match, mail) => mail
       ? `<a href="mailto:${mail}" style="color:inherit">${mail}</a>`
@@ -312,75 +439,93 @@
 
   function render(cv) {
     const m = cv.meta || {};
-    document.title = `Curriculum Vitae — ${m.name || 'CV'}`;
+    document.title = `Curriculum Vitae - ${m.name || 'CV'}`;
     document.getElementById('cvName').textContent = m.name || '';
     document.getElementById('cvHeadline').textContent = m.headline || '';
 
     const chips = [];
-    if (m.location) chips.push({ t: m.location, h: '' , i: '📍' });
+    if (m.location) chips.push({ t: m.location, h: '', i: '📍' });
     if (m.phone)    chips.push({ t: m.phone, h: `tel:${m.phone.replace(/\s/g, '')}`, i: '📞' });
-    if (m.email)    chips.push({ t: m.email, h: `mailto:${m.email}`, i: '✉️' });
+    if (m.email)    chips.push({ t: m.email, h: mailtoLink(m), i: '✉️' });
     if (m.linkedin) chips.push({ t: 'LinkedIn', h: m.linkedin, i: '🔗' });
     if (m.portfolio) chips.push({ t: 'Portfolio', h: m.portfolio, i: '🌐' });
+    if (m.seek) chips.push({ t: 'SEEK', h: m.seek, i: '💼' });
+    if (m.rightToWork) chips.push({ t: 'Right to Work', h: m.rightToWork, i: '🛂' });
     document.getElementById('cvContacts').innerHTML = chips.map(c =>
       c.h
-        ? `<a class="chip" href="${esc(c.h)}" target="_blank" rel="noopener">${c.i} ${esc(c.t)}</a>`
-        : `<span class="chip">${c.i} ${esc(c.t)}</span>`
+        ? `<a class="chip" href="${esc(c.h)}"${c.h.startsWith('mailto:') ? '' : ' target="_blank" rel="noopener"'}><span class="chip-ic">${c.i}</span>${esc(c.t)}</a>`
+        : `<span class="chip"><span class="chip-ic">${c.i}</span>${esc(c.t)}</span>`
     ).join('');
 
     const rights = document.getElementById('cvRights');
     if (m.workRights) { rights.style.display = ''; rights.textContent = m.workRights; }
 
-    if (m.email) document.getElementById('btnMail').href = `mailto:${m.email}`;
-
     const sections = cv.sections || [];
     document.getElementById('cvSections').innerHTML = sections.map(sec => {
       const fn = RENDERERS[sec.type] || (() => '');
-      return `<section class="cv-section" id="sec-${esc(sec.id)}">
+      return `<section class="cv-section${sec.webOnly ? ' web-only' : ''}" id="sec-${esc(sec.id)}">
         <h2 class="sec-title"><span class="ic">${esc(sec.icon || '•')}</span>${esc(sec.title)}</h2>
         ${fn(sec)}
       </section>`;
     }).join('');
 
-    document.getElementById('cvNav').innerHTML = sections.map(sec =>
+    const navHtml = sections.map(sec =>
       `<a href="#sec-${esc(sec.id)}" data-sec="sec-${esc(sec.id)}">${esc(sec.title)}</a>`
     ).join('');
+    document.getElementById('cvNav').innerHTML = navHtml;
+    document.getElementById('mobileNav').innerHTML = navHtml;
 
     document.getElementById('cvUpdated').textContent = m.updated ? `Last updated: ${m.updated}` : '';
     observeSections();
   }
 
-  /* Highlight the section currently in view. */
+  /* Keep the section list in step with what is on screen, and keep the
+     active chip inside the mobile strip visible. */
   let observer = null;
   function observeSections() {
     if (observer) observer.disconnect();
-    const links = [...document.querySelectorAll('#cvNav a')];
+    const links = [...document.querySelectorAll('#cvNav a, #mobileNav a')];
     if (!links.length) return;
+    const strip = document.getElementById('mobileNav');
     observer = new IntersectionObserver(entries => {
       entries.forEach(en => {
         if (!en.isIntersecting) return;
         links.forEach(a => a.classList.toggle('active', a.dataset.sec === en.target.id));
+        const chip = strip.querySelector(`a[data-sec="${en.target.id}"]`);
+        if (chip && strip.offsetParent !== null) {
+          const target = chip.offsetLeft - strip.clientWidth / 2 + chip.clientWidth / 2;
+          strip.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+        }
       });
-    }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+    }, { rootMargin: '-120px 0px -70% 0px', threshold: 0 });
     document.querySelectorAll('section.cv-section').forEach(s => observer.observe(s));
   }
 
   function setStatus(source) {
     const el = document.getElementById('cvStatus');
-    if (source === 'firebase') {
-      el.innerHTML = '<span class="dot-live"></span> Live content';
-    } else {
-      el.innerHTML = `<span class="dot-static"></span> ${isConfigured() ? 'Cached content' : 'Static content'}`;
-    }
+    el.innerHTML = source === 'firebase'
+      ? '<span class="dot-live"></span> Live content'
+      : `<span class="dot-static"></span> ${isConfigured() ? 'Cached content' : 'Static content'}`;
   }
 
-  /* ── Downloads ── */
+  /* ── Toolbar actions ── */
   document.getElementById('btnPdf').addEventListener('click', () => window.print());
   document.getElementById('btnMd').addEventListener('click', () => {
     if (!CV) return;
-    const name = (CV.meta && CV.meta.name || 'CV').replace(/\s+/g, '_');
+    const name = ((CV.meta && CV.meta.name) || 'CV').replace(/\s+/g, '_');
     downloadBlob(toMarkdown(CV), `${name}_CV.md`, 'text/markdown;charset=utf-8');
   });
+  document.getElementById('btnMail').addEventListener('click', () => {
+    window.location.href = mailtoLink(CV && CV.meta);
+  });
+
+  /* The admin link only appears on  /cv/#admin  (or /cv/?admin). */
+  function maybeShowAdmin() {
+    const wanted = location.hash.toLowerCase() === '#admin'
+                || /(^|[?&])admin($|[=&])/i.test(location.search);
+    document.getElementById('adminLink').style.display = wanted ? 'inline' : 'none';
+  }
+  window.addEventListener('hashchange', maybeShowAdmin);
 
   /* ── Boot ── */
   (async () => {
@@ -388,6 +533,12 @@
     CV = data;
     render(CV);
     setStatus(source);
+    maybeShowAdmin();
+    /* Honour a #sec-... deep link once the sections exist. */
+    if (location.hash.startsWith('#sec-')) {
+      const target = document.querySelector(location.hash);
+      if (target) target.scrollIntoView();
+    }
   })();
 </script>
 </body>

@@ -9,6 +9,42 @@ const FB = 'https://www.gstatic.com/firebasejs/10.12.2/';
 export const SECTION_TYPES = ['text', 'pairs', 'groups', 'entries'];
 
 /* ── Basic helpers ───────────────────────────────────────────────── */
+
+/** Group items may carry a link as  "Label | https://..."  */
+export function splitLink(raw) {
+  const str = String(raw == null ? '' : raw);
+  const i = str.lastIndexOf('|');
+  if (i === -1) return { text: str.trim(), url: '' };
+  const url = str.slice(i + 1).trim();
+  return /^(https?:\/\/|mailto:)/i.test(url)
+    ? { text: str.slice(0, i).trim(), url }
+    : { text: str.trim(), url: '' };
+}
+
+/** A mailto: link with the approach email already drafted. */
+export function mailtoLink(meta) {
+  const m = meta || {};
+  const name = m.name || '';
+  const subject = m.mailSubject || `Opportunity for ${name}`;
+  const body = m.mailBody || [
+    `Hello ${name},`,
+    '',
+    "My name is [Your Name], and I'm [Your Role, Organisation].",
+    'I came across your CV and would like to talk with you about [role / project].',
+    '',
+    'A few details:',
+    '- Role: ',
+    '- Organisation: ',
+    '- Location: ',
+    '',
+    'You can reach me on [phone] or at this email address.',
+    '',
+    'Kind regards,',
+    '[Your Name]'
+  ].join('\n');
+  return `mailto:${m.email || ''}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
 export function esc(str) {
   return String(str == null ? '' : str)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -129,16 +165,23 @@ export function toMarkdown(cv) {
     } else if (sec.type === 'groups') {
       (sec.groups || []).forEach(g => {
         out.push(`### ${g.name || ''}`);
-        (g.items || []).forEach(i => out.push(`- ${i}`));
+        (g.items || []).forEach(raw => {
+          const { text, url } = splitLink(raw);
+          out.push(url ? `- [${text}](${url})` : `- ${text}`);
+        });
         out.push('');
       });
     } else if (sec.type === 'entries') {
       (sec.entries || []).forEach(e => {
-        out.push(`### ${e.title || ''}`);
+        out.push(`### ${e.url ? `[${e.title || ''}](${e.url})` : (e.title || '')}`);
         if (e.subtitle) out.push(`*${e.subtitle}*`);
         if (e.meta) out.push(e.meta);
-        if (e.subtitle || e.meta) out.push('');
+        if ((e.links || []).length) {
+          out.push((e.links || []).map(l => `[${l.label}](${l.url})`).join(' '));
+        }
+        if (e.subtitle || e.meta || (e.links || []).length) out.push('');
         (e.bullets || []).forEach(b => out.push(`- ${b}`));
+        if ((e.tags || []).length) out.push(`_Skills: ${e.tags.join(', ')}_`);
         out.push('');
       });
     }

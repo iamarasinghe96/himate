@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CV Admin — Indika Amarasinghe</title>
+<title>CV Admin - Indika Amarasinghe</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -90,6 +90,8 @@
     background:#1f2937; color:#e5e7eb; border-radius:10px; padding:14px; overflow-x:auto;
     font-size:.76rem; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; line-height:1.6; margin:10px 0;
   }
+  .check { display:flex; align-items:center; gap:8px; font-size:.83rem; color:#4b5563; margin-bottom:12px; }
+  .check input { width:16px; height:16px; }
   .hidden { display:none !important; }
   @media (max-width:700px) { .grid2 { grid-template-columns:1fr; } .card { padding:18px; } }
 </style>
@@ -109,7 +111,7 @@
   <div class="card hidden" id="setupCard">
     <h2>Firebase is not connected yet</h2>
     <p class="hint">The CV page is live and working from the built-in content. To edit it from this page,
-      connect a Firebase project — it takes about five minutes and the free tier is more than enough.</p>
+      connect a Firebase project - it takes about five minutes and the free tier is more than enough.</p>
     <ol class="setup-steps">
       <li>Go to <a href="https://console.firebase.google.com" target="_blank" rel="noopener">console.firebase.google.com</a> and create a project (e.g. <code>indika-portfolio</code>).</li>
       <li>Build → <strong>Firestore Database</strong> → Create database → Production mode.</li>
@@ -171,7 +173,9 @@ service cloud.firestore {
     <div class="card">
       <h2>Sections</h2>
       <p class="hint">Click a section to open it. In every multi-line box, <strong>one line = one item</strong>
-        (one bullet, one skill, one paragraph). Blank lines are ignored.</p>
+        (one bullet, one skill, one paragraph). Blank lines are ignored.
+        To turn any list item into a link, write it as <code class="inline">Label | https://...</code>.
+        Skill labels show under Signature Work entries on the web page and are left out of the printed CV.</p>
       <div id="sectionList"></div>
       <div class="toolbar-row">
         <button class="btn btn-ghost btn-xs" data-action="add-section">+ Add section</button>
@@ -269,7 +273,7 @@ service cloud.firestore {
       try {
         await authMod.sendPasswordResetEmail(auth, mail);
         $('loginMsg').className = 'ok';
-        $('loginMsg').textContent = 'Password reset email sent — check your inbox.';
+        $('loginMsg').textContent = 'Password reset email sent - check your inbox.';
       } catch (err) {
         $('loginMsg').className = 'err';
         $('loginMsg').textContent = friendlyAuthError(err);
@@ -287,7 +291,7 @@ service cloud.firestore {
     if (code.includes('invalid-credential') || code.includes('wrong-password')) return 'Wrong email or password.';
     if (code.includes('user-not-found')) return 'No account with that email. Add it in Firebase Authentication first.';
     if (code.includes('too-many-requests')) return 'Too many attempts. Wait a moment and try again.';
-    if (code.includes('network')) return 'Network problem — check your connection.';
+    if (code.includes('network')) return 'Network problem - check your connection.';
     if (code.includes('operation-not-allowed')) return 'Email/Password sign-in is not enabled in Firebase Authentication.';
     return (err && err.message) || 'Sign-in failed.';
   }
@@ -322,6 +326,8 @@ service cloud.firestore {
             <div class="field"><label class="fl">Icon (emoji)</label>
               <input type="text" data-sec="${i}" data-field="icon" value="${esc(sec.icon || '')}"></div>
           </div>
+          <label class="check"><input type="checkbox" data-sec="${i}" data-field="webOnly"
+            ${sec.webOnly ? 'checked' : ''}> Web page only - leave this section out of the downloaded PDF</label>
           ${bodyEditor(sec, i)}
         </div>
       </div>`).join('');
@@ -330,7 +336,7 @@ service cloud.firestore {
   function bodyEditor(sec, i) {
     if (sec.type === 'text') {
       return `<div class="field">
-        <label class="fl">Paragraphs — one per line</label>
+        <label class="fl">Paragraphs - one per line</label>
         <textarea rows="7" data-sec="${i}" data-field="paragraphs">${esc(lines(sec.paragraphs))}</textarea>
       </div>`;
     }
@@ -363,7 +369,7 @@ service cloud.firestore {
           </div>
           <div class="field"><label class="fl">Group name</label>
             <input type="text" data-sec="${i}" data-group="${j}" data-field="name" value="${esc(g.name)}"></div>
-          <div class="field"><label class="fl">Items — one per line</label>
+          <div class="field"><label class="fl">Items - one per line</label>
             <textarea rows="6" data-sec="${i}" data-group="${j}" data-field="items">${esc(lines(g.items))}</textarea></div>
         </div>`).join('')}
         <button class="btn btn-ghost btn-xs" data-action="add-item" data-sec="${i}">+ Add group</button>`;
@@ -386,14 +392,22 @@ service cloud.firestore {
           <div class="field"><label class="fl">Meta (dates, link, figures)</label>
             <input type="text" data-sec="${i}" data-entry="${j}" data-field="meta" value="${esc(e.meta || '')}"></div>
         </div>
-        <div class="field"><label class="fl">Bullet points — one per line</label>
+        <div class="field"><label class="fl">Bullet points - one per line</label>
           <textarea rows="5" data-sec="${i}" data-entry="${j}" data-field="bullets">${esc(lines(e.bullets))}</textarea></div>
+        <div class="grid2">
+          <div class="field"><label class="fl">Link on the title (optional URL)</label>
+            <input type="text" data-sec="${i}" data-entry="${j}" data-field="url" value="${esc(e.url || '')}"></div>
+          <div class="field"><label class="fl">Skill labels - comma separated</label>
+            <input type="text" data-sec="${i}" data-entry="${j}" data-field="tags" value="${esc((e.tags || []).join(', '))}"></div>
+        </div>
+        <div class="field"><label class="fl">Extra links - one per line, as  Label | https://...</label>
+          <textarea rows="2" data-sec="${i}" data-entry="${j}" data-field="links">${esc((e.links || []).map(l => `${l.label} | ${l.url}`).join('\n'))}</textarea></div>
       </div>`).join('')}
       <button class="btn btn-ghost btn-xs" data-action="add-item" data-sec="${i}">+ Add entry</button>`;
   }
 
   /* ══════════════════ Editing ══════════════════ */
-  document.addEventListener('input', e => {
+  ['input', 'change'].forEach(ev => document.addEventListener(ev, e => {
     const el = e.target;
     if (el.dataset.meta) {
       cv.meta = cv.meta || {};
@@ -406,6 +420,12 @@ service cloud.firestore {
     const sec = cv.sections[Number(el.dataset.sec)];
     const f = el.dataset.field;
 
+    if (el.type === 'checkbox') {
+      if (el.checked) sec[f] = true; else delete sec[f];
+      setDirty(true);
+      return;
+    }
+
     if (el.dataset.item !== undefined) {
       sec.items[Number(el.dataset.item)][f] = el.value;
     } else if (el.dataset.group !== undefined) {
@@ -413,7 +433,20 @@ service cloud.firestore {
       g[f] = f === 'items' ? toLines(el.value) : el.value;
     } else if (el.dataset.entry !== undefined) {
       const en = sec.entries[Number(el.dataset.entry)];
-      en[f] = f === 'bullets' ? toLines(el.value) : el.value;
+      if (f === 'bullets') {
+        en.bullets = toLines(el.value);
+      } else if (f === 'tags') {
+        en.tags = el.value.split(',').map(t => t.trim()).filter(Boolean);
+      } else if (f === 'links') {
+        en.links = toLines(el.value).map(line => {
+          const i = line.lastIndexOf('|');
+          return i === -1
+            ? { label: line.trim(), url: '' }
+            : { label: line.slice(0, i).trim(), url: line.slice(i + 1).trim() };
+        }).filter(l => l.label && l.url);
+      } else {
+        en[f] = el.value;
+      }
     } else if (f === 'paragraphs') {
       sec.paragraphs = toLines(el.value);
     } else {
@@ -424,7 +457,7 @@ service cloud.firestore {
       }
     }
     setDirty(true);
-  });
+  }));
 
   function listOf(sec) {
     if (sec.type === 'pairs')   return sec.items   = sec.items   || [];
@@ -468,7 +501,7 @@ service cloud.firestore {
       case 'add-section': {
         const title = prompt('Section title?');
         if (!title) return;
-        const type = prompt('Section type — one of: text, pairs, groups, entries', 'entries');
+        const type = prompt('Section type - one of: text, pairs, groups, entries', 'entries');
         if (!['text', 'pairs', 'groups', 'entries'].includes(type)) { alert('Unknown type.'); return; }
         const sec = { id: title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || `section-${Date.now()}`,
                       title, icon: '•', type };
@@ -491,7 +524,7 @@ service cloud.firestore {
       case 'add-item': {
         const sec = cv.sections[si];
         const list = listOf(sec);
-        if (!list) { alert('This section type has no list items — edit the paragraphs box instead.'); return; }
+        if (!list) { alert('This section type has no list items - edit the paragraphs box instead.'); return; }
         list.push(blankItem(sec.type));
         openSections.add(si); renderSections(); setDirty(true); return;
       }
@@ -524,7 +557,7 @@ service cloud.firestore {
       case 'reset-default':
         if (!confirm('Replace everything on this page with the content built into the site? Nothing is published until you press "Publish changes".')) return;
         cv = defaultCV(); openSections = new Set(); renderAll(); setDirty(true);
-        $('backupMsg').textContent = 'Loaded the built-in content — press "Publish changes" to make it live.';
+        $('backupMsg').textContent = 'Loaded the built-in content - press "Publish changes" to make it live.';
         return;
     }
   });
@@ -536,7 +569,7 @@ service cloud.firestore {
       const parsed = JSON.parse(await file.text());
       if (!parsed.sections || !Array.isArray(parsed.sections)) throw new Error('No "sections" array in that file.');
       cv = parsed; openSections = new Set(); renderAll(); setDirty(true);
-      $('backupMsg').textContent = `Imported ${file.name} — press "Publish changes" to make it live.`;
+      $('backupMsg').textContent = `Imported ${file.name} - press "Publish changes" to make it live.`;
     } catch (err) {
       $('backupMsg').className = 'err';
       $('backupMsg').textContent = `Could not import: ${err.message}`;

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Projects – Indika Amarasinghe</title>
+  <title>My Projects - Indika Amarasinghe</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -105,7 +105,7 @@
       gap: 20px;
     }
 
-    /* ── Project card — matches main site .card style ── */
+    /* ── Project card - matches main site .card style ── */
     .project-card {
       background: white;
       border: 1px solid #e5e7eb;
@@ -149,7 +149,7 @@
       flex: 1;
     }
 
-    /* Category pill — exact match to main site */
+    /* Category pill - exact match to main site */
     .card-category {
       display: inline-block;
       background: #f3f4f6;
@@ -551,9 +551,41 @@
   /* ── Default data ─────────────────────────── */
   const DEFAULT_PROJECTS = [
     {
+        "id": 17,
+        "title": "LushNote - Clinical Note Builder",
+        "description": "A clinical documentation product for psychiatrists, live at lushnote.com.au. It turns consultations into structured notes, letters and forms, cutting the administrative time around each appointment. Built solo end to end: Next.js and TypeScript, Firebase authentication and Firestore, serverless API routes, an AI layer with automatic provider fallback, and subscription billing with card and Australian direct debit. Least-privilege data rules, audit logging and retention that respects clinical record-keeping obligations.",
+        "category": "Health Technology / SaaS",
+        "projectUrl": "https://lushnote.com.au",
+        "snapshots": []
+    },
+    {
+        "id": 18,
+        "title": "Landfill Cell-Filling Plan Tool",
+        "description": "A planning and tracking tool for landfill operations, built on real Southern and Northern Valley data from the Albury Waste Management Centre. It supports long-term site planning across fill sequencing, compaction monitoring and airspace management, replacing spreadsheet-by-spreadsheet estimation with a single visual plan.",
+        "category": "Waste & Resource Recovery",
+        "projectUrl": "https://iamarasinghe96.github.io/cellplan/awmc-cell-plan.html",
+        "snapshots": []
+    },
+    {
+        "id": 19,
+        "title": "Albury Waste Identifier",
+        "description": "A resident-facing waste education tool that answers the everyday question: which bin does this go in, and where do I take the things that fit no bin. It turns council waste guidance into plain-language answers, reducing contamination in kerbside streams and unnecessary trips to the waste centre.",
+        "category": "Waste & Resource Recovery",
+        "projectUrl": "https://iamarasinghe96.github.io/landfill/classifier/index.html",
+        "snapshots": []
+    },
+    {
+        "id": 20,
+        "title": "Albury Citizens Community Waste Forum",
+        "description": "A community channel connecting Albury residents, council services and waste operators on recycling, reuse and resource recovery. Founded to close the gap between the services that exist and what residents actually know about them, and to feed real community questions back into waste education material.",
+        "category": "Community & Behaviour Change",
+        "projectUrl": "https://iamarasinghe96.github.io/landfill/community/index.html",
+        "snapshots": []
+    },
+    {
         "id": 12,
         "title": "NSW Procurement Simplification Tool",
-        "description": "A central web tool that translates NSW Government procurement guidelines into plain language for councils, SME suppliers, corporates and procurement officers. Official guidance and Procurement Foundations course material were scraped and structured into a curated knowledge base connected to an LLM, which returns a direct answer, the relevant checklist, template links, key considerations and a summary — every response grounded in vetted content to prevent hallucination, with graceful rate-limit and error handling. Built and deployed solo.",
+        "description": "A central web tool that translates NSW Government procurement guidelines into plain language for councils, SME suppliers, corporates and procurement officers. Official guidance and Procurement Foundations course material were scraped and structured into a curated knowledge base connected to an LLM, which returns a direct answer, the relevant checklist, template links, key considerations and a summary - every response grounded in vetted content to prevent hallucination, with graceful rate-limit and error handling. Built and deployed solo.",
         "category": "Procurement & GovTech",
         "projectUrl": "https://iamarasinghe96.github.io/procurementnsw/",
         "snapshots": []
@@ -593,7 +625,7 @@
     {
         "id": 2,
         "title": "The Kids Clinic - Offline-First Clinic Management",
-        "description": "A first-of-its-kind, sustainable and highly secure patient management system developed in collaboration with healthcare staff, consultants and patients. The offline-first design manages complete patient lifecycles including medical history, appointment scheduling and real-time queue management, and is built for zero ongoing maintenance and full operational autonomy — no cloud dependency, no data exposure risk.",
+        "description": "A first-of-its-kind, sustainable and highly secure patient management system developed in collaboration with healthcare staff, consultants and patients. The offline-first design manages complete patient lifecycles including medical history, appointment scheduling and real-time queue management, and is built for zero ongoing maintenance and full operational autonomy - no cloud dependency, no data exposure risk.",
         "category": "Healthcare / Process Automation",
         "projectUrl": "",
         "snapshots": []
@@ -625,7 +657,7 @@
     {
         "id": 8,
         "title": "QR Code Scanner & Queue Management System",
-        "description": "Built for NSW Service Centres to eliminate paper-based applications and boost staff efficiency. Applicants fill in their details which are encoded into a QR code, enabling staff to instantly transfer information into their system — no cloud, no data risk. Supports on-the-spot review and modification of applicant details.",
+        "description": "Built for NSW Service Centres to eliminate paper-based applications and boost staff efficiency. Applicants fill in their details which are encoded into a QR code, enabling staff to instantly transfer information into their system - no cloud, no data risk. Supports on-the-spot review and modification of applicant details.",
         "category": "Web Application / Process Automation",
         "projectUrl": "https://iamarasinghe96.github.io/admin/scanner.html",
         "snapshots": []
@@ -665,7 +697,7 @@
     {
         "id": 16,
         "title": "Drone Survey, Mapping & Inspection",
-        "description": "Aerial survey, mapping and inspection work delivered through Gaia Symbiosis in support of environmental monitoring and site assessment engagements — site condition documentation, spatial data capture and visual inspection of infrastructure that is difficult or unsafe to access on foot. Complements ground-based monitoring and the satellite deforestation tool for end-to-end environmental observation.",
+        "description": "Aerial survey, mapping and inspection work delivered through Gaia Symbiosis in support of environmental monitoring and site assessment engagements - site condition documentation, spatial data capture and visual inspection of infrastructure that is difficult or unsafe to access on foot. Complements ground-based monitoring and the satellite deforestation tool for end-to-end environmental observation.",
         "category": "ESG & Environmental Monitoring",
         "projectUrl": "",
         "snapshots": []
@@ -1020,7 +1052,7 @@
       buildFullFile()
         .then(html => {
           document.getElementById('copyTextarea').value = html;
-          document.getElementById('fetchStatus').textContent = 'Ready — ' + html.length.toLocaleString() + ' chars.';
+          document.getElementById('fetchStatus').textContent = 'Ready - ' + html.length.toLocaleString() + ' chars.';
         })
         .catch(() => {
           document.getElementById('fetchStatus').textContent = 'Fetch failed. Try the main-site tab instead.';

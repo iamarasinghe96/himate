@@ -340,58 +340,60 @@
       margin-top: 10px;
     }
 
-    .carousel-button {
-      background: #667eea;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      padding: 10px;
-      transition: all 0.2s;
-      display: flex !important;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
-      flex-shrink: 0;
-    }
-
-    .carousel-button:hover {
-      background: #764ba2;
-      transform: scale(1.1);
-      box-shadow: 0 4px 12px rgba(118, 75, 162, 0.4);
-    }
-
-    .carousel-button:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-
-    .carousel-button svg {
-      width: 20px;
-      height: 20px;
-      fill: white;
-      display: block;
-    }
-
     .pagination-dots {
       display: flex;
       gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     .dot {
-      width: 10px;
-      height: 10px;
+      width: 9px;
+      height: 9px;
+      padding: 0;
+      border: none;
       border-radius: 50%;
       background: #d1d5db;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .dot.active {
-      background: #667eea;
-      transform: scale(1.3);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      width: 22px;
+      border-radius: 999px;
     }
+
+    .carousel-hint {
+      text-align: center;
+      font-size: 0.76rem;
+      color: #9ca3af;
+      margin-top: 8px;
+      user-select: none;
+    }
+
+    /* Slide-and-fade: only the card in view is fully present. */
+    .carousel-slide {
+      opacity: 0.35;
+      transform: scale(0.96);
+      transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .carousel-slide.is-active { opacity: 1; transform: scale(1); }
+
+    .is-clickable { cursor: pointer; text-decoration: none; display: flex; flex-direction: column; }
+    /* flex children stretch by default - keep the pill hugging its text */
+    .is-clickable .card-category, .is-clickable .card-cta, .is-clickable .cert-cta { align-self: flex-start; }
+    .is-clickable:focus-visible { outline: 3px solid #a5b4fc; outline-offset: 3px; }
+
+    .card-cta, .cert-cta {
+      margin-top: auto;
+      padding-top: 14px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: #667eea;
+    }
+    .cert-cta { color: #059669; }
+    .card:hover .card-cta { color: #764ba2; }
 
     /* About Me Section */
     .about-content {
@@ -991,17 +993,6 @@
       }
       
       /* Carousel navigation - mobile optimized */
-      .carousel-button {
-        width: 36px;
-        height: 36px;
-        padding: 8px;
-      }
-      
-      .carousel-button svg {
-        width: 18px;
-        height: 18px;
-      }
-      
       .carousel-nav {
         gap: 8px;
         margin-top: 8px;
@@ -1118,7 +1109,7 @@
     .expanded-section.active { animation: sectionReveal 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
     .contact-items-container.active { animation: sectionReveal 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
-    /* ── Expanded section hide — mirror of sectionReveal in reverse ── */
+    /* ── Expanded section hide - mirror of sectionReveal in reverse ── */
     @keyframes sectionHide {
       from { opacity: 1; transform: translateY(0);     }
       to   { opacity: 0; transform: translateY(-10px); }
@@ -1168,7 +1159,7 @@
     .cert-card {
       transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.32s ease;
     }
-    .cert-card:hover {
+    .carousel-slide.is-active .cert-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 18px 44px rgba(0, 0, 0, 0.13);
     }
@@ -1177,7 +1168,7 @@
     .card {
       transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.32s ease;
     }
-    .card:hover {
+    .carousel-slide.is-active .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 14px 36px rgba(0, 0, 0, 0.11);
     }
@@ -1201,15 +1192,6 @@
 
     /* ── Carousel smoother easing ── */
     .carousel-container { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
-
-    /* ── Carousel button hover ── */
-    .carousel-button {
-      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .carousel-button:hover:not(:disabled) {
-      transform: scale(1.12);
-      box-shadow: 0 6px 18px rgba(118, 75, 162, 0.45);
-    }
 
     /* ── View credential / view details button ── */
     .view-credential-btn, .view-details-btn {
@@ -1466,14 +1448,9 @@
                 <div class="carousel-container" id="projectsCarousel"></div>
               </div>
               <div class="carousel-nav">
-                <button class="carousel-button" id="projectsPrev">
-                  <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-                </button>
                 <div class="pagination-dots" id="projectsDots"></div>
-                <button class="carousel-button" id="projectsNext">
-                  <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                </button>
               </div>
+              <p class="carousel-hint">Swipe or tap a dot to swap - cards rotate on their own</p>
             </div>
             <a href="./projects/" class="view-credential-btn" style="display: block; margin-top: 20px; max-width: 250px; margin-left: auto; margin-right: auto;">
               View all projects
@@ -1496,15 +1473,10 @@
               <div class="carousel-viewport">
                 <div class="carousel-container" id="certificatesCarousel"></div>
               </div>
-              <div class="carousel-nav" style="display: flex !important; visibility: visible !important; position: relative; z-index: 10;">
-                <button class="carousel-button" id="certificatesPrev" style="display: flex !important; visibility: visible !important;">
-                  <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-                </button>
+              <div class="carousel-nav">
                 <div class="pagination-dots" id="certificatesDots"></div>
-                <button class="carousel-button" id="certificatesNext" style="display: flex !important; visibility: visible !important;">
-                  <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                </button>
               </div>
+              <p class="carousel-hint">Swipe or tap a dot to swap - tap a certificate to open the credential</p>
             </div>
           </div>
         </div>
@@ -1567,7 +1539,7 @@
         address: 'Albury NSW 2640',
         phone: '+61 484 920 892',
         email: 'iamarasinghe96@gmail.com',
-        cvUrl: './cv/',   // full web CV — view online, download as PDF or Markdown
+        cvUrl: './cv/',   // full web CV - view online, download as PDF or Markdown
         linkedinUrl: 'https://www.linkedin.com/in/indika96/',
         youtubeIntroUrl: 'https://youtube.com/shorts/ks440KY_VNc?feature=share',  // Replace with your YouTube Shorts URL
       },
@@ -1576,17 +1548,17 @@
       // 💡 ABOUT ME & SKILLS
       // ─────────────────────────────────────────────────────────────────
       aboutMe: {
-        bio: `I’m Indika Amarasinghe — a project execution and sustainability professional with a background spanning investment banking support, telecommunications, marketing and IT. I’ve spent my career leading teams, delivering large-scale projects, and helping organisations move toward more sustainable and responsible operations. Most recently I led delivery of a climate transition tool serving 2,000+ clients for a multinational bank, coordinating a team of 30–40 across an award-winning programme.
+        bio: `I’m Indika Amarasinghe - a project execution and sustainability professional with a background spanning investment banking support, telecommunications, marketing and IT. I’ve spent my career leading teams, delivering large-scale projects, and helping organisations move toward more sustainable and responsible operations. Most recently I led delivery of a climate transition tool serving 2,000+ clients for a multinational bank, coordinating a team of 30-40 across an award-winning programme.
 
-Alongside that, I build things. Through Gaia Symbiosis, my independent practice, I design and deliver AI-human hybrid tools solo — an automated drone flight approval system for the Civil Aviation Authority of Sri Lanka, roster and referral tools for Albury Wodonga Health, a digital application system for a Service NSW centre that halved processing time, and a plain-language NSW procurement assistant grounded in official guidance.
+Alongside that, I build things. Through Gaia Symbiosis, my independent practice, I design and deliver AI-human hybrid tools solo - an automated drone flight approval system for the Civil Aviation Authority of Sri Lanka, roster and referral tools for Albury Wodonga Health, a digital application system for a Service NSW centre that halved processing time, a plain-language NSW procurement assistant grounded in official guidance, and landfill planning and waste education tools built on real Albury Waste Management Centre data. I also founded LushNote, an AI-assisted clinical note builder now used by psychiatrists.
 
-Coming from an engineering family, I’ve always had a deep respect for precision, practicality and getting things done. I value sincerity, teamwork and perseverance, and I work to the principle that 1 + 1 > 2 — collaboration multiplies outcomes beyond individual contributions. Outside of work I care deeply about nature, and I believe even small efforts contribute to a better world.
+Coming from an engineering family, I’ve always had a deep respect for precision, practicality and getting things done. I value sincerity, teamwork and perseverance, and I work to the principle that 1 + 1 > 2 - collaboration multiplies outcomes beyond individual contributions. Outside of work I care deeply about nature, and I believe even small efforts contribute to a better world.
 
 If my experience or skills can be of value, I’d be happy to connect. I’m open to any opportunity where I can contribute, learn and make a positive difference.`,
         skills: [
           'AI Integration & Prompt Engineering',
           'AI-Assisted Development (AIAD)',
-          'Project & Programme Delivery (30–40+ teams)',
+          'Project & Programme Delivery (30-40+ teams)',
           'Sustainable Finance & ESG Reporting',
           'Climate Disclosure (PCAF, TNFD, CSRD, TCFD)',
           'Climate Transition Planning & Monitoring',
@@ -1601,6 +1573,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           'RFP, BOQ & Tender Preparation',
           'ISO 14001-Aligned EMS Implementation',
           'Environmental Monitoring & Drone Survey',
+          'Waste, Landfill Planning & Resource Recovery',
           'Training, Knowledge Transfer & Public Speaking',
           'Adobe Creative Suite (Design & Video)',
           'Microsoft Office Suite',
@@ -1616,14 +1589,14 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           id: 1,
           category: 'MBA',
           institution: 'Cardiff Metropolitan University, United Kingdom',
-          degree: 'Master of Business Administration (MBA), Marketing — Grade: Merit. Dissertation: The Relationship Between Technical Training and Employee Job Satisfaction.',
+          degree: 'Master of Business Administration (MBA), Marketing - Grade: Merit. Dissertation: The Relationship Between Technical Training and Employee Job Satisfaction.',
           years: '2020-2022'
         },
         {
           id: 2,
           category: 'Bachelors',
           institution: 'Southwestern University of Finance and Economics (SWUFE), Chengdu',
-          degree: 'Bachelor of Management (BMgt), Business Management and Accounting (Double Major) — GPA 3.2, Full Tuition Scholarship Holder. Thesis: The Impact of Leadership Style on Emotional Exhaustion of the Followers.',
+          degree: 'Bachelor of Management (BMgt), Business Management and Accounting (Double Major) - GPA 3.2, Full Tuition Scholarship Holder. Thesis: The Impact of Leadership Style on Emotional Exhaustion of the Followers.',
           years: '2015-2019'
         },
         {
@@ -1637,14 +1610,14 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           id: 4,
           category: 'High School (A/L)',
           institution: 'Ananda College, Colombo',
-          degree: 'High School Diploma, Business/Commerce — Best Results Achiever (2015)',
+          degree: 'High School Diploma, Business/Commerce - Best Results Achiever (2015)',
           years: '2013-2015'
         },
         {
           id: 5,
           category: 'Middle/Primary School',
           institution: 'Jayanthi Vidyalaya, Ja-Ela',
-          degree: 'Primary/Middle School Education — Best Results Achiever of the School; Head Prefect and president of four school societies.',
+          degree: 'Primary/Middle School Education - Best Results Achiever of the School; Head Prefect and president of four school societies.',
           years: 'Class of 2012'
         },
         {
@@ -1665,7 +1638,14 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           dateRange: '2025 Feb - Present',
           title: 'Founder',
           company: 'Gaia Symbiosis - Albury, Australia',
-          description: 'Independent sustainability consultancy delivering technology-driven solutions across healthcare, waste minimisation, digitalisation, resource recovery and circular economy outcomes. Builds AI-human hybrid tools, delivers emissions baselining and roadmaps, and provides ISO 14001-aligned EMS implementation — every project scoped, designed and delivered solo or directly with end users.'
+          description: 'Independent sustainability consultancy delivering technology-driven solutions across healthcare, waste minimisation, digitalisation, resource recovery and circular economy outcomes. Built a landfill cell-filling plan tool on real Albury Waste Management Centre data, the Albury Waste Identifier for residents, and founded the Albury Citizens Community Waste Forum. Delivers emissions baselining, roadmaps and ISO 14001-aligned EMS implementation, including a climate compliance and outlook programme for Charles Sturt University - every project scoped, designed and delivered solo or directly with end users.'
+        },
+        {
+          id: 9,
+          dateRange: '2026 - Present',
+          title: 'Founder',
+          company: 'LushNote - lushnote.com.au',
+          description: 'Founded and built LushNote, an AI-assisted clinical note builder that helps psychiatrists turn consultations into structured notes, letters and forms. Shipped solo: Next.js and TypeScript, Firebase authentication and Firestore, serverless API routes, an AI layer with automatic provider fallback, and subscription billing with card and Australian direct debit. Built for clinical safety with least-privilege data rules, audit logging and record retention.'
         },
         {
           id: 2,
@@ -1679,7 +1659,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           dateRange: '2023 Jun - 2025 Apr',
           title: 'Senior Associate - Sustainable Finance',
           company: 'Acuity Knowledge Partners - Colombo Delivery Centre',
-          description: 'Initiated and owned the CAPA protocol for climate transition analysis — zero reported incidents to project completion. Screened 7,800+ publications and facility agreements annually, built and owned the ESG evidence digital library, automated the entire workflow solo, and personally developed a satellite deforestation monitoring tool feeding TNFD disclosure. Promoted to Delivery Lead.'
+          description: 'Initiated and owned the CAPA protocol for climate transition analysis - zero reported incidents to project completion. Screened 7,800+ publications and facility agreements annually, built and owned the ESG evidence digital library, automated the entire workflow solo, and personally developed a satellite deforestation monitoring tool feeding TNFD disclosure. Promoted to Delivery Lead.'
         },
         {
           id: 4,
@@ -1724,9 +1704,41 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
       // <<<PROJECTS_START>>>
       projects: [
         {
+          id: 17,
+          title: "LushNote - Clinical Note Builder",
+          description: "A clinical documentation product for psychiatrists, live at lushnote.com.au. It turns consultations into structured notes, letters and forms, cutting the administrative time around each appointment. Built solo end to end: Next.js and TypeScript, Firebase authentication and Firestore, serverless API routes, an AI layer with automatic provider fallback, and subscription billing with card and Australian direct debit. Least-privilege data rules, audit logging and retention that respects clinical record-keeping obligations.",
+          category: "Health Technology / SaaS",
+          projectUrl: "https://lushnote.com.au",
+          snapshots: []
+        },
+        {
+          id: 18,
+          title: "Landfill Cell-Filling Plan Tool",
+          description: "A planning and tracking tool for landfill operations, built on real Southern and Northern Valley data from the Albury Waste Management Centre. It supports long-term site planning across fill sequencing, compaction monitoring and airspace management, replacing spreadsheet-by-spreadsheet estimation with a single visual plan.",
+          category: "Waste & Resource Recovery",
+          projectUrl: "https://iamarasinghe96.github.io/cellplan/awmc-cell-plan.html",
+          snapshots: []
+        },
+        {
+          id: 19,
+          title: "Albury Waste Identifier",
+          description: "A resident-facing waste education tool that answers the everyday question: which bin does this go in, and where do I take the things that fit no bin. It turns council waste guidance into plain-language answers, reducing contamination in kerbside streams and unnecessary trips to the waste centre.",
+          category: "Waste & Resource Recovery",
+          projectUrl: "https://iamarasinghe96.github.io/landfill/classifier/index.html",
+          snapshots: []
+        },
+        {
+          id: 20,
+          title: "Albury Citizens Community Waste Forum",
+          description: "A community channel connecting Albury residents, council services and waste operators on recycling, reuse and resource recovery. Founded to close the gap between the services that exist and what residents actually know about them, and to feed real community questions back into waste education material.",
+          category: "Community & Behaviour Change",
+          projectUrl: "https://iamarasinghe96.github.io/landfill/community/index.html",
+          snapshots: []
+        },
+        {
           id: 12,
           title: "NSW Procurement Simplification Tool",
-          description: "A central web tool that translates NSW Government procurement guidelines into plain language for councils, SME suppliers, corporates and procurement officers. Official guidance and Procurement Foundations course material were scraped and structured into a curated knowledge base connected to an LLM, which returns a direct answer, the relevant checklist, template links, key considerations and a summary — every response grounded in vetted content to prevent hallucination, with graceful rate-limit and error handling. Built and deployed solo.",
+          description: "A central web tool that translates NSW Government procurement guidelines into plain language for councils, SME suppliers, corporates and procurement officers. Official guidance and Procurement Foundations course material were scraped and structured into a curated knowledge base connected to an LLM, which returns a direct answer, the relevant checklist, template links, key considerations and a summary - every response grounded in vetted content to prevent hallucination, with graceful rate-limit and error handling. Built and deployed solo.",
           category: "Procurement & GovTech",
           projectUrl: "https://iamarasinghe96.github.io/procurementnsw/",
           snapshots: []
@@ -1766,7 +1778,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
         {
           id: 2,
           title: "The Kids Clinic - Offline-First Clinic Management",
-          description: "A first-of-its-kind, sustainable and highly secure patient management system developed in collaboration with healthcare staff, consultants and patients. The offline-first design manages complete patient lifecycles including medical history, appointment scheduling and real-time queue management, and is built for zero ongoing maintenance and full operational autonomy — no cloud dependency, no data exposure risk.",
+          description: "A first-of-its-kind, sustainable and highly secure patient management system developed in collaboration with healthcare staff, consultants and patients. The offline-first design manages complete patient lifecycles including medical history, appointment scheduling and real-time queue management, and is built for zero ongoing maintenance and full operational autonomy - no cloud dependency, no data exposure risk.",
           category: "Healthcare / Process Automation",
           snapshots: []
         },
@@ -1796,7 +1808,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
         {
           id: 8,
           title: "QR Code Scanner & Queue Management System",
-          description: "Built for NSW Service Centres to eliminate paper-based applications and boost staff efficiency. Applicants fill in their details which are encoded into a QR code, enabling staff to instantly transfer information into their system — no cloud, no data risk. Supports on-the-spot review and modification of applicant details.",
+          description: "Built for NSW Service Centres to eliminate paper-based applications and boost staff efficiency. Applicants fill in their details which are encoded into a QR code, enabling staff to instantly transfer information into their system - no cloud, no data risk. Supports on-the-spot review and modification of applicant details.",
           category: "Web Application / Process Automation",
           projectUrl: "https://iamarasinghe96.github.io/admin/scanner.html",
           snapshots: []
@@ -1833,7 +1845,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
         {
           id: 16,
           title: "Drone Survey, Mapping & Inspection",
-          description: "Aerial survey, mapping and inspection work delivered through Gaia Symbiosis in support of environmental monitoring and site assessment engagements — site condition documentation, spatial data capture and visual inspection of infrastructure that is difficult or unsafe to access on foot. Complements ground-based monitoring and the satellite deforestation tool for end-to-end environmental observation.",
+          description: "Aerial survey, mapping and inspection work delivered through Gaia Symbiosis in support of environmental monitoring and site assessment engagements - site condition documentation, spatial data capture and visual inspection of infrastructure that is difficult or unsafe to access on foot. Complements ground-based monitoring and the satellite deforestation tool for end-to-end environmental observation.",
           category: "ESG & Environmental Monitoring",
           snapshots: []
         },
@@ -1858,7 +1870,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           organization: 'Comperio - NSW Government',
           issueDate: '2026',
           emoji: '🏛️',
-          credentialUrl: ''
+          credentialUrl: 'https://1drv.ms/b/c/31e7918ffb397b8d/IQCDwg1ECZ1_SpLzTJ-iIwNeAeYH22RnmuDAdoY9mFyMSA8?e=FxcOFL'
         },
         {
           id: 1,
@@ -1866,7 +1878,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           organization: 'CSRD Institute',
           issueDate: 'April 2025',
           emoji: '📝',
-          credentialUrl: 'https://mycourse.app/N7MhylDx1bmDogwiQ'
+          credentialUrl: 'https://1drv.ms/f/c/31e7918ffb397b8d/IgAbXpwmXxciR4N7PjutVloTAXjBQGy4hsSfPeZt5kx2C_s?e=N9RufH'
         },
         {
           id: 2,
@@ -1882,7 +1894,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           organization: 'FSB Task Force on Climate-related Financial Disclosures (TCFD)',
           issueDate: 'August 2023',
           emoji: '🌎',
-          credentialUrl: 'https://drive.google.com/file/d/1HlGoWfbTw_z6esMih32UAP7oimkm0Vcg/view?usp=sharing'
+          credentialUrl: 'https://1drv.ms/f/c/31e7918ffb397b8d/IgAbXpwmXxciR4N7PjutVloTAXjBQGy4hsSfPeZt5kx2C_s?e=N9RufH'
         },
         {
           id: 4,
@@ -1898,7 +1910,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           organization: 'Corporate Finance Institute® (CFI)',
           issueDate: 'June 2023',
           emoji: '🛡️',
-          credentialUrl: 'http://credentials.corporatefinanceinstitute.com/260f10f0-fe08-42d6-9448-1b7f5b06966b'
+          credentialUrl: 'https://1drv.ms/f/c/31e7918ffb397b8d/IgAbXpwmXxciR4N7PjutVloTAXjBQGy4hsSfPeZt5kx2C_s?e=N9RufH'
         },
         {
           id: 6,
@@ -1914,7 +1926,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           organization: 'Corporate Finance Institute® (CFI)',
           issueDate: 'May 2023',
           emoji: '✅',
-          credentialUrl: 'http://credentials.corporatefinanceinstitute.com/586d9f07-ce33-4783-8a7b-a7e42b4caf65'
+          credentialUrl: 'https://1drv.ms/f/c/31e7918ffb397b8d/IgAbXpwmXxciR4N7PjutVloTAXjBQGy4hsSfPeZt5kx2C_s?e=N9RufH'
         },
         {
           id: 8,
@@ -1922,7 +1934,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           organization: 'Google Digital Garage',
           issueDate: 'April 2023',
           emoji: '💻',
-          credentialUrl: 'https://drive.google.com/file/d/1osRHoIXaevMzNY-8xvePJJohTrgOxxuk/view'
+          credentialUrl: 'https://1drv.ms/b/c/31e7918ffb397b8d/IQBFq8bRUKWgTplcrWT6RFF-Acy-lRoWum0n7Dtb9Q8105A?e=1P3t1K'
         },
         {
           id: 9,
@@ -1930,7 +1942,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           organization: 'Huawei',
           issueDate: 'December 2021',
           emoji: '☁️',
-          credentialUrl: 'https://drive.google.com/file/d/1gn68amJZmGwp8xrbxEyAA1gnuaGP_CgY/view?usp=sharing'
+          credentialUrl: 'https://1drv.ms/f/c/31e7918ffb397b8d/IgDEFF6c0ZLRTYG7_4YOIL5dAUYr18yl9TeDI6cHr7jaZ9I?e=m5chje'
         },
         {
           id: 10,
@@ -1938,7 +1950,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           organization: 'Huawei',
           issueDate: 'N/A',
           emoji: '🏗️',
-          credentialUrl: 'https://drive.google.com/file/d/1KbUEnZjMeLPV-pZJzpWwNseaRZdQv_Nn/view?usp=sharing'
+          credentialUrl: 'https://1drv.ms/f/c/31e7918ffb397b8d/IgDEFF6c0ZLRTYG7_4YOIL5dAUYr18yl9TeDI6cHr7jaZ9I?e=m5chje'
         },
         {
           id: 11,
@@ -1946,7 +1958,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           organization: 'Huawei',
           issueDate: 'N/A',
           emoji: '📈',
-          credentialUrl: 'https://drive.google.com/file/d/1xqqblqnRsfViLuWZljXFqvSVBoBQKu2t/view?usp=sharing'
+          credentialUrl: 'https://1drv.ms/f/c/31e7918ffb397b8d/IgDEFF6c0ZLRTYG7_4YOIL5dAUYr18yl9TeDI6cHr7jaZ9I?e=m5chje'
         },
         {
           id: 12,
@@ -1954,7 +1966,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           organization: 'Huawei',
           issueDate: 'N/A',
           emoji: '🤝',
-          credentialUrl: 'https://drive.google.com/file/d/1AMnrQEZAsZHeSL-egA_EEbNL4I14xYwE/view?usp=sharing'
+          credentialUrl: 'https://1drv.ms/f/c/31e7918ffb397b8d/IgDEFF6c0ZLRTYG7_4YOIL5dAUYr18yl9TeDI6cHr7jaZ9I?e=m5chje'
         },
         {
           id: 13,
@@ -1962,7 +1974,7 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           organization: 'Huawei',
           issueDate: 'N/A',
           emoji: '🎯',
-          credentialUrl: 'https://drive.google.com/file/d/11usBgLDOyNDHvJ5CljtITU021bpNQlsZ/view?usp=sharing'
+          credentialUrl: 'https://1drv.ms/f/c/31e7918ffb397b8d/IgDEFF6c0ZLRTYG7_4YOIL5dAUYr18yl9TeDI6cHr7jaZ9I?e=m5chje'
         },
         {
           id: 14,
@@ -1970,13 +1982,13 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
           organization: 'Huawei',
           issueDate: 'N/A',
           emoji: '🔒',
-          credentialUrl: 'https://drive.google.com/file/d/1NBtEru8lPV0XNIbZ3TOITEBuuTVfWTVF/view?usp=sharing'
+          credentialUrl: 'https://1drv.ms/f/c/31e7918ffb397b8d/IgDEFF6c0ZLRTYG7_4YOIL5dAUYr18yl9TeDI6cHr7jaZ9I?e=m5chje'
         }
       ]
     };
 
     // Sync projects from the projects page admin panel (same localStorage key).
-    // PROJECTS_VERSION must match the value in projects/index.html — bump both
+    // PROJECTS_VERSION must match the value in projects/index.html - bump both
     // when the built-in list changes, so old browser copies are discarded.
     const PROJECTS_VERSION = '2026-09-22';
     try {
@@ -1996,8 +2008,6 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
     // ╚════════════════════════════════════════════════════════════════════╝
 
     // Global state
-    let currentProjectIndex = 0;
-    let currentCertIndex = 0;
     let expandedSection = null;
 
     // Initialize
@@ -2043,67 +2053,148 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
       `;
     }
 
+    /* ── Carousels ──────────────────────────────────────────────────────
+       No arrow buttons. Slides swap on their own with a slide-and-fade
+       animation, and a visitor can swipe, drag, tap a dot or use the
+       arrow keys. Auto-swap pauses while the pointer is over a card,
+       while a card has keyboard focus, and whenever the section is
+       closed or scrolled out of view. */
+    const CAROUSELS = {};
+
+    function createCarousel({ trackId, dotsId, count, interval }) {
+      // Sections re-render each time they are opened, so tear down the
+      // previous instance first - otherwise its timer keeps running and
+      // two clocks fight over the same track.
+      if (CAROUSELS[trackId]) CAROUSELS[trackId].destroy();
+
+      const track = document.getElementById(trackId);
+      const dots  = document.getElementById(dotsId);
+      const root  = track.closest('.carousel');
+      const ac    = new AbortController();
+      const on    = (el, ev, fn, opts) =>
+        el.addEventListener(ev, fn, { ...(opts || {}), signal: ac.signal });
+      let index = 0, timer = null, held = false, io = null;
+
+      dots.innerHTML = Array.from({ length: count }, (_, i) =>
+        `<button class="dot${i === 0 ? ' active' : ''}" type="button" aria-label="Show item ${i + 1} of ${count}"></button>`
+      ).join('');
+      const dotEls = [...dots.children];
+      const slides = [...track.children];
+
+      function paint() {
+        track.style.transform = `translateX(-${index * 100}%)`;
+        slides.forEach((sl, i) => sl.classList.toggle('is-active', i === index));
+        dotEls.forEach((d, i) => {
+          d.classList.toggle('active', i === index);
+          d.setAttribute('aria-current', i === index ? 'true' : 'false');
+        });
+      }
+
+      function goTo(i, manual) {
+        index = (i + count) % count;
+        paint();
+        if (manual) play();          // restart the clock after a manual swap
+      }
+
+      function play() { pause(); if (!held && count > 1) timer = setInterval(() => goTo(index + 1), interval); }
+      function pause() { if (timer) { clearInterval(timer); timer = null; } }
+
+      dotEls.forEach((d, i) => on(d, 'click', () => goTo(i, true)));
+
+      ['mouseenter', 'focusin'].forEach(ev =>
+        on(root, ev, () => { held = true; pause(); }));
+      ['mouseleave', 'focusout'].forEach(ev =>
+        on(root, ev, () => { held = false; play(); }));
+
+      // Swipe / drag. A drag past the threshold swaps the card and
+      // swallows the click so it never opens what was underneath.
+      let startX = null, dragged = false;
+      on(root, 'pointerdown', e => { startX = e.clientX; dragged = false; });
+      on(root, 'pointermove', e => {
+        if (startX !== null && Math.abs(e.clientX - startX) > 12) dragged = true;
+      });
+      on(root, 'pointerup', e => {
+        if (startX === null) return;
+        const dx = e.clientX - startX;
+        startX = null;
+        if (Math.abs(dx) > 45) goTo(index + (dx < 0 ? 1 : -1), true);
+      });
+      on(root, 'click', e => { if (dragged) { e.preventDefault(); e.stopPropagation(); } }, { capture: true });
+
+      on(root, 'keydown', e => {
+        if (e.key === 'ArrowRight') { goTo(index + 1, true); e.preventDefault(); }
+        if (e.key === 'ArrowLeft')  { goTo(index - 1, true); e.preventDefault(); }
+      });
+
+      // Only run while the carousel is actually on screen (a closed
+      // section is display:none, so this covers that too).
+      if ('IntersectionObserver' in window) {
+        io = new IntersectionObserver(entries => {
+          entries.forEach(en => en.isIntersecting ? play() : pause());
+        }, { threshold: 0.2 });
+        io.observe(root);
+      } else {
+        play();
+      }
+
+      paint();
+      const api = {
+        goTo, play, pause,
+        destroy() {
+          pause();
+          if (io) io.disconnect();
+          ac.abort();
+          delete CAROUSELS[trackId];
+        }
+      };
+      CAROUSELS[trackId] = api;
+      return api;
+    }
+
     // Render projects carousel
     function renderProjects() {
-      const carousel = document.getElementById('projectsCarousel');
-      const dots = document.getElementById('projectsDots');
-      
-      carousel.innerHTML = CONFIG.projects.map(project => `
+      const track = document.getElementById('projectsCarousel');
+      track.innerHTML = CONFIG.projects.map(project => `
         <div class="carousel-slide">
-          <div class="card">
+          <article class="card is-clickable" role="button" tabindex="0"
+                   data-project="${project.id}"
+                   aria-label="Open details for ${escAttr(project.title)}">
             <span class="card-category">${project.category}</span>
             <h3>${project.title}</h3>
-            <p>${project.description.substring(0, 200)}...</p>
-          </div>
+            <p>${project.description.length > 200
+                  ? project.description.substring(0, 200).trim() + '...'
+                  : project.description}</p>
+            <span class="card-cta">${project.projectUrl ? 'View project' : 'View details'} &#8594;</span>
+          </article>
         </div>
       `).join('');
 
-      dots.innerHTML = CONFIG.projects.map((_, i) => 
-        `<div class="dot ${i === 0 ? 'active' : ''}" onclick="goToProject(${i})"></div>`
-      ).join('');
-
-      updateProjectCarousel();
-    }
-
-    function updateProjectCarousel() {
-      const carousel = document.getElementById('projectsCarousel');
-      carousel.style.transform = `translateX(-${currentProjectIndex * 100}%)`;
-      
-      document.querySelectorAll('#projectsDots .dot').forEach((dot, i) => {
-        dot.classList.toggle('active', i === currentProjectIndex);
+      track.querySelectorAll('[data-project]').forEach(el => {
+        const open = () => showProjectDetails(Number(el.dataset.project));
+        el.addEventListener('click', open);
+        el.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+        });
       });
 
-      document.getElementById('projectsPrev').disabled = currentProjectIndex === 0;
-      document.getElementById('projectsNext').disabled = currentProjectIndex === CONFIG.projects.length - 1;
+      createCarousel({
+        trackId: 'projectsCarousel', dotsId: 'projectsDots',
+        count: CONFIG.projects.length, interval: 7000
+      });
     }
-
-    function goToProject(index) {
-      currentProjectIndex = index;
-      updateProjectCarousel();
-    }
-
-    document.getElementById('projectsPrev').onclick = () => {
-      if (currentProjectIndex > 0) {
-        currentProjectIndex--;
-        updateProjectCarousel();
-      }
-    };
-
-    document.getElementById('projectsNext').onclick = () => {
-      if (currentProjectIndex < CONFIG.projects.length - 1) {
-        currentProjectIndex++;
-        updateProjectCarousel();
-      }
-    };
 
     // Render certificates carousel
     function renderCertificates() {
-      const carousel = document.getElementById('certificatesCarousel');
-      const dots = document.getElementById('certificatesDots');
-      
-      carousel.innerHTML = CONFIG.certificates.map(cert => `
+      const track = document.getElementById('certificatesCarousel');
+      track.innerHTML = CONFIG.certificates.map(cert => {
+        const href = cert.credentialUrl || '';
+        const tag  = href ? 'a' : 'div';
+        const attrs = href
+          ? ` href="${escAttr(href)}" target="_blank" rel="noopener"`
+          : '';
+        return `
         <div class="carousel-slide">
-          <div class="cert-card">
+          <${tag} class="cert-card${href ? ' is-clickable' : ''}"${attrs}>
             <div class="cert-header">
               <div class="cert-emoji">${cert.emoji}</div>
               <div class="cert-info">
@@ -2112,48 +2203,21 @@ If my experience or skills can be of value, I’d be happy to connect. I’m ope
               </div>
             </div>
             <div class="cert-date">${cert.issueDate}</div>
-            <a href="${cert.credentialUrl}" target="_blank" class="view-credential-btn">View Credential</a>
-          </div>
-        </div>
-      `).join('');
+            ${href ? '<span class="cert-cta">View credential &#8599;</span>' : ''}
+          </${tag}>
+        </div>`;
+      }).join('');
 
-      dots.innerHTML = CONFIG.certificates.map((_, i) => 
-        `<div class="dot ${i === 0 ? 'active' : ''}" onclick="goToCertificate(${i})"></div>`
-      ).join('');
-
-      updateCertificateCarousel();
-    }
-
-    function updateCertificateCarousel() {
-      const carousel = document.getElementById('certificatesCarousel');
-      carousel.style.transform = `translateX(-${currentCertIndex * 100}%)`;
-      
-      document.querySelectorAll('#certificatesDots .dot').forEach((dot, i) => {
-        dot.classList.toggle('active', i === currentCertIndex);
+      createCarousel({
+        trackId: 'certificatesCarousel', dotsId: 'certificatesDots',
+        count: CONFIG.certificates.length, interval: 6000
       });
-
-      document.getElementById('certificatesPrev').disabled = currentCertIndex === 0;
-      document.getElementById('certificatesNext').disabled = currentCertIndex === CONFIG.certificates.length - 1;
     }
 
-    function goToCertificate(index) {
-      currentCertIndex = index;
-      updateCertificateCarousel();
+    function escAttr(str) {
+      return String(str == null ? '' : str)
+        .replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
-
-    document.getElementById('certificatesPrev').onclick = () => {
-      if (currentCertIndex > 0) {
-        currentCertIndex--;
-        updateCertificateCarousel();
-      }
-    };
-
-    document.getElementById('certificatesNext').onclick = () => {
-      if (currentCertIndex < CONFIG.certificates.length - 1) {
-        currentCertIndex++;
-        updateCertificateCarousel();
-      }
-    };
 
     // Render About Me
     function renderAboutMe() {
@@ -2457,7 +2521,7 @@ END:VCARD`;
       document.getElementById('modalTitle').textContent = 'Book an Appointment';
       document.getElementById('modalBody').innerHTML = `
         <form class="appt-form" onsubmit="submitAppointment(event)">
-          <p class="appt-divider">— Preferred meeting time —</p>
+          <p class="appt-divider">- Preferred meeting time -</p>
           <div class="row">
             <div>
               <label for="apptDate1">Date</label>
@@ -2468,7 +2532,7 @@ END:VCARD`;
               <input type="time" id="apptTime1" required onclick="this.showPicker()" onkeydown="return false" />
             </div>
           </div>
-          <p class="appt-divider">— Alternative time (optional) —</p>
+          <p class="appt-divider">- Alternative time (optional) -</p>
           <div class="row">
             <div>
               <label for="apptDate2">Date</label>
@@ -2553,7 +2617,6 @@ END:VCARD`;
       [CONFIG.certificates[idx], CONFIG.certificates[newIdx]] = [CONFIG.certificates[newIdx], CONFIG.certificates[idx]];
       localStorage.setItem(CERT_ORDER_KEY, JSON.stringify(CONFIG.certificates.map(c => c.id)));
       renderCertAdminList();
-      currentCertIndex = 0;
       renderCertificates();
     }
 
