@@ -40,6 +40,37 @@ window.CV_DATA = {
   },
   "sections": [
     {
+      "id": "profile-mix",
+      "title": "Profile Mix",
+      "icon": "🧩",
+      "type": "chart",
+      "webOnly": true,
+      "link": "#sec-projects",
+      "caption": "Roughly how the last six years divide up. Tap the chart to see the projects behind it.",
+      "slices": [
+        {
+          "label": "Project & programme delivery",
+          "value": 30
+        },
+        {
+          "label": "Sustainable finance & ESG",
+          "value": 25
+        },
+        {
+          "label": "Web tool & product development",
+          "value": 20
+        },
+        {
+          "label": "Data, automation & AI",
+          "value": 15
+        },
+        {
+          "label": "Commercial & stakeholder work",
+          "value": 10
+        }
+      ]
+    },
+    {
       "id": "snapshot",
       "title": "At a Glance",
       "icon": "🧭",
@@ -100,37 +131,6 @@ window.CV_DATA = {
         "As someone from an engineering family background, I value sincerity, teamwork and perseverance, and I approach every role with a genuine commitment to deliver meaningful results. I work to the principle that 1 + 1 > 2 - collaboration multiplies outcomes beyond individual contributions."
       ],
       "webOnly": false
-    },
-    {
-      "id": "profile-mix",
-      "title": "Profile Mix",
-      "icon": "🧩",
-      "type": "chart",
-      "webOnly": true,
-      "link": "#sec-projects",
-      "caption": "Roughly how the last six years divide up. Tap the chart to see the projects behind it.",
-      "slices": [
-        {
-          "label": "Project & programme delivery",
-          "value": 30
-        },
-        {
-          "label": "Sustainable finance & ESG",
-          "value": 25
-        },
-        {
-          "label": "Web tool & product development",
-          "value": 20
-        },
-        {
-          "label": "Data, automation & AI",
-          "value": 15
-        },
-        {
-          "label": "Commercial & stakeholder work",
-          "value": 10
-        }
-      ]
     },
     {
       "id": "skills",
