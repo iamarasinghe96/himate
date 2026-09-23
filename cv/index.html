@@ -653,22 +653,31 @@
   /* Keep the section list in step with what is on screen, and keep the
      active chip inside the mobile strip visible. */
   let observer = null;
+  let activeSectionId = null;
+  /** Mark a section as the one being read, in both lists, and slide the
+   *  phone strip so its chip is in the middle. */
+  function activateSection(id) {
+    if (!id || id === activeSectionId) return;
+    activeSectionId = id;
+    document.querySelectorAll('#cvNav a, #mobileNav a')
+      .forEach(a => a.classList.toggle('active', a.dataset.sec === id));
+
+    // offsetParent is null for a fixed element, so ask whether it has a box.
+    const strip = document.getElementById('mobileNav');
+    const chip = strip.querySelector(`a[data-sec="${id}"]`);
+    if (chip && strip.offsetWidth > 0) {
+      const target = chip.offsetLeft - strip.clientWidth / 2 + chip.clientWidth / 2;
+      const max = strip.scrollWidth - strip.clientWidth;
+      strip.scrollTo({ left: Math.min(Math.max(0, target), max), behavior: 'smooth' });
+    }
+  }
+
   function observeSections() {
     if (observer) observer.disconnect();
-    const links = [...document.querySelectorAll('#cvNav a, #mobileNav a')];
-    if (!links.length) return;
-    const strip = document.getElementById('mobileNav');
+    if (!document.querySelector('#cvNav a')) return;
     observer = new IntersectionObserver(entries => {
-      entries.forEach(en => {
-        if (!en.isIntersecting) return;
-        links.forEach(a => a.classList.toggle('active', a.dataset.sec === en.target.id));
-        const chip = strip.querySelector(`a[data-sec="${en.target.id}"]`);
-        if (chip && strip.offsetParent !== null) {
-          const target = chip.offsetLeft - strip.clientWidth / 2 + chip.clientWidth / 2;
-          strip.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
-        }
-      });
-    }, { rootMargin: '-120px 0px -70% 0px', threshold: 0 });
+      entries.forEach(en => { if (en.isIntersecting) activateSection(en.target.id); });
+    }, { rootMargin: '-90px 0px -65% 0px', threshold: 0 });
     document.querySelectorAll('section.cv-section').forEach(s => observer.observe(s));
   }
 
@@ -709,12 +718,20 @@
     const apply = () => {
       const y = window.scrollY;
       const isPhone = window.matchMedia('(max-width: 900px)').matches;
-      if (!isPhone || y < 80) {
+      if (!isPhone || y < 80) {   // desktop never hides the toolbar
+
         document.body.classList.remove('tools-hidden');
       } else if (y > lastY + 6) {
         document.body.classList.add('tools-hidden');
       } else if (y < lastY - 6) {
         document.body.classList.remove('tools-hidden');
+      }
+      // The final section is short enough that it never reaches the band the
+      // observer watches, so claim it once the page bottom is reached.
+      const atBottom = y + window.innerHeight >= document.documentElement.scrollHeight - 4;
+      if (atBottom) {
+        const last = document.querySelector('section.cv-section:last-of-type');
+        if (last) activateSection(last.id);
       }
       lastY = y;
       ticking = false;
