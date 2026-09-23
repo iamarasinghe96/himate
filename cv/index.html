@@ -236,8 +236,25 @@
   .dot-static { width: 7px; height: 7px; border-radius: 50%; background: #d1d5db; }
   .loading { padding: 60px; text-align: center; color: var(--muted); }
 
+  .topbar-spacer { height: 0; }
+
   /* ── Responsive ── */
   @media (max-width: 900px) {
+    /* On a phone the download buttons take two rows, which is a lot of screen
+       to spend on every scroll. Going down, they slide away and the section
+       strip takes the top; coming back up, they return. */
+    .toolbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      transition: transform .28s cubic-bezier(.22,1,.36,1);
+      will-change: transform;
+    }
+    .mobile-nav {
+      position: fixed; top: var(--toolbar-h, 96px); left: 0; right: 0;
+      transition: top .28s cubic-bezier(.22,1,.36,1);
+    }
+    .topbar-spacer { height: calc(var(--toolbar-h, 96px) + var(--nav-h, 44px)); }
+    body.tools-hidden .toolbar { transform: translateY(-101%); }
+    body.tools-hidden .mobile-nav { top: 0; }
     .cv-body { grid-template-columns: 1fr; }
     .cv-nav { display: none; }
     .mobile-nav { display: block; }
@@ -246,7 +263,7 @@
     .cv-name { font-size: 1.6rem; }
     .cv-footer { padding: 16px 18px 22px; }
     .page { padding: 0 10px; margin-top: 14px; }
-    section.cv-section { scroll-margin-top: 120px; }
+    section.cv-section { scroll-margin-top: 150px; }
   }
 
   /* ════════════════════════════════════════════════════════════════
@@ -266,6 +283,7 @@
     .toolbar, .mobile-nav, .cv-nav, .cv-footer, .no-print,
     .web-only { display: none !important; }
 
+    .topbar-spacer { display: none !important; }
     .page { max-width: none; margin: 0; padding: 0; }
     /* The print dialog can be set to "Margins: None", which throws away the
        @page margin - so the inset is built into the sheet as well. */
@@ -387,6 +405,7 @@
 </div>
 
 <nav class="mobile-nav no-print" id="mobileNav"></nav>
+<div class="topbar-spacer no-print" aria-hidden="true"></div>
 
 <div class="page">
   <div class="sheet">
@@ -669,6 +688,46 @@
     window.location.href = mailtoLink(CV && CV.meta);
   });
 
+  /* Measure the two bars so the spacer and the slide distance stay honest
+     when the toolbar wraps to a different number of rows. */
+  function measureBars() {
+    const toolbar = document.querySelector('.toolbar');
+    const nav = document.getElementById('mobileNav');
+    const root = document.documentElement;
+    root.style.setProperty('--toolbar-h', `${Math.round(toolbar.offsetHeight)}px`);
+    root.style.setProperty('--nav-h', `${Math.round(nav.offsetHeight)}px`);
+  }
+
+  /* Scrolling down hides the download bar and leaves the section strip;
+     scrolling up brings it back. Only the phone layout uses it - on desktop
+     the class is simply never set. */
+  function watchScroll() {
+    let lastY = window.scrollY;
+    let ticking = false;
+    const apply = () => {
+      const y = window.scrollY;
+      const isPhone = window.matchMedia('(max-width: 900px)').matches;
+      if (!isPhone || y < 80) {
+        document.body.classList.remove('tools-hidden');
+      } else if (y > lastY + 6) {
+        document.body.classList.add('tools-hidden');
+      } else if (y < lastY - 6) {
+        document.body.classList.remove('tools-hidden');
+      }
+      lastY = y;
+      ticking = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(apply); }
+    }, { passive: true });
+    window.addEventListener('resize', () => {
+      measureBars();
+      if (!window.matchMedia('(max-width: 900px)').matches) {
+        document.body.classList.remove('tools-hidden');
+      }
+    });
+  }
+
   /* The admin link only appears on  /cv/#admin  (or /cv/?admin). */
   function maybeShowAdmin() {
     const wanted = location.hash.toLowerCase() === '#admin'
@@ -684,6 +743,8 @@
     render(CV);
     setStatus(source);
     maybeShowAdmin();
+    measureBars();
+    watchScroll();
     /* Honour a #sec-... deep link once the sections exist. */
     if (location.hash.startsWith('#sec-')) {
       const target = document.querySelector(location.hash);

@@ -17,7 +17,9 @@ cv/
 ## What the page gives a visitor
 
 * The whole CV, with a section list that stays on screen while they read - a
-  sidebar on desktop, a sticky strip of chips on a phone.
+  sidebar on desktop, a strip of chips on a phone. On a phone the download
+  buttons slide away as you scroll down so only the section strip holds the
+  top, and come back as soon as you scroll up.
 * **Download PDF** opens the browser print dialog with a print stylesheet
   applied - choose *Save as PDF*. The printed version is deliberately plain:
   serif type, navy section rules, name and contact line only, no headline, no
