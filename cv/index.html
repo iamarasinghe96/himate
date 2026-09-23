@@ -74,8 +74,11 @@
 
   /* ── Page shell ── */
   .page { max-width: 980px; margin: 24px auto 60px; padding: 0 16px; }
+  /* No overflow:hidden here: it would become the scroll container and
+     stop the section list from sticking. The corners are rounded on the
+     header and footer instead. */
   .sheet {
-    background: white; border-radius: 18px; overflow: hidden;
+    background: white; border-radius: 18px;
     box-shadow: 0 10px 30px rgba(0,0,0,.08);
   }
 
@@ -83,6 +86,7 @@
   .cv-header {
     background: linear-gradient(135deg, var(--brand1) 0%, var(--brand2) 100%);
     color: white; padding: 44px 36px 38px; position: relative; overflow: hidden;
+    border-radius: 18px 18px 0 0;
   }
   .cv-header::after {
     content: ''; position: absolute; top: -60px; right: -50px;
@@ -107,7 +111,10 @@
 
   /* ── Layout ── */
   .cv-body { display: grid; grid-template-columns: 218px 1fr; }
-  .cv-nav { border-right: 1px solid var(--line); background: #fafafb; padding: 22px 12px; }
+  .cv-nav {
+    border-right: 1px solid var(--line); background: #fafafb; padding: 22px 12px;
+    border-bottom-left-radius: 18px;
+  }
   .cv-nav-inner {
     position: sticky; top: 72px;
     max-height: calc(100vh - 96px); overflow-y: auto; scrollbar-width: thin;
@@ -187,6 +194,7 @@
   /* footer */
   .cv-footer {
     padding: 18px 34px 26px; border-top: 1px solid var(--line);
+    border-radius: 0 0 18px 18px; background: white;
     display: flex; justify-content: space-between; align-items: center;
     flex-wrap: wrap; gap: 10px; font-size: .78rem; color: var(--muted);
   }
@@ -220,7 +228,7 @@
      two-to-three page document.
      ════════════════════════════════════════════════════════════════ */
   @media print {
-    @page { margin: 12mm 12mm; }
+    @page { margin: 16mm 15mm; }
     html { font-size: 10.5pt; }
     body {
       background: #fff; color: #000; line-height: 1.35;
@@ -231,6 +239,10 @@
 
     .page { max-width: none; margin: 0; padding: 0; }
     .sheet { box-shadow: none; border-radius: 0; }
+    .cv-header, .cv-footer, .cv-nav { border-radius: 0; }
+    /* Nothing should sit hard against the paper edge. */
+    .cv-main, .cv-header { padding-left: 0; padding-right: 0; }
+    img, table { max-width: 100%; }
 
     .cv-header {
       background: none !important; color: #000; padding: 0 0 5px;
@@ -266,7 +278,7 @@
     }
     .sec-title .ic { display: none; }
 
-    .para { font-size: 10pt; margin-bottom: 4pt; text-align: justify; color: #000; }
+    .para { font-size: 10pt; margin-bottom: 4pt; color: #000; }
 
     .pairs { display: block; }
     .pair { margin-bottom: 2pt; }
@@ -287,10 +299,14 @@
     a.tag::after { content: ''; }
 
     /* Role on the left, dates on the right - the classic CV line. */
+    /* Let a long role flow onto the next page, but never leave its
+       heading stranded at the foot of one. */
     .entry {
       display: grid; grid-template-columns: 1fr auto; column-gap: 10pt;
-      border-left: none; padding: 0 0 6pt 0; break-inside: avoid;
+      border-left: none; padding: 0 0 6pt 0; break-inside: auto;
     }
+    .entry-title, .entry-links, .entry-sub { break-after: avoid; }
+    .entry li, .para { break-inside: avoid; }
     .entry::before { display: none; }
     .entry-title { grid-column: 1; grid-row: 1; font-size: 10.4pt; font-weight: 700; color: #000; }
     .entry-title a { color: #000; border: none; text-decoration: none; }
@@ -306,7 +322,7 @@
       font-size: 9.8pt; color: #000; margin: 0;
     }
     .entry ul { grid-column: 1 / -1; grid-row: 4; margin: 2pt 0 0 14pt; }
-    .entry li { font-size: 9.8pt; color: #000; margin-bottom: 1.5pt; text-align: justify; }
+    .entry li { font-size: 9.8pt; color: #000; margin-bottom: 1.5pt; }
     .entry-tags { display: none; }
 
     a { color: var(--print-navy); }
@@ -375,7 +391,7 @@
 
   /* ── Renderers per section type ── */
   function renderText(sec) {
-    return (sec.paragraphs || []).map(p => `<p class="para">${linkify(p)}</p>`).join('');
+    return (sec.paragraphs || []).map(p => `<p class="para">${richText(p)}</p>`).join('');
   }
 
   function renderPairs(sec) {
@@ -383,7 +399,7 @@
       const { text, url } = splitLink(it.value);
       const val = url
         ? `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(text)}</a>`
-        : linkify(it.value);
+        : richText(it.value);
       return `<div class="pair">
         <span class="lbl">${esc(it.label)}</span>
         <span class="val">${val}</span>
@@ -416,14 +432,31 @@
               `<a href="${esc(l.url)}" target="_blank" rel="noopener">[${esc(l.label)}]</a>`).join(' ')}</div>`
           : ''}
         ${e.subtitle ? `<div class="entry-sub">${esc(e.subtitle)}</div>` : ''}
-        ${e.meta ? `<div class="entry-meta">${linkify(e.meta)}</div>` : ''}
+        ${e.meta ? `<div class="entry-meta">${richText(e.meta)}</div>` : ''}
         ${(e.bullets || []).length
-          ? `<ul>${e.bullets.map(b => `<li>${linkify(b)}</li>`).join('')}</ul>`
+          ? `<ul>${e.bullets.map(b => `<li>${richText(b)}</li>`).join('')}</ul>`
           : ''}
         ${(e.tags || []).length
           ? `<div class="entry-tags">${e.tags.map(t => `<span class="entry-tag">${esc(t)}</span>`).join('')}</div>`
           : ''}
       </div>`).join('');
+  }
+
+  /** Render a value that may contain markdown-style links, e.g.
+   *  "Contact details on [request](mailto:...)". Everything outside a link
+   *  still gets bare domains and email addresses linked automatically. */
+  const MD_LINK = /\[([^\]]+)\]\(((?:https?:\/\/|mailto:)[^)\s]+)\)/g;
+  function richText(value) {
+    const src = String(value == null ? '' : value);
+    let out = '', last = 0, m;
+    MD_LINK.lastIndex = 0;
+    while ((m = MD_LINK.exec(src)) !== null) {
+      out += linkify(src.slice(last, m.index));
+      const external = m[2].startsWith('mailto:') ? '' : ' target="_blank" rel="noopener"';
+      out += `<a href="${esc(m[2])}"${external}>${esc(m[1])}</a>`;
+      last = m.index + m[0].length;
+    }
+    return out + linkify(src.slice(last));
   }
 
   /** Turn bare domains and email addresses inside already-escaped text into

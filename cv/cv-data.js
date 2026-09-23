@@ -608,7 +608,7 @@ window.CV_DATA = {
           ]
         }
       ],
-      "webOnly": false
+      "webOnly": true
     },
     {
       "id": "education",
@@ -982,45 +982,38 @@ window.CV_DATA = {
         {
           "name": "Awards",
           "items": [
-            "Most Valuable Team Award - ESG.X, Acuity Knowledge Partners",
-            "Full Tuition Scholarship - SWUFE, China (2015-2019)",
-            "Best Results Achiever - Ananda College (2015)",
-            "Best Results Achiever of the School - Jayanthi Vidyalaya (2012)"
+            "Most Valuable Team Award - ESG.X, Acuity Knowledge Partners | https://1drv.ms/f/c/31e7918ffb397b8d/IgD_CB4nwl75TJgUZTlMPrJUAUr85SqubZ5ZFy7hAcr8i-k?e=0CQjBf",
+            "Full Tuition Scholarship - SWUFE, China (2015-2019) | https://1drv.ms/f/c/31e7918ffb397b8d/IgCNezn7j5HnIIAx0QAAAAAAAdm6c-HaRjzY6S9ZmeG-Ubs?e=lMhBif",
+            "Best Results Achiever - Ananda College (2015) | https://1drv.ms/f/c/31e7918ffb397b8d/IgBz4JOgLeTYTI1bAPVCforfAcLAMTW5-FDBX3XHlKtLURo?e=zgLfPq",
+            "Best Results Achiever of the School - Jayanthi Vidyalaya (2012) | https://1drv.ms/b/c/31e7918ffb397b8d/IQCNezn7j5HnIIAxPwEAAAAAAYZDJCiDIYPR8w-xZU-31JI?e=1Mu3HT"
           ]
         },
         {
           "name": "Debate, Oratory & English",
           "items": [
-            "1st place divisional and zonal debate competitions (2011 & 2012)",
-            "1st place divisional advertisement demonstration competition (2011 & 2012)",
-            "1st place divisional and 2nd place zonal creative writing (2012)",
-            "1st place divisional and zonal pair improvisation (2012)"
+            "1st place divisional and zonal debate competitions (2011 & 2012) | https://1drv.ms/b/c/31e7918ffb397b8d/IQCNezn7j5HnIIAxPgEAAAAAAczzGl7BunYT3hY8FN8uxdM?e=3HxNZ3",
+            "1st place divisional advertisement demonstration competition (2011 & 2012) | https://1drv.ms/b/c/31e7918ffb397b8d/IQCNezn7j5HnIIAxPgEAAAAAAczzGl7BunYT3hY8FN8uxdM?e=3HxNZ3",
+            "1st place divisional and 2nd place zonal creative writing (2012) | https://1drv.ms/b/c/31e7918ffb397b8d/IQCNezn7j5HnIIAxPgEAAAAAAczzGl7BunYT3hY8FN8uxdM?e=3HxNZ3",
+            "1st place divisional and zonal pair improvisation (2012) | https://1drv.ms/b/c/31e7918ffb397b8d/IQCNezn7j5HnIIAxPgEAAAAAAczzGl7BunYT3hY8FN8uxdM?e=3HxNZ3"
           ]
         },
         {
           "name": "Music & Sport",
           "items": [
-            "All-island 2nd place, harmonium solo; Western Province 1st; Negombo Zone 1st (2009)",
-            "Negombo Zone 1st place (2008)",
-            "4th place, Gampaha District Under-13 - Negombo South International Trophy (2007/2008)"
+            "All-island 2nd place, harmonium solo; Western Province 1st; Negombo Zone 1st (2009) | https://1drv.ms/b/c/31e7918ffb397b8d/IQCNezn7j5HnIIAxPgEAAAAAAczzGl7BunYT3hY8FN8uxdM?e=3HxNZ3",
+            "Negombo Zone 1st place (2008) | https://1drv.ms/b/c/31e7918ffb397b8d/IQCNezn7j5HnIIAxPgEAAAAAAczzGl7BunYT3hY8FN8uxdM?e=3HxNZ3",
+            "4th place, Gampaha District Under-13 - Negombo South International Trophy (2007/2008) | https://1drv.ms/b/c/31e7918ffb397b8d/IQCNezn7j5HnIIAxPgEAAAAAAczzGl7BunYT3hY8FN8uxdM?e=3HxNZ3"
           ]
         },
         {
           "name": "Volunteering & Leadership",
           "items": [
-            "Founder, Albury Citizens Community Waste Forum - community waste education and resource recovery engagement",
-            "Voluntary kindergarten English teacher and member of the Young Volunteers Association - SWUFE (2015-2019)",
-            "Blood donor; tutored international students in accounting",
-            "Created an online course material distribution network",
-            "Head Prefect and society president across four school bodies - Jayanthi Vidyalaya (2011-2012)",
-            "Young Inventor: designed a specialised braking system for three-wheelers to prevent unexpected overturns"
-          ]
-        },
-        {
-          "name": "Records",
-          "items": [
-            "General achievements record | https://1drv.ms/b/c/31e7918ffb397b8d/IQCNezn7j5HnIIAxPgEAAAAAAczzGl7BunYT3hY8FN8uxdM?e=3HxNZ3",
-            "Extra-curricular activities | https://drive.google.com/drive/folders/1lY58TX-emwJSac-NFIZxC1NjFziYlsbn?usp=share_link"
+            "Founder, Albury Citizens Community Waste Forum - community waste education and resource recovery engagement | https://drive.google.com/drive/folders/1lY58TX-emwJSac-NFIZxC1NjFziYlsbn?usp=share_link",
+            "Voluntary kindergarten English teacher and member of the Young Volunteers Association - SWUFE (2015-2019) | https://drive.google.com/drive/folders/1lY58TX-emwJSac-NFIZxC1NjFziYlsbn?usp=share_link",
+            "Blood donor; tutored international students in accounting | https://drive.google.com/drive/folders/1lY58TX-emwJSac-NFIZxC1NjFziYlsbn?usp=share_link",
+            "Created an online course material distribution network | https://drive.google.com/drive/folders/1lY58TX-emwJSac-NFIZxC1NjFziYlsbn?usp=share_link",
+            "Head Prefect and society president across four school bodies - Jayanthi Vidyalaya (2011-2012) | https://drive.google.com/drive/folders/1lY58TX-emwJSac-NFIZxC1NjFziYlsbn?usp=share_link",
+            "Young Inventor: designed a specialised braking system for three-wheelers to prevent unexpected overturns | https://drive.google.com/drive/folders/1lY58TX-emwJSac-NFIZxC1NjFziYlsbn?usp=share_link"
           ]
         }
       ],
@@ -1035,7 +1028,7 @@ window.CV_DATA = {
         {
           "title": "Mrs. Sulani Gunasena",
           "subtitle": "Associate Director, Acuity Analytics",
-          "meta": "Contact details on request",
+          "meta": "Contact details on [request](mailto:iamarasinghe96@gmail.com?subject=Referee%20details%20request%20-%20Indika%20Amarasinghe&body=Hello%20Indika%2C%0A%0AI%20am%20%5BYour%20Name%5D%20from%20%5BOrganisation%5D.%20I%20am%20considering%20you%20for%20%5Brole%5D%20and%0Awould%20like%20to%20speak%20with%20your%20referees.%0A%0ACould%20you%20please%20send%20me%20contact%20details%20for%3A%0A-%20Mrs.%20Sulani%20Gunasena%2C%20Associate%20Director%2C%20Acuity%20Analytics%0A-%20Mr.%20Samitha%20Bandara%2C%20Project%20Director%2C%20Huawei%20Technologies%20Lanka%0A%0AKind%20regards%2C%0A%5BYour%20Name%5D)",
           "links": [
             {
               "label": "LinkedIn",
@@ -1047,7 +1040,7 @@ window.CV_DATA = {
         {
           "title": "Mr. Samitha Bandara",
           "subtitle": "Project Director, Huawei Technologies Lanka",
-          "meta": "Contact details on request",
+          "meta": "Contact details on [request](mailto:iamarasinghe96@gmail.com?subject=Referee%20details%20request%20-%20Indika%20Amarasinghe&body=Hello%20Indika%2C%0A%0AI%20am%20%5BYour%20Name%5D%20from%20%5BOrganisation%5D.%20I%20am%20considering%20you%20for%20%5Brole%5D%20and%0Awould%20like%20to%20speak%20with%20your%20referees.%0A%0ACould%20you%20please%20send%20me%20contact%20details%20for%3A%0A-%20Mrs.%20Sulani%20Gunasena%2C%20Associate%20Director%2C%20Acuity%20Analytics%0A-%20Mr.%20Samitha%20Bandara%2C%20Project%20Director%2C%20Huawei%20Technologies%20Lanka%0A%0AKind%20regards%2C%0A%5BYour%20Name%5D)",
           "links": [
             {
               "label": "LinkedIn",

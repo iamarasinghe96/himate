@@ -105,6 +105,9 @@ picks it up on the next load - no commit, no deploy.
   one skill, one paragraph). Blank lines are ignored.
 * **To make any list item a link**, write it as `Label | https://...`. That
   works for skills, certifications, awards and the at-a-glance values.
+* **To link a few words inside a sentence**, write `[those words](https://...)`
+  in any paragraph, bullet or meta line. A `mailto:` address works too - that is
+  how "Contact details on request" opens a drafted email asking for the referees.
 * Each experience, education, project or story entry also has:
   * **Link on the title** - the title becomes a link.
   * **Extra links** - one per line as `Label | https://...`, shown as
@@ -112,9 +115,9 @@ picks it up on the next load - no commit, no deploy.
   * **Skill labels** - comma separated, shown as chips under the entry. They
     are used on Signature Work and never appear in the printed PDF.
 * **Web page only** (checkbox per section) leaves a section out of the
-  downloaded PDF while keeping it on the web page. At a Glance and Signature
-  Work are set this way, which is what keeps the PDF close to a normal CV
-  length. Tick it on more sections when you want a shorter PDF.
+  downloaded PDF while keeping it on the web page. At a Glance, Selected
+  Projects and Signature Work are set this way, which is what keeps the PDF to
+  a normal CV shape. Tick it on more sections when you want a shorter PDF.
 * Sections can be reordered, added and deleted. Four section shapes exist:
 
   | Type      | Looks like                        | Used for                          |
