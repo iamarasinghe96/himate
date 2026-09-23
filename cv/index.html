@@ -88,11 +88,6 @@
     color: white; padding: 44px 36px 38px; position: relative; overflow: hidden;
     border-radius: 18px 18px 0 0;
   }
-  .cv-header::after {
-    content: ''; position: absolute; top: -60px; right: -50px;
-    width: 220px; height: 220px; border-radius: 50%;
-    background: rgba(255,255,255,.07); pointer-events: none;
-  }
   .cv-name { font-size: 2.1rem; font-weight: 700; letter-spacing: -0.5px; }
   .cv-headline { font-size: 1.02rem; font-weight: 300; opacity: .93; margin-top: 6px; }
   .cv-contacts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
@@ -166,6 +161,32 @@
   a.tag:hover { background: #e4e7ff; border-color: #c7cbf7; }
   a.tag::after { content: ' \2197'; font-size: .72em; opacity: .7; }
 
+  /* chart */
+  .chart-wrap {
+    display: flex; gap: 26px; align-items: center; flex-wrap: wrap;
+    background: none; border: none; padding: 6px 0 0; margin: 0;
+    font: inherit; color: inherit; text-align: left; cursor: pointer; width: 100%;
+  }
+  .chart-wrap:focus-visible { outline: 3px solid #c7d2fe; outline-offset: 6px; border-radius: 14px; }
+  .donut { width: 190px; height: 190px; flex-shrink: 0; }
+  .donut .slice {
+    fill: none; stroke-width: 26;
+    transition: stroke-width .25s cubic-bezier(.22,1,.36,1), opacity .25s ease;
+  }
+  .chart-wrap:hover .donut .slice { opacity: .55; }
+  .chart-wrap:hover .donut .slice:hover,
+  .chart-wrap .donut .slice.is-on { opacity: 1; stroke-width: 32; }
+  .donut-centre-label { font-size: 9.5px; fill: var(--muted); font-weight: 600; letter-spacing: .06em; }
+  .donut-centre-value { font-size: 22px; font-weight: 700; fill: #111827; }
+  .chart-legend { flex: 1; min-width: 230px; display: flex; flex-direction: column; gap: 8px; }
+  .legend-row {
+    display: flex; align-items: center; gap: 10px; font-size: .88rem; color: #374151;
+  }
+  .legend-swatch { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+  .legend-pct { margin-left: auto; font-weight: 700; color: #111827; font-variant-numeric: tabular-nums; }
+  .chart-caption { font-size: .8rem; color: var(--muted); margin-top: 14px; }
+  .chart-caption a { color: var(--brand2); }
+
   /* entries */
   .entry { position: relative; padding: 0 0 20px 20px; border-left: 2px solid #eceefb; }
   .entry:last-child { padding-bottom: 0; }
@@ -228,7 +249,7 @@
      two-to-three page document.
      ════════════════════════════════════════════════════════════════ */
   @media print {
-    @page { margin: 16mm 15mm; }
+    @page { margin: 14mm 8mm; }
     html { font-size: 10.5pt; }
     body {
       background: #fff; color: #000; line-height: 1.35;
@@ -238,7 +259,9 @@
     .web-only { display: none !important; }
 
     .page { max-width: none; margin: 0; padding: 0; }
-    .sheet { box-shadow: none; border-radius: 0; }
+    /* The print dialog can be set to "Margins: None", which throws away the
+       @page margin - so the inset is built into the sheet as well. */
+    .sheet { box-shadow: none; border-radius: 0; padding: 0 9mm; }
     .cv-header, .cv-footer, .cv-nav { border-radius: 0; }
     /* Nothing should sit hard against the paper edge. */
     .cv-main, .cv-header { padding-left: 0; padding-right: 0; }
@@ -248,7 +271,6 @@
       background: none !important; color: #000; padding: 0 0 5px;
       text-align: center; border-bottom: 1.6pt solid var(--print-navy); overflow: visible;
     }
-    .cv-header::after { display: none; }
     .cv-name {
       font-size: 15pt; font-weight: 700; letter-spacing: .5pt;
       text-transform: uppercase; color: var(--print-navy);
@@ -468,7 +490,51 @@
       : `<a href="https://${match}" target="_blank" rel="noopener" style="color:inherit">${match}</a>`);
   }
 
-  const RENDERERS = { text: renderText, pairs: renderPairs, groups: renderGroups, entries: renderEntries };
+  /* A donut of where the work actually goes. Five slices, each with its own
+     legend row and percentage, so identity never rests on colour alone. The
+     palette was checked with the dataviz validator (all-pairs, light surface). */
+  const SLICE_COLOURS = ['#2a78d6', '#e34948', '#1baf7a', '#4a3aa7', '#eda100'];
+
+  function renderChart(sec) {
+    const slices = (sec.slices || []).filter(sl => Number(sl.value) > 0);
+    if (!slices.length) return '';
+    const total = slices.reduce((a, sl) => a + Number(sl.value), 0) || 1;
+    const R = 70, C = 2 * Math.PI * R, GAP = 3;
+    let offset = 0;
+
+    const arcs = slices.map((sl, i) => {
+      const frac = Number(sl.value) / total;
+      const len = Math.max(frac * C - GAP, 1);
+      const arc = `<circle class="slice" data-i="${i}" cx="100" cy="100" r="${R}"
+        stroke="${SLICE_COLOURS[i % SLICE_COLOURS.length]}"
+        stroke-dasharray="${len.toFixed(2)} ${(C - len).toFixed(2)}"
+        stroke-dashoffset="${(-offset).toFixed(2)}"><title>${esc(sl.label)}: ${Math.round(frac * 100)}%</title></circle>`;
+      offset += frac * C;
+      return arc;
+    }).join('');
+
+    const legend = slices.map((sl, i) => `
+      <div class="legend-row" data-i="${i}">
+        <span class="legend-swatch" style="background:${SLICE_COLOURS[i % SLICE_COLOURS.length]}"></span>
+        <span>${esc(sl.label)}</span>
+        <span class="legend-pct">${Math.round(Number(sl.value) / total * 100)}%</span>
+      </div>`).join('');
+
+    const target = sec.link || '#sec-projects';
+    return `<button type="button" class="chart-wrap" data-chart-link="${esc(target)}">
+        <svg class="donut" viewBox="0 0 200 200" role="img"
+             aria-label="Profile mix: ${slices.map(sl => `${esc(sl.label)} ${Math.round(Number(sl.value) / total * 100)} per cent`).join(', ')}">
+          <g transform="rotate(-90 100 100)">${arcs}</g>
+          <text class="donut-centre-label" x="100" y="94" text-anchor="middle">PROFILE</text>
+          <text class="donut-centre-value" x="100" y="116" text-anchor="middle">Mix</text>
+        </svg>
+        <div class="chart-legend">${legend}</div>
+      </button>
+      ${sec.caption ? `<p class="chart-caption">${richText(sec.caption)}</p>` : ''}`;
+  }
+
+  const RENDERERS = { text: renderText, pairs: renderPairs, groups: renderGroups,
+                      entries: renderEntries, chart: renderChart };
 
   function render(cv) {
     const m = cv.meta || {};
@@ -509,7 +575,42 @@
     document.getElementById('mobileNav').innerHTML = navHtml;
 
     document.getElementById('cvUpdated').textContent = m.updated ? `Last updated: ${m.updated}` : '';
+    wireChart();
     observeSections();
+  }
+
+  /* The chart reads as one control: hovering a legend row lights its slice,
+     the centre names what is under the pointer, and a click jumps to the
+     section the slices are evidence for. */
+  function wireChart() {
+    document.querySelectorAll('.chart-wrap').forEach(wrap => {
+      const label = wrap.querySelector('.donut-centre-label');
+      const value = wrap.querySelector('.donut-centre-value');
+      const rows  = [...wrap.querySelectorAll('.legend-row')];
+      const arcs  = [...wrap.querySelectorAll('.slice')];
+
+      const show = i => {
+        arcs.forEach(a => a.classList.toggle('is-on', Number(a.dataset.i) === i));
+        if (i === null) { label.textContent = 'PROFILE'; value.textContent = 'Mix'; return; }
+        label.textContent = 'SHARE';
+        value.textContent = rows[i].querySelector('.legend-pct').textContent;
+      };
+
+      rows.forEach((row, i) => {
+        row.addEventListener('mouseenter', () => show(i));
+        row.addEventListener('mouseleave', () => show(null));
+      });
+      arcs.forEach((arc, i) => {
+        arc.addEventListener('mouseenter', () => show(i));
+        arc.addEventListener('mouseleave', () => show(null));
+      });
+      wrap.addEventListener('mouseleave', () => show(null));
+
+      wrap.addEventListener('click', () => {
+        const target = document.querySelector(wrap.dataset.chartLink);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
   }
 
   /* Keep the section list in step with what is on screen, and keep the

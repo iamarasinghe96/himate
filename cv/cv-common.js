@@ -6,7 +6,7 @@
 
 const FB = 'https://www.gstatic.com/firebasejs/10.12.2/';
 
-export const SECTION_TYPES = ['text', 'pairs', 'groups', 'entries'];
+export const SECTION_TYPES = ['text', 'pairs', 'groups', 'entries', 'chart'];
 
 /* ── Basic helpers ───────────────────────────────────────────────── */
 
@@ -171,6 +171,12 @@ export function toMarkdown(cv) {
         });
         out.push('');
       });
+    } else if (sec.type === 'chart') {
+      const total = (sec.slices || []).reduce((a, sl) => a + Number(sl.value || 0), 0) || 1;
+      (sec.slices || []).forEach(sl =>
+        out.push(`- ${sl.label}: ${Math.round(Number(sl.value) / total * 100)}%`));
+      out.push('');
+      if (sec.caption) { out.push(sec.caption); out.push(''); }
     } else if (sec.type === 'entries') {
       (sec.entries || []).forEach(e => {
         out.push(`### ${e.url ? `[${e.title || ''}](${e.url})` : (e.title || '')}`);

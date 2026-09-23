@@ -34,7 +34,6 @@ window.CV_DATA = {
     "email": "iamarasinghe96@gmail.com",
     "linkedin": "https://www.linkedin.com/in/indika96/",
     "portfolio": "https://iamarasinghe96.github.io/himate/",
-    "workRights": "Unrestricted work rights - Subclass 485 visa, valid until 2029",
     "updated": "September 2026",
     "seek": "http://www.seek.com.au/profiles/Z4NlP2tnGM",
     "rightToWork": "https://iamarasinghe96.github.io/righttowork/"
@@ -101,6 +100,37 @@ window.CV_DATA = {
         "As someone from an engineering family background, I value sincerity, teamwork and perseverance, and I approach every role with a genuine commitment to deliver meaningful results. I work to the principle that 1 + 1 > 2 - collaboration multiplies outcomes beyond individual contributions."
       ],
       "webOnly": false
+    },
+    {
+      "id": "profile-mix",
+      "title": "Profile Mix",
+      "icon": "🧩",
+      "type": "chart",
+      "webOnly": true,
+      "link": "#sec-projects",
+      "caption": "Roughly how the last six years divide up. Tap the chart to see the projects behind it.",
+      "slices": [
+        {
+          "label": "Project & programme delivery",
+          "value": 30
+        },
+        {
+          "label": "Sustainable finance & ESG",
+          "value": 25
+        },
+        {
+          "label": "Web tool & product development",
+          "value": 20
+        },
+        {
+          "label": "Data, automation & AI",
+          "value": 15
+        },
+        {
+          "label": "Commercial & stakeholder work",
+          "value": 10
+        }
+      ]
     },
     {
       "id": "skills",
@@ -248,7 +278,7 @@ window.CV_DATA = {
             "Built a landfill cell-filling plan tool using real Albury Waste Management Centre Southern and Northern Valley data, supporting long-term site planning across fill sequencing, compaction monitoring and airspace management.",
             "Built the Albury Waste Identifier, a resident-facing waste education tool that answers what goes in which bin and where hard-to-place items are accepted.",
             "Founded the Albury Citizens Community Waste Forum, a community channel connecting residents, council services and waste operators on recycling, reuse and resource recovery.",
-            "Founded LushNote (lushnote.com.au), an AI-assisted clinical note builder for psychiatrists, run as a commercial product under this practice.",
+            "Founded LushNote (lushnote.com.au), an AI-assisted clinical documentation tool for registered clinicians across private practice, hospital, community mental health and telehealth settings, and run it as a commercial product under this practice.",
             "Co-develop and deploy AI-human hybrid tools that automate manual workflows and make specialist processes accessible to non-technical users.",
             "Deliver emissions baselining, reporting and roadmap development for organisations working toward sustainability compliance obligations.",
             "Provide ISO 14001-aligned Environmental Management System implementation, environmental data analysis and compliance services, including an institutional climate compliance and outlook programme for Charles Sturt University.",
@@ -260,24 +290,6 @@ window.CV_DATA = {
             {
               "label": "Project milestones",
               "url": "https://iamarasinghe96.github.io/himate/projects/"
-            }
-          ]
-        },
-        {
-          "title": "Founder",
-          "subtitle": "LushNote - AI-Assisted Clinical Documentation",
-          "meta": "2026 - Present · lushnote.com.au",
-          "bullets": [
-            "Founded and built LushNote, a clinical note builder that helps psychiatrists turn consultations into structured notes, letters and forms in a fraction of the time.",
-            "Designed and shipped the product solo: Next.js and TypeScript front end, Firebase authentication and Firestore, serverless API routes on Vercel, and an AI layer with a primary model plus an automatic fallback provider.",
-            "Built the commercial side end to end - subscription billing with card and Australian direct debit, trial and grace handling, tax threshold monitoring, and invoicing under the Gaia Symbiosis ABN.",
-            "Engineered for clinical safety and privacy: least-privilege database rules, audit logging, retention rules that respect record-keeping obligations, and automated unit, rules and end-to-end test suites."
-          ],
-          "url": "https://lushnote.com.au",
-          "links": [
-            {
-              "label": "Website",
-              "url": "https://lushnote.com.au"
             }
           ]
         },
@@ -409,14 +421,15 @@ window.CV_DATA = {
       "type": "entries",
       "entries": [
         {
-          "title": "LushNote - Clinical Note Builder for Psychiatrists",
+          "title": "LushNote - Clinical Documentation for Clinicians",
           "subtitle": "Health Technology · AI · SaaS",
           "meta": "lushnote.com.au",
           "url": "https://lushnote.com.au",
           "bullets": [
-            "A clinical documentation tool that turns psychiatric consultations into structured notes, letters and forms, cutting the administrative time around each appointment.",
+            "A clinical documentation tool that turns consultations into structured notes, letters and forms, cutting the paperwork around each appointment. Built for registered clinicians across private practice, hospital, community mental health and telehealth settings, not for one speciality.",
             "Built solo end to end: Next.js and TypeScript, Firebase authentication and Firestore, serverless API routes, an AI layer with automatic provider fallback, and subscription billing with card and Australian direct debit.",
-            "Privacy and safety first: least-privilege database rules, audit logging, record retention that respects clinical obligations, and automated unit, rules and end-to-end tests."
+            "Privacy first by design and built to the Privacy Act 1988 (Cth) and the Australian Privacy Principles: least-privilege data rules, audit logging, records held under the treating clinician’s account, and deletion that actually removes the data.",
+            "Independent of any hospital, health network or AI company, and designed to sit alongside a clinician’s own AHPRA and college obligations rather than replace their judgement."
           ]
         },
         {
@@ -773,9 +786,9 @@ window.CV_DATA = {
             "Privacy & compliance"
           ],
           "bullets": [
-            "Most side projects stop at a demo. LushNote is a paying product: psychiatrists use it in clinic, and it bills, renews and handles failed payments without me in the loop.",
-            "I designed the clinical workflow, built the application and the AI layer, wrote the security rules and test suites, and set up subscription billing with card and Australian direct debit under the Gaia Symbiosis ABN.",
-            "The hard part was never the AI. It was retention rules, audit trails, least-privilege data access and graceful failure when a model provider goes down - the things that decide whether a clinician can trust it."
+            "Most side projects stop at a demo. LushNote is a paying product: clinicians use it in clinic, and it bills, renews and handles failed payments without me in the loop.",
+            "I designed the documentation workflow, built the application and the AI layer, wrote the security rules and test suites, and set up subscription billing with card and Australian direct debit under the Gaia Symbiosis ABN.",
+            "The hard part was never the AI. It was retention rules, audit trails, least-privilege data access and graceful failure when a model provider goes down - the things that decide whether a clinician can trust it with a patient record."
           ]
         },
         {

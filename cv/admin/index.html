@@ -375,6 +375,19 @@ service cloud.firestore {
         <button class="btn btn-ghost btn-xs" data-action="add-item" data-sec="${i}">+ Add group</button>`;
     }
 
+    if (sec.type === 'chart') {
+      return `<div class="field">
+          <label class="fl">Slices - one per line, as  Label | percentage</label>
+          <textarea rows="6" data-sec="${i}" data-field="slices">${esc((sec.slices || []).map(sl => `${sl.label} | ${sl.value}`).join('\n'))}</textarea>
+        </div>
+        <div class="grid2">
+          <div class="field"><label class="fl">Jumps to (section id, e.g. #sec-projects)</label>
+            <input type="text" data-sec="${i}" data-field="link" value="${esc(sec.link || '')}"></div>
+          <div class="field"><label class="fl">Caption under the chart</label>
+            <input type="text" data-sec="${i}" data-field="caption" value="${esc(sec.caption || '')}"></div>
+        </div>`;
+    }
+
     /* entries */
     return `${(sec.entries || []).map((e, j) => `
       <div class="row-item">
@@ -449,6 +462,14 @@ service cloud.firestore {
       }
     } else if (f === 'paragraphs') {
       sec.paragraphs = toLines(el.value);
+    } else if (f === 'slices') {
+      sec.slices = toLines(el.value).map(line => {
+        const at = line.lastIndexOf('|');
+        return {
+          label: (at === -1 ? line : line.slice(0, at)).trim(),
+          value: at === -1 ? 0 : Number(line.slice(at + 1).trim()) || 0
+        };
+      }).filter(sl => sl.label);
     } else {
       sec[f] = el.value;
       if (f === 'title') {
@@ -501,14 +522,15 @@ service cloud.firestore {
       case 'add-section': {
         const title = prompt('Section title?');
         if (!title) return;
-        const type = prompt('Section type - one of: text, pairs, groups, entries', 'entries');
-        if (!['text', 'pairs', 'groups', 'entries'].includes(type)) { alert('Unknown type.'); return; }
+        const type = prompt('Section type - one of: text, pairs, groups, entries, chart', 'entries');
+        if (!['text', 'pairs', 'groups', 'entries', 'chart'].includes(type)) { alert('Unknown type.'); return; }
         const sec = { id: title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || `section-${Date.now()}`,
                       title, icon: '•', type };
         if (type === 'text') sec.paragraphs = [];
         if (type === 'pairs') sec.items = [];
         if (type === 'groups') sec.groups = [];
         if (type === 'entries') sec.entries = [];
+        if (type === 'chart') { sec.slices = []; sec.link = '#sec-projects'; }
         cv.sections.push(sec);
         openSections.add(cv.sections.length - 1);
         renderSections(); setDirty(true); return;

@@ -114,6 +114,11 @@ picks it up on the next load - no commit, no deploy.
     `[Milestones]` `[Credentials]` style links, the same as the Word CV.
   * **Skill labels** - comma separated, shown as chips under the entry. They
     are used on Signature Work and never appear in the printed PDF.
+* A `chart` section takes one slice per line as `Label | percentage`, a section
+  id to jump to when the chart is clicked (e.g. `#sec-projects`) and a caption.
+  The slice colours are fixed and were checked for colour-blind separation, so
+  the chart stays readable without relying on colour alone - every slice also
+  carries its label and percentage in the legend.
 * **Web page only** (checkbox per section) leaves a section out of the
   downloaded PDF while keeping it on the web page. At a Glance, Selected
   Projects and Signature Work are set this way, which is what keeps the PDF to
@@ -126,6 +131,7 @@ picks it up on the next load - no commit, no deploy.
   | `pairs`   | label / value grid                | at-a-glance facts                 |
   | `groups`  | named groups of chips             | skills, certifications, awards    |
   | `entries` | title, subtitle, meta, bullets    | experience, projects, education, stories |
+  | `chart`   | donut of shares, with a legend    | the profile mix                   |
 
 * **Download JSON** takes a backup. **Import JSON** restores one. **Reset to
   built-in content** goes back to `cv-data.js` (nothing is live until you press
